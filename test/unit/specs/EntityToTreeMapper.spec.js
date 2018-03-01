@@ -72,7 +72,11 @@ describe('EntityToTreeMapper', () => {
     'id': 'key',
     'label': 'title',
     'folderIcon': '',
-    'leafIcon': 'fa fa-file-o'
+    'leafIcon': 'fa fa-file-o',
+    'isOpened': true,
+    'isSelected': false,
+    'isDisabled': false,
+    'isLoading': false
   }
   it('Returns the next child in the tree', () => {
     const parentNode = {
