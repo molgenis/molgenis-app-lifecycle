@@ -13,7 +13,7 @@ const generateTreeData = (apiResponse, settings) => {
 const extentTree = (node, forest, paths, orphanage, settings) => {
   const icon = node.children.length > 0 ? settings.folderIcon : settings.leafIcon
   const nodeId = node[settings.id]
-  const treeNode = createNewNode(nodeId, node[settings.label], icon, [], true, false, false, false)
+  const treeNode = createNewNode(nodeId, node[settings.label], icon, [], settings.isOpened, settings.isSelected, settings.isDisabled, settings.isLoading)
   const id = settings.id
   let newForest = forest.slice()
   // Check if node is rootnode
@@ -58,7 +58,7 @@ const populateChildren = (children, orphanage, forest, paths, path, settings) =>
       // add previous saved branch to tree
       const child = orphanage[childId]
       const icon = child.children.length > 0 ? settings.folderIcon : settings.leafIcon
-      const childNode = createNewNode(childId, child[settings.label], icon, [], true, false, false, false)
+      const childNode = createNewNode(childId, child[settings.label], icon, [], settings.isOpened, settings.isSelected, settings.isDisabled, settings.isLoading)
       const childInfo = addChildToTree(forest, path, childNode)
       const newForest = childInfo.forest
       forest = newForest

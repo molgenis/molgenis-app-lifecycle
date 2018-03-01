@@ -1,6 +1,6 @@
 <template>
   <div class="tree">
-    <v-jstree :data="treeData" allow-batch @item-click="itemClick" :async="mapData" :onselectstart="false"></v-jstree>
+    <v-jstree @item-click="itemClick" :onselectstart="false" :data="treeData"></v-jstree>
   </div>
 </template>
 
@@ -16,75 +16,26 @@
     },
     data () {
       return {
-        treeData: [
-          {
-            'id': 2,
-            'text': 'Meta Variables',
-            'value': 'Meta Variables',
-            'icon': '',
-            'opened': false,
-            'selected': false,
-            'disabled': false,
-            'loading': false,
-            'children': []
-          },
-          {
-            'id': 3,
-            'text': 'Maternal Characteristics',
-            'value': 'Maternal Characteristics',
-            'icon': '',
-            'opened': true,
-            'selected': false,
-            'disabled': false,
-            'loading': false,
-            'children': [
-              {
-                'id': 1,
-                'text': 'Socio-demographic characteristics',
-                'value': 'Socio-demographic characteristics',
-                'icon': 'fa fa-file-o',
-                'opened': false,
-                'selected': false,
-                'disabled': false,
-                'loading': false,
-                'children': []
-              },
-              {
-                'id': 4,
-                'text': 'Lifestyle Characteristics',
-                'value': 'Lifestyle Characteristics',
-                'icon': '',
-                'opened': true,
-                'selected': false,
-                'disabled': false,
-                'loading': false,
-                'children': [
-                  {
-                    'id': 5,
-                    'text': 'Smoking',
-                    'value': 'Smoking',
-                    'icon': 'fa fa-file-o',
-                    'opened': false,
-                    'selected': false,
-                    'disabled': false,
-                    'loading': false,
-                    'children': []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-
+        settings: {
+          'id': 'key',
+          'label': 'title',
+          'folderIcon': '',
+          'leafIcon': 'fa fa-file-o',
+          'isOpened': true,
+          'isSelected': false,
+          'isDisabled': false,
+          'isLoading': false
+        }
+      }
+    },
+    computed: {
+      treeData () {
+        return EntityToTreeMapper.generateTreeData(EntityTypeV2Response.mockResponse, this.settings)
       }
     },
     methods: {
       itemClick (node) {
         console.log(node.model.text + ' clicked !')
-      },
-      mapData () {
-        const tree = EntityToTreeMapper.generateTreeData(EntityTypeV2Response.mockResponse)
-        return tree
       }
     }
   }
