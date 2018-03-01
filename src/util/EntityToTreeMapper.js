@@ -1,62 +1,58 @@
 const generateTreeData = (apiResponse, settings) => {
-  let tree = []
+  let forest = []
   let paths = {}
   let orphanage = {}
-  const folderIcon = settings.folderIcon
-  const leafIcon = settings.leafIcon
-  const id = settings.id
-  const label = settings.label
-  apiResponse.items.forEach(buildTreeBranch)
-  return tree
+  apiResponse.items.forEach((node) => {
+    const extention = extentTree(node, forest, paths, orphanage, settings)
+    forest = extention.forest
+    paths = extention.paths
+    orphanage = extention.paths
+  })
+  return forest
 }
-const buildTreeBranch = (node, tree, paths, orphanage, settings) => {
+const extentTree = (node, forest, paths, orphanage, settings) => {
+  const icon = node.children.length > 0 ? settings.folderIcon : settings.leafIcon
+  const nodeId = node[settings.id]
+  const treeNode = createNewNode(nodeId, node[settings.label], icon, [], true, false, false, false)
+  const id = settings.id
+  let newForest = forest.slice()
   // Check if node is rootnode
-  const icon = node.children.length > 0 ? folderIcon : leafIcon
-  const nodeId = node[id]
-  const treeNode = createNewNode(nodeId, node[label], icon, [], true, false, false, false)
-  console.log('forloop', tree)
   if (!node.parent) {
     console.log('root', nodeId)
     // add position in array
-    const path = [tree.length]
+    const path = [forest.length]
     paths[nodeId] = path
     // paths still ok
     // Add to tree
-    tree = addRootToTree(tree, treeNode)
-    console.log('roots', tree)
-    const populatedChildren = populateChildren(node.children, orphanage, tree, paths, path, settings)
-    tree = populatedChildren.tree
-    console.log('children populated', tree)
+    newForest = addRootToTree(forest, treeNode)
+    const populatedChildren = populateChildren(node.children, orphanage, newForest, paths, path, settings)
+    newForest = populatedChildren.forest
     paths = populatedChildren.paths
   } else {
-    console.log('else', tree)
     // Check if parent in main tree
     if (node.parent[id] in paths) {
-      console.log('first', tree)
       console.log('non orphan, non root', nodeId)
       // Append to parent in main tree
       const path = paths[node.parent[id]]
-      console.log('non orphan', tree)
-      const childInfo = addChildToTree(tree, path, treeNode)
-      let tree = childInfo.tree
+      const childInfo = addChildToTree(newForest, path, treeNode)
+      newForest = childInfo.forest
       paths[nodeId] = childInfo.pos
       if (node.children.length > 0) {
-        const populatedChildren = populateChildren(node.children, orphanage, tree, paths, path, settings)
-        const newTree = populatedChildren.tree
-        tree = newTree
+        const populatedChildren = populateChildren(node.children, orphanage, newForest, paths, path, settings)
+        newForest = populatedChildren.forest
         paths = populatedChildren.paths
       }
     } else {
-      console.log('orphan', tree)
       console.log('add orphan', nodeId)
       // Add orphan to orphanage
       node.children = treeNode
       orphanage[nodeId] = node
     }
   }
+  forest = newForest
+  return {forest, paths, orphanage}
 }
-const populateChildren = (children, orphanage, tree, paths, path, settings) => {
-  console.log('before populate', paths)
+const populateChildren = (children, orphanage, forest, paths, path, settings) => {
   let childPosition = 0
   children.forEach((child) => {
     const childId = child[settings.id]
@@ -66,19 +62,19 @@ const populateChildren = (children, orphanage, tree, paths, path, settings) => {
       const child = orphanage[childId]
       const icon = child.children.length > 0 ? settings.folderIcon : settings.leafIcon
       const childNode = createNewNode(childId, child[settings.label], icon, [], true, false, false, false)
-      const childInfo = addChildToTree(tree, path, childNode)
-      const newTree = childInfo.tree
-      tree = newTree
+      const childInfo = addChildToTree(forest, path, childNode)
+      const newForest = childInfo.forest
+      forest = newForest
       paths[childId] = getNewPath(path, childPosition)
       if (child.children.length > 0) {
-        const populatedChildren = populateChildren(child.children, orphanage, tree, paths, path, settings)
-        tree = populatedChildren.tree
+        const populatedChildren = populateChildren(child.children, orphanage, forest, paths, path, settings)
+        forest = populatedChildren.forest
         paths = populatedChildren.paths
       }
       childPosition += 1
     }
   })
-  return {tree, paths}
+  return {forest, paths}
 }
 const getNewPath = (path, position) => {
   const newPath = path.slice()
@@ -95,16 +91,16 @@ const addRootToTree = (tree, nodeToAdd) => {
   return tree
 }
 
-const addChildToTree = (tree, path, nodeToAdd) => {
+const addChildToTree = (forest, path, nodeToAdd) => {
   // Set root node to select
-  let treePart = tree[path[0]]
+  let treePart = forest[path[0]]
   let i = 1
   while (i <= path.length) {
     if (i === path.length) {
       treePart.children.push(nodeToAdd)
-      const newPath = path.slice()
-      newPath.push(treePart.children.length)
-      return {'tree': tree, 'pos': newPath}
+      const pos = path.slice()
+      pos.push(treePart.children.length - 1)
+      return {forest, pos}
     }
     treePart = getNextChild(treePart, path[i])
     i += 1
