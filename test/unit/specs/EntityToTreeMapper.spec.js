@@ -19,7 +19,7 @@ describe('EntityToTreeMapper', () => {
         '_href': '/api/v2/menu/p2',
         'key': 'p2',
         'title': 'Parent2',
-        'children': [],
+        'children': []
       },
       {
         '_href': '/api/v2/menu/p1',
@@ -72,7 +72,11 @@ describe('EntityToTreeMapper', () => {
     'id': 'key',
     'label': 'title',
     'folderIcon': '',
-    'leafIcon': 'fa fa-file-o'
+    'leafIcon': 'fa fa-file-o',
+    'isOpened': true,
+    'isSelected': false,
+    'isDisabled': false,
+    'isLoading': false
   }
   it('Returns the next child in the tree', () => {
     const parentNode = {
@@ -100,16 +104,6 @@ describe('EntityToTreeMapper', () => {
     const next = EntityToTreeMapper.getNextChild(parentNode, positionOfChild)
     expect(next).to.deep.equal(child2)
   })
-  it('Adds first node to tree', () => {
-    const tree = []
-    const root = {
-      'id': 'root',
-      'label': 'root',
-      'children': []
-    }
-    const newTree = EntityToTreeMapper.addRootToTree(tree, root)
-    expect(newTree).to.deep.equal([root])
-  })
   it('Adds new child node to tree', () => {
     const tree = [
       {
@@ -124,8 +118,8 @@ describe('EntityToTreeMapper', () => {
       'label': 'child1',
       'children': []
     }
-    const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).tree
-    expect(newTree[0].children[0]).to.deep.equal(newChild)
+    const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
+    expect(newTree[0].children).to.include(newChild)
   })
   it('Adds new grandchild node to tree', () => {
     const tree = [
@@ -152,10 +146,29 @@ describe('EntityToTreeMapper', () => {
       'label': 'grandchild1',
       'children': []
     }
-    const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).tree
+    const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
     expect(newTree[0].children[1].children[0]).to.deep.equal(newChild)
   })
-  it.only('converts the api response to tree data with two root elements', () => {
+  it('Has to create a node element', () => {
+    const text = 'test'
+    const icon = ''
+    const bool = false
+    const children = []
+    const expected = {
+      'id': text,
+      'text': text,
+      'value': text,
+      'icon': icon,
+      'opened': bool,
+      'selected': bool,
+      'disabled': bool,
+      'loading': bool,
+      'children': children
+    }
+    const observed = EntityToTreeMapper.createNewNode(text, text, icon, children, bool, bool, bool, bool)
+    expect(observed).to.deep.equal(expected)
+  })
+  it('converts the api response to tree data with two root elements', () => {
     const mappedResponse = EntityToTreeMapper.generateTreeData(mockApiResponse, settings)
     const expected = [
       {
@@ -216,7 +229,6 @@ describe('EntityToTreeMapper', () => {
         ]
       }
     ]
-    console.log('tree', mappedResponse[1].children)
     expect(mappedResponse.length).to.equal(2)
     expect(mappedResponse).to.deep.equal(expected)
   })
