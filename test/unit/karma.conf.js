@@ -13,7 +13,7 @@ module.exports = function karmaConfig (config) {
     // 2. add it to the `browsers` array below.
     browsers: ['Chrome'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
-    reporters: ['spec', 'coverage'],
+    reporters: ['spec', 'coverage', 'mocha'],
     files: ['./index.js'],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
@@ -28,6 +28,9 @@ module.exports = function karmaConfig (config) {
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
       ]
+    },
+    mochaReporter: {
+      showDiff: true
     }
   })
 }
