@@ -117,5 +117,6 @@ const createNewNode = (id, label, icon, children, isOpened, isSelected, isDisabl
 export default {
   generateTreeData,
   addChildToTree,
-  getNextChild
+  getNextChild,
+  createNewNode
 }

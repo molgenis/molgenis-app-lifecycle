@@ -145,6 +145,25 @@ describe('EntityToTreeMapper', () => {
     const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
     expect(newTree[0].children[1].children[0]).to.deep.equal(newChild)
   })
+  it('Has to create a node element', () => {
+    const text = 'test'
+    const icon = ''
+    const bool = false
+    const children = []
+    const expected = {
+      'id': text,
+      'text': text,
+      'value': text,
+      'icon': icon,
+      'opened': bool,
+      'selected': bool,
+      'disabled': bool,
+      'loading': bool,
+      'children': children
+    }
+    const observed = EntityToTreeMapper.createNewNode(text, text, icon, children, bool, bool, bool, bool)
+    expect(observed).to.deep.equal(expected)
+  })
   it('converts the api response to tree data with two root elements', () => {
     const mappedResponse = EntityToTreeMapper.generateTreeData(mockApiResponse, settings)
     const expected = [
@@ -206,8 +225,6 @@ describe('EntityToTreeMapper', () => {
         ]
       }
     ]
-    console.log('tree', mappedResponse[1].children)
-    console.log('tree', expected[1].children)
     expect(mappedResponse.length).to.equal(2)
     expect(mappedResponse).to.deep.equal(expected)
   })
