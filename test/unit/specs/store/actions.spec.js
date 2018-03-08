@@ -21,9 +21,9 @@ describe('actions', () => {
         'isDisabled': false,
         'isLoading': false
       },
-      data: {},
-      error: undefined
-    }
+      data: []
+    },
+    error: undefined
   }
   describe('GET_TREE_DATA', () => {
     it('should retrieve tree data from the server and store it in the state', done => {

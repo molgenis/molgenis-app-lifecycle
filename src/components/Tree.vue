@@ -1,3 +1,4 @@
+<script src="../../config/index.js"></script>
 <template>
   <div class="tree">
     <v-jstree @item-click="itemClick" :onselectstart="false" :data="treeData"></v-jstree>
