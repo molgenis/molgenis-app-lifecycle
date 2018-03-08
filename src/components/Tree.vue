@@ -6,37 +6,29 @@
 
 <script>
   import VJstree from 'vue-jstree'
-  import EntityTypeV2Response from '../LifeCycleDemoMockResponse'
-  import EntityToTreeMapper from '../util/EntityToTreeMapper'
+
+  import { GET_TREE_DATA } from '../store/actions'
 
   export default {
     name: 'Tree',
     components: {
       VJstree
     },
-    data () {
-      return {
-        settings: {
-          'id': 'key',
-          'label': 'title',
-          'folderIcon': '',
-          'leafIcon': 'fa fa-file-o',
-          'isOpened': true,
-          'isSelected': false,
-          'isDisabled': false,
-          'isLoading': false
-        }
-      }
-    },
     computed: {
       treeData () {
-        return EntityToTreeMapper.generateTreeData(EntityTypeV2Response.mockResponse, this.settings)
+        return this.$store.state.tree.data
+      },
+      settings () {
+        return this.$store.state.tree.settings
       }
     },
     methods: {
       itemClick (node) {
         console.log(node.model.text + ' clicked !')
       }
+    },
+    mounted () {
+      this.$store.dispatch(GET_TREE_DATA)
     }
   }
 </script>
