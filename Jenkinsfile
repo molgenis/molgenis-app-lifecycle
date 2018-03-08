@@ -1,8 +1,13 @@
 pipeline {
   agent any
+
+  parameters {
+    string(name: 'GIT_TAG', defaultValue: 'undefined')
+  }
+
   environment {
-    COMPONENT_NAME = "molgenis-app-lifecycle"
-    COMPONENT_VERSION = "${GIT_TAG}"
+    APP_NAME = "molgenis-app-lifecycle"
+    APP_VERSION = "${params.GIT_TAG}"
   }
   stages {
     stage('Preparation') {
@@ -10,7 +15,7 @@ pipeline {
         // Clean workspace
         step([$class: 'WsCleanup', cleanWhenFailure: false])
         // Get code from github.com
-        checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: 'ref/tags/${GWBT_TAG}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-molgenis', url: 'http://github.com/molgenis/molgenis-app-lifecycle.git']]]
+        checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: 'ref/tags/${APP_VERSION}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'shaakma', url: 'http://github.com/molgenis/molgenis-app-lifecycle.git']]]
       }
     }
     stage('Build UI-component') {
