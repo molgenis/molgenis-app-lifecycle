@@ -14,5 +14,12 @@ export default{
     },
     data: []
   },
+  variables: {
+    columns: [],
+    data: [],
+    source: []
+  },
+  cohorts: [],
+  harmonizations: [],
   error: undefined
 }

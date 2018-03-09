@@ -4,13 +4,13 @@
       <thead>
         <tr>
           <th></th>
-          <th v-for="cohort in cohorts.items">{{ cohort.label }}</th>
+          <th v-for="cohort in cohorts">{{ cohort.label }}</th>
         </tr>
       </thead>
-      <tbody v-for="variable in coreVariables.items">
+      <tbody v-for="variable in variablesData">
         <tr>
           <td class="align-middle">{{ variable.variable }}</td>
-          <td v-for="cohort in cohorts.items">
+          <td v-for="cohort in cohorts">
             <div v-if="variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:Green">
               <i class="fa fa-check-circle" @click="showHarmonizationDetail = !showHarmonizationDetail; selectedVariable = variable.variable"></i>
             </div>
@@ -20,8 +20,8 @@
           </td>
         </tr>
         <tr v-if="showHarmonizationDetail && selectedVariable === variable.variable">
-          <td :colspan="cohorts.items.length + 1">
-            <HarmonizationDetail :harmonization="harmonizationDetail" :sourceVariables="sourceVariables"></HarmonizationDetail>
+          <td :colspan="cohorts.length + 1">
+            <HarmonizationDetail></HarmonizationDetail>
           </td>
         </tr>
       </tbody>
@@ -30,14 +30,17 @@
 </template>
 
 <script>
-  import EntityTypeV2Response from '../LifeCycleDemoMockResponse'
   import HarmonizationDetail from './HarmonizationDetail'
 
   export default {
     name: 'TableHarmonizations',
-    props: {
-      coreVariables: Object,
-      cohorts: Object
+    computed: {
+      variablesData: function () {
+        return this.$store.state.variables.data
+      },
+      cohorts: function () {
+        return this.$store.state.cohorts
+      }
     },
     components: {
       HarmonizationDetail
@@ -45,9 +48,7 @@
     data () {
       return {
         showHarmonizationDetail: false,
-        selectedVariable: '',
-        harmonizationDetail: EntityTypeV2Response.mockResponseHarmonization,
-        sourceVariables: EntityTypeV2Response.mockResponseSourceVariables
+        selectedVariable: ''
       }
     },
     methods: {

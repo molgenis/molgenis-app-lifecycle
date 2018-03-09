@@ -12,12 +12,12 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-12">
-            <TableCoreVariables :coreVariables="coreVariables"></TableCoreVariables>
+            <TableCoreVariables></TableCoreVariables>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <TableHarmonizations :coreVariables="coreVariables" :cohorts="cohorts"></TableHarmonizations>
+            <TableHarmonizations></TableHarmonizations>
           </div>
         </div>
       </div>
@@ -29,7 +29,8 @@
   import Tree from './Tree'
   import TableCoreVariables from './TableCoreVariables'
   import TableHarmonizations from './TableHarmonizations'
-  import EntityTypeV2Response from '../LifeCycleDemoMockResponse'
+
+  import { GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
 
   export default {
     name: 'LifeCycleCatalogue',
@@ -39,10 +40,10 @@
         TableCoreVariables,
         TableHarmonizations
       },
-    data () {
-      return {
-        cohorts: EntityTypeV2Response.mockResponseCohorts,
-        coreVariables: EntityTypeV2Response.mockResponseCoreVariables
+    methods: {
+      clickTree: function () {
+        this.$store.dispatch(GET_COHORTS)
+        this.$store.dispatch(GET_CORE_VARIABLES)
       }
     },
     props: {

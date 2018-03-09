@@ -83,9 +83,13 @@
 <script>
   export default {
     name: 'HarmonizationDetail',
-    props: {
-      harmonization: Object,
-      sourceVariables: Object
+    computed: {
+      harmonizations: function () {
+        return this.$store.state.harmonizations
+      },
+      sourceVariables: function () {
+        return {}
+      }
     }
   }
 </script>
