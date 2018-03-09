@@ -1,4 +1,3 @@
-<script src="../../config/index.js"></script>
 <template>
   <div class="tree">
     <v-jstree @item-click="itemClick" :onselectstart="false" :data="treeData"></v-jstree>
@@ -15,12 +14,10 @@
     components: {
       VJstree
     },
-    computed: {
-      treeData () {
-        return this.$store.state.tree.data
-      },
-      settings () {
-        return this.$store.state.tree.settings
+    data () {
+      return {
+        treeData: this.$store.state.tree.data,
+        settings: this.$store.state.tree.settings
       }
     },
     methods: {
