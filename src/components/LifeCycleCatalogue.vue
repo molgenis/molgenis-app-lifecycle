@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-md-2">
-        <Tree></Tree>
+        <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
       </div>
       <div class="col-md-10">
         <div class="row">
@@ -29,8 +29,9 @@
   import Tree from './Tree'
   import TableCoreVariables from './TableCoreVariables'
   import TableHarmonizations from './TableHarmonizations'
+  import { GET_TREE_DATA, GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
+  import { mapGetters } from 'vuex'
 
-  import { GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
 
   export default {
     name: 'LifeCycleCatalogue',
@@ -40,14 +41,23 @@
         TableCoreVariables,
         TableHarmonizations
       },
+    computed: {
+      ...mapGetters({
+        treeData: 'getTreeData'
+      })
+    },
+    props: {
+      msg: String
+    },
     methods: {
-      clickTree: function () {
+      treeClick (node) {
+        console.log(node.model.text + ' clicked !')
         this.$store.dispatch(GET_COHORTS)
         this.$store.dispatch(GET_CORE_VARIABLES)
       }
     },
-    props: {
-      msg: String
+    mounted () {
+      this.$store.dispatch(GET_TREE_DATA)
     }
   }
 </script>
