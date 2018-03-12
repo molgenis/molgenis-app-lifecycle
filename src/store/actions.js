@@ -5,7 +5,7 @@ import {
   SET_ERROR, SET_CORE_VARIABLE_COLUMNS, SET_CORE_VARIABLE_DATA, SET_COHORT_DATA, SET_HARMONIZATION_DATA,
   SET_RAW_TREE_DATA
 } from './mutations'
-import getRawTreeData from './getters'
+import _ from 'lodash'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 
 /* ACTION CONSTANTS */
@@ -24,7 +24,10 @@ export default {
   [GET_TREE_DATA] ({state, commit}) {
     api.get(TREE_API_PATH).then(response => {
       commit(SET_RAW_TREE_DATA, response.items)
-      const data = EntityToTreeMapper.generateTreeData(getRawTreeData, state.tree.settings)
+      // We do this because we can test this method more easily
+      // We used to use the getters in the generateTreeData method
+      const clonedResponse = _.cloneDeep(response)
+      const data = EntityToTreeMapper.generateTreeData(clonedResponse.items, state.tree.settings)
       commit(SET_TREE_DATA, data)
     }, error => {
       commit(SET_ERROR, error)

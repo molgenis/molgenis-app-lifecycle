@@ -2,8 +2,7 @@ import { expect } from 'chai'
 import EntityToTreeMapper from '@/util/EntityToTreeMapper.js'
 
 describe('EntityToTreeMapper', () => {
-  const mockApiResponse = {
-    'items': [
+  const mockApiResponse = [
       {
         '_href': '/api/v2/menu/1',
         'key': 'c1',
@@ -67,7 +66,7 @@ describe('EntityToTreeMapper', () => {
         'children': []
       }
     ]
-  }
+
   const settings = {
     'id': 'key',
     'label': 'title',
