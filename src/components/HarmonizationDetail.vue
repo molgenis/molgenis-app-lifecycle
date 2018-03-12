@@ -81,15 +81,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'HarmonizationDetail',
     computed: {
-      harmonizations: function () {
-        return this.$store.state.harmonizations
-      },
-      sourceVariables: function () {
-        return {}
-      }
+      ...mapGetters({
+        variableColumns: 'getHarmonizations',
+        variableData: 'getSourceVariables'
+      })
     }
   }
 </script>

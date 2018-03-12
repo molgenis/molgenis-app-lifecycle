@@ -23,15 +23,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'TableCoreVariables',
     computed: {
-      variableColumns: function () {
-        return this.$store.state.variables.columns
-      },
-      variableData: function () {
-        return this.$store.state.variables.data
-      }
+      ...mapGetters({
+        variableColumns: 'getCoreVariableColumns',
+        variableData: 'getCoreVariableData'
+      })
     }
   }
 </script>

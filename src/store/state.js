@@ -12,7 +12,8 @@ export default{
       'isDisabled': false,
       'isLoading': false
     },
-    data: []
+    data: [],
+    raw: []
   },
   variables: {
     columns: [],

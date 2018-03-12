@@ -32,7 +32,6 @@
   import { GET_TREE_DATA, GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
   import { mapGetters } from 'vuex'
 
-
   export default {
     name: 'LifeCycleCatalogue',
     components:
@@ -51,13 +50,12 @@
     },
     methods: {
       treeClick (node) {
-        console.log(node.model.text + ' clicked !')
-        this.$store.dispatch(GET_COHORTS)
-        this.$store.dispatch(GET_CORE_VARIABLES)
+        this.$store.dispatch(GET_CORE_VARIABLES, node.model.id)
       }
     },
     mounted () {
       this.$store.dispatch(GET_TREE_DATA)
+      this.$store.dispatch(GET_COHORTS)
     }
   }
 </script>

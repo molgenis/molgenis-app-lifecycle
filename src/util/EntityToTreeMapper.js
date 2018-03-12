@@ -2,7 +2,7 @@ const generateTreeData = (apiResponse, settings) => {
   let forest = []
   let paths = {}
   let orphanage = {}
-  apiResponse.items.forEach((node) => {
+  apiResponse.forEach((node) => {
     const extention = extentTree(node, forest, paths, orphanage, settings)
     forest = extention.forest
     paths = extention.paths

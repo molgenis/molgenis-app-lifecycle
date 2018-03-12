@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="variableData.length > 0">
     <table class="table" cellspacing="0" width="100%">
       <thead>
         <tr>
@@ -7,7 +7,7 @@
           <th v-for="cohort in cohorts">{{ cohort.label }}</th>
         </tr>
       </thead>
-      <tbody v-for="variable in variablesData">
+      <tbody v-for="variable in variableData">
         <tr>
           <td class="align-middle">{{ variable.variable }}</td>
           <td v-for="cohort in cohorts">
@@ -31,16 +31,15 @@
 
 <script>
   import HarmonizationDetail from './HarmonizationDetail'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'TableHarmonizations',
     computed: {
-      variablesData: function () {
-        return this.$store.state.variables.data
-      },
-      cohorts: function () {
-        return this.$store.state.cohorts
-      }
+      ...mapGetters({
+        variableData: 'getCoreVariableData',
+        cohorts: 'getCohorts'
+      })
     },
     components: {
       HarmonizationDetail

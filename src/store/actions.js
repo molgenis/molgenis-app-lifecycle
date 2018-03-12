@@ -2,8 +2,10 @@ import api from '@molgenis/molgenis-api-client'
 import EntityToTreeMapper from '../util/EntityToTreeMapper'
 import {
   SET_TREE_DATA,
-  SET_ERROR, SET_CORE_VARIABLE_COLUMNS, SET_CORE_VARIABLE_DATA, SET_COHORT_DATA, SET_HARMONIZATION_DATA
+  SET_ERROR, SET_CORE_VARIABLE_COLUMNS, SET_CORE_VARIABLE_DATA, SET_COHORT_DATA, SET_HARMONIZATION_DATA,
+  SET_RAW_TREE_DATA
 } from './mutations'
+import getRawTreeData from './getters'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 
 /* ACTION CONSTANTS */
@@ -21,20 +23,25 @@ const HARMONIZATION_API_PATH = '/api/v2/UI_Menu'
 export default {
   [GET_TREE_DATA] ({state, commit}) {
     api.get(TREE_API_PATH).then(response => {
-      const data = EntityToTreeMapper.generateTreeData(response, state.tree.settings)
+      commit(SET_RAW_TREE_DATA, response.items)
+      const data = EntityToTreeMapper.generateTreeData(getRawTreeData, state.tree.settings)
       commit(SET_TREE_DATA, data)
     }, error => {
       commit(SET_ERROR, error)
     })
   },
-  [GET_CORE_VARIABLES] ({state, commit}, treeId) {
-    console.log(treeId)
-
-
-    const query = '?q=id=in=(' + entityId + ')'
+  [GET_CORE_VARIABLES] ({state, commit, getters}, treeId) {
+    const treeLeaf = getters.getRawTreeData.find((item) => {
+      return item.key === treeId
+    })
+    const variables = Object.keys(treeLeaf.variables).map(function (variable) {
+      return treeLeaf.variables[variable].variable
+    }).join(',')
+    const query = '?q=variable=in=(' + variables + ')'
     const request = CORE_VARIABLE_API_PATH + query
     api.get(request).then(response => {
-      commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.attributes))
+      console.log(response)
+      commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
       commit(SET_CORE_VARIABLE_DATA, response.items)
     }, error => {
       commit(SET_ERROR, error)
