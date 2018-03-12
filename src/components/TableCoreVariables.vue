@@ -10,10 +10,10 @@
         <tr v-for="variable in variableData">
           <td>{{ variable.variable }}</td>
           <td>{{ variable.label }}</td>
-          <td>{{ variable.datatype.label }}</td>
+          <td v-if="variable.datatype">{{ variable.datatype.label }}</td>
           <td>{{ variable.values }}</td>
           <td>{{ variable.unit }}</td>
-          <td>{{ variable.match.label }}</td>
+          <td v-if="variable.match">{{ variable.match.label }}</td>
           <td>{{ variable.definition }}</td>
           <td>{{ variable.comments }}</td>
         </tr>

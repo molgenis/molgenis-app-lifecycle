@@ -12,7 +12,7 @@
           <td class="align-middle">{{ variable.variable }}</td>
           <td v-for="cohort in cohorts">
             <div v-if="variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:Green">
-              <i class="fa fa-check-circle" @click="showHarmonizationDetail = !showHarmonizationDetail; selectedVariable = variable.variable"></i>
+              <i class="fa fa-check-circle" @click="getHarmonizationDetail(variable.harmonizations, cohort.id);showDetail(variable.variable)"></i>
             </div>
             <div v-else="!variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:Tomato">
               <i class="fa fa-times-circle"></i>
@@ -32,6 +32,7 @@
 <script>
   import HarmonizationDetail from './HarmonizationDetail'
   import { mapGetters } from 'vuex'
+  import { GET_HARMONIZATIONS } from '../store/actions'
 
   export default {
     name: 'TableHarmonizations',
@@ -55,6 +56,14 @@
         return harmonizations.some(function (harmonization) {
           return harmonization.sourceLabel === cohort
         })
+      },
+      getHarmonizationDetail (harmonizations, selectedCohort) {
+        const selectedHarmonization = harmonizations.find(harmonization => harmonization.sourceLabel === selectedCohort)
+        this.$store.dispatch(GET_HARMONIZATIONS, selectedHarmonization.id)
+      },
+      showDetail (selectedVariable) {
+        this.showHarmonizationDetail = !this.showHarmonizationDetail
+        this.selectedVariable = selectedVariable
       }
     }
   }

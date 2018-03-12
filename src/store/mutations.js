@@ -2,6 +2,7 @@ export const SET_TREE_DATA = '__SET_TREE_DATA__'
 export const SET_RAW_TREE_DATA = '__SET_RAW_TREE_DATA__'
 export const SET_CORE_VARIABLE_COLUMNS = '__SET_CORE_VARIABLE_COLUMNS__'
 export const SET_CORE_VARIABLE_DATA = '__SET_CORE_VARIABLE_DATA__'
+export const SET_SOURCE_VARIABLES = '__SET_SOURCE_VARIABLES__'
 export const SET_COHORT_DATA = '__SET_COHORT_DATA__'
 export const SET_HARMONIZATION_DATA = '__SET_HARMONIZATION_DATA__'
 
@@ -19,6 +20,9 @@ export default {
   },
   [SET_CORE_VARIABLE_DATA] (state, data) {
     state.variables.data = data
+  },
+  [SET_SOURCE_VARIABLES] (state, sources) {
+    state.variables.source = sources
   },
   [SET_COHORT_DATA] (state, data) {
     state.cohorts = data

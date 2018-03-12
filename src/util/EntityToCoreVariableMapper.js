@@ -1,5 +1,7 @@
 const generateColumns = (attributes) => {
-  return attributes.filter(attribute => attribute && attribute.visible !== false && attribute.label !== 'harmonizations')
+  if (attributes !== undefined) {
+    return attributes.filter(attribute => attribute !== undefined && attribute.visible !== false)
+  }
 }
 
 export default {

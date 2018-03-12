@@ -20,6 +20,6 @@ export default {
     return _.cloneDeep(state.harmonizations)
   },
   getSourceVariables: state => {
-    return _.cloneDeep(state.variable.source)
+    return _.cloneDeep(state.variables.source)
   }
 }
