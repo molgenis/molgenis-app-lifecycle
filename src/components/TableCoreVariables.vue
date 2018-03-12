@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <table class="table">
       <thead>
         <tr>
@@ -8,14 +8,10 @@
       </thead>
       <tbody>
         <tr v-for="variable in variableData">
-          <td>{{ variable.variable }}</td>
-          <td>{{ variable.label }}</td>
-          <td v-if="variable.datatype">{{ variable.datatype.label }}</td>
-          <td>{{ variable.values }}</td>
-          <td>{{ variable.unit }}</td>
-          <td v-if="variable.match">{{ variable.match.label }}</td>
-          <td>{{ variable.definition }}</td>
-          <td>{{ variable.comments }}</td>
+          <td v-for="column in variableColumns">
+            <span v-if="typeof variable[column.name] === 'object'">{{ variable[column.name].label }}</span>
+            <span v-else>{{ variable[column.name] }}</span>
+          </td>
         </tr>
       </tbody>
     </table>

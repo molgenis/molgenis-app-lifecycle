@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="variableData.length > 0">
+  <div v-if="variableData.length > 0">
     <table class="table" cellspacing="0" width="100%">
       <thead>
         <tr>

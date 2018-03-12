@@ -7,7 +7,14 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
+        <div class="card">
+          <div class="card-header">
+            Catalogue
+          </div>
+          <div class="card-body">
+            <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
+          </div>
+        </div>
       </div>
       <div class="col-md-9">
         <div class="row">
