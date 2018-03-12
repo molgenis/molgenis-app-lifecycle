@@ -649,7 +649,7 @@ describe('actions', () => {
       const options = {
         payload: harmonization,
         expectedMutations: [
-          {type: SET_HARMONIZATION_DATA, payload: apiResponseMock},
+          {type: SET_HARMONIZATION_DATA, payload: apiResponseMock}
         ],
         state: mockedState
       }
@@ -1076,12 +1076,12 @@ describe('actions', () => {
       const options = {
         payload: harmonization,
         expectedMutations: [
-          {type: SET_HARMONIZATION_DATA, payload: apiResponseMock},
+          {type: SET_HARMONIZATION_DATA, payload: apiResponseMock}
         ],
         state: mockedState
       }
 
       utils.testAction(actions.__GET_HARMONIZATIONS__, options, done)
     })
-
+  })
 })
