@@ -6,18 +6,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-9">
         <div class="row">
           <div class="col-md-12">
-            <TableCoreVariables :coreVariables="coreVariables"></TableCoreVariables>
+            <TableCoreVariables></TableCoreVariables>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <TableHarmonizations :coreVariables="coreVariables" :cohorts="cohorts"></TableHarmonizations>
+            <TableHarmonizations></TableHarmonizations>
           </div>
         </div>
       </div>
@@ -29,8 +29,7 @@
   import Tree from './Tree'
   import TableCoreVariables from './TableCoreVariables'
   import TableHarmonizations from './TableHarmonizations'
-  import EntityTypeV2Response from '../LifeCycleDemoMockResponse'
-  import { GET_TREE_DATA } from '../store/actions'
+  import { GET_TREE_DATA, GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -41,12 +40,6 @@
         TableCoreVariables,
         TableHarmonizations
       },
-    data () {
-      return {
-        cohorts: EntityTypeV2Response.mockResponseCohorts,
-        coreVariables: EntityTypeV2Response.mockResponseCoreVariables
-      }
-    },
     computed: {
       ...mapGetters({
         treeData: 'getTreeData'
@@ -57,11 +50,12 @@
     },
     methods: {
       treeClick (node) {
-        console.log(node.model.text + ' clicked !')
+        this.$store.dispatch(GET_CORE_VARIABLES, node.model.id)
       }
     },
     mounted () {
       this.$store.dispatch(GET_TREE_DATA)
+      this.$store.dispatch(GET_COHORTS)
     }
   }
 </script>

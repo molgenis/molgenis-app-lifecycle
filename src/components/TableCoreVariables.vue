@@ -3,19 +3,19 @@
     <table class="table">
       <thead>
         <tr>
-          <th v-for="variable in coreVariables.attributes" v-if="variable.visible !== 'false' && variable.name !== 'harmonizations'">{{ variable.label }}</th>
+          <th v-for="column in variableColumns">{{ column.label }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in coreVariables.items">
-          <td>{{ item.variable  || ''}}</td>
-          <td>{{ item.label  || ''}}</td>
-          <td>{{ item.datatype.label  || ''}}</td>
-          <td>{{ item.values  || ''}}</td>
-          <td>{{ item.unit || ''}}</td>
-          <td>{{ item.match.label || ''}}</td>
-          <td>{{ item.definition || ''}}</td>
-          <td>{{ item.comments  || ''}}</td>
+        <tr v-for="variable in variableData">
+          <td>{{ variable.variable }}</td>
+          <td>{{ variable.label }}</td>
+          <td v-if="variable.datatype">{{ variable.datatype.label }}</td>
+          <td>{{ variable.values }}</td>
+          <td>{{ variable.unit }}</td>
+          <td v-if="variable.match">{{ variable.match.label }}</td>
+          <td>{{ variable.definition }}</td>
+          <td>{{ variable.comments }}</td>
         </tr>
       </tbody>
     </table>
@@ -23,10 +23,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'TableCoreVariables',
-    props: {
-      coreVariables: Object
+    computed: {
+      ...mapGetters({
+        variableColumns: 'getCoreVariableColumns',
+        variableData: 'getCoreVariableData'
+      })
     }
   }
 </script>
