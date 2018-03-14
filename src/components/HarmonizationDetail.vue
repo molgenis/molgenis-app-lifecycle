@@ -33,7 +33,7 @@
                     <tbody>
                       <tr>
                         <td>Harmonization</td>
-                        <td>{{ harmonization.status.label }}</td>
+                        <td v-if="harmonization.status">{{ harmonization.status.label }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -59,13 +59,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="sourceVariable in sourceVariables.items">
-                    <td>{{ sourceVariable.cohort.label }}</td>
+                  <tr v-for="sourceVariable in sourceVariables">
+                    <td v-if="sourceVariable.cohort">{{ sourceVariable.cohort.label }}</td>
                     <td>{{ sourceVariable.variable }}</td>
                     <td>{{ sourceVariable.description }}</td>
                     <td><pre>{{ sourceVariable.values }}</pre></td>
                     <td>{{ sourceVariable.unit }}</td>
-                    <td>{{ sourceVariable.datatype.label }}</td>
+                    <td v-if="sourceVariable.datatype">{{ sourceVariable.datatype.label }}</td>
                     <td>{{ sourceVariable.collectionType }}</td>
                     <td>{{ sourceVariable.dependencies }}</td>
                     <td>{{ sourceVariable.date_of_update }}</td>
@@ -81,11 +81,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'HarmonizationDetail',
-    props: {
-      harmonization: Object,
-      sourceVariables: Object
+    computed: {
+      ...mapGetters({
+        harmonization: 'getHarmonizations',
+        sourceVariables: 'getSourceVariables'
+      })
     }
   }
 </script>

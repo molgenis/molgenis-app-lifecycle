@@ -1,21 +1,16 @@
 pipeline {
   agent any
 
-  parameters {
-    string(name: 'GIT_TAG', defaultValue: 'undefined')
-  }
-
   environment {
     APP_NAME = "molgenis-app-lifecycle"
-    APP_VERSION = "${params.GIT_TAG}"
   }
   stages {
     stage('Preparation') {
       steps {
         // Clean workspace
-        step([$class: 'WsCleanup', cleanWhenFailure: false])
+        cleanWs()
         // Get code from github.com
-        checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: 'ref/tags/${APP_VERSION}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'shaakma', url: 'http://github.com/molgenis/molgenis-app-lifecycle.git']]]
+        checkout scm
       }
     }
     stage('Build UI-component') {
@@ -38,14 +33,14 @@ pipeline {
       }
     }
   }
-  // post {
-  //  success {
-  //    notifySuccess()
-  //  }
-  //  failure {
-  //    notifyFailed()
-  //  }
-  // }
+   post {
+    success {
+      notifySuccess()
+    }
+    failure {
+      notifyFailed()
+    }
+   }
 }
 
 def notifySuccess() {
