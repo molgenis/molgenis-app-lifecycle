@@ -69,10 +69,8 @@ export default {
   },
   [GET_NAVBAR_LOGO] ({state, commit}) {
     api.get(MOLGENIS_MENU_API_PATH).then(response => {
-      console.log(response, response.logo_href_navbar)
       commit(SET_NAVBAR_LOGO, response.logo_href_navbar)
     }, error => {
-      console.log(error)
       commit(SET_ERROR, error)
     })
   }
