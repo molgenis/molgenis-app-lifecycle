@@ -2,7 +2,7 @@ import utils from '@molgenis/molgenis-vue-test-utils'
 import api from '@molgenis/molgenis-api-client'
 import td from 'testdouble'
 import actions from '@/store/actions'
-import EntityV2Response  from '../mock-responses/EntityV2Response'
+import EntityV2Response from '../mock-responses/EntityV2Response'
 
 import {
   SET_COHORT_DATA,
@@ -58,8 +58,6 @@ describe('actions', () => {
     it('should retrieve harmonization data from the server and store it in the state', done => {
       const get = td.function('api.get')
       const payload = 'aaaacyc67m5p56qwh3nxvnaaae'
-
-
 
       td.when(get('/api/v2/LifeCycle_Harmonizations/' + payload)).thenResolve(EntityV2Response.mockHarmonizationResponse)
       td.replace(api, 'get', get)

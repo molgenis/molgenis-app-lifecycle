@@ -62,4 +62,3 @@ const mockTreeData =
 export default {
   mockTreeData
 }
-
