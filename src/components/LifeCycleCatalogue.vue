@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        Here comes an awesome menu
+        <molgenis-menu></molgenis-menu>
       </div>
     </div>
     <div class="row">
@@ -34,17 +34,18 @@
   import Tree from './Tree'
   import TableCoreVariables from './TableCoreVariables'
   import TableHarmonizations from './TableHarmonizations'
+  import MolgenisMenu from './MolgenisMenu'
   import { GET_TREE_DATA, GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'LifeCycleCatalogue',
-    components:
-      {
-        Tree,
-        TableCoreVariables,
-        TableHarmonizations
-      },
+    components: {
+      Tree,
+      TableCoreVariables,
+      TableHarmonizations,
+      MolgenisMenu
+    },
     computed: {
       ...mapGetters({
         treeData: 'getTreeData'

@@ -3,7 +3,7 @@ import EntityToTreeMapper from '../util/EntityToTreeMapper'
 import {
   SET_TREE_DATA,
   SET_ERROR, SET_CORE_VARIABLE_COLUMNS, SET_CORE_VARIABLE_DATA, SET_COHORT_DATA, SET_HARMONIZATION_DATA,
-  SET_RAW_TREE_DATA, SET_SOURCE_VARIABLES
+  SET_RAW_TREE_DATA, SET_SOURCE_VARIABLES, SET_NAVBAR_LOGO
 } from './mutations'
 import _ from 'lodash'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
@@ -14,6 +14,7 @@ export const GET_CORE_VARIABLES = '__GET_CORE_VARIABLE_DATA__'
 export const GET_COHORTS = '__GET_COHORT_DATA__'
 export const GET_HARMONIZATIONS = '__GET_HARMONIZATIONS__'
 export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
+export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 /* API PATHS */
 const TREE_API_PATH = '/api/v2/UI_Menu'
@@ -21,6 +22,7 @@ const CORE_VARIABLE_API_PATH = '/api/v2/LifeCycle_CoreVariables'
 const COHORT_API_PATH = '/api/v2/LifeCycle_Cohorts'
 const HARMONIZATION_API_PATH = '/api/v2/LifeCycle_Harmonizations'
 const SOURCE_VARIABLES_API_PATH = '/api/v2/LifeCycle_SourceVariables'
+const MOLGENIS_MENU_API_PATH = '/api/v2/sys_set_app/app'
 
 export default {
   [GET_TREE_DATA] ({state, commit}) {
@@ -78,6 +80,15 @@ export default {
     api.get(request).then(response => {
       commit(SET_SOURCE_VARIABLES, response.items)
     }, error => {
+      commit(SET_ERROR, error)
+    })
+  },
+  [GET_NAVBAR_LOGO] ({state, commit}) {
+    api.get(MOLGENIS_MENU_API_PATH).then(response => {
+      console.log(response, response.logo_href_navbar)
+      commit(SET_NAVBAR_LOGO, response.logo_href_navbar)
+    }, error => {
+      console.log(error)
       commit(SET_ERROR, error)
     })
   }

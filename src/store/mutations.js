@@ -5,6 +5,7 @@ export const SET_CORE_VARIABLE_DATA = '__SET_CORE_VARIABLE_DATA__'
 export const SET_SOURCE_VARIABLES = '__SET_SOURCE_VARIABLES__'
 export const SET_COHORT_DATA = '__SET_COHORT_DATA__'
 export const SET_HARMONIZATION_DATA = '__SET_HARMONIZATION_DATA__'
+export const SET_NAVBAR_LOGO = '__SET_NAVBAR_LOGO__'
 
 export const SET_ERROR = '__SET_ERROR__'
 
@@ -32,5 +33,8 @@ export default {
   },
   [SET_ERROR] (state, error) {
     state.error = error
+  },
+  [SET_NAVBAR_LOGO] (state, logo) {
+    state.navbarLogo = logo
   }
 }
