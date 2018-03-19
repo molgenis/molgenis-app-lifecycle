@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div class="card-fluid" v-if="variableData.length > 0">
+    <div class="card-header">
+      {{ title }}
+    </div>
+    <div class="card-body">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -16,6 +20,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </template>
 
@@ -23,7 +28,10 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'TableCoreVariables',
+    name: 'CoreVariables',
+    props: {
+      title: ''
+    },
     computed: {
       ...mapGetters({
         variableColumns: 'getCoreVariableColumns',
@@ -32,6 +40,7 @@
     }
   }
 </script>
+
 <style scoped>
   pre {
     display: block;
@@ -47,6 +56,3 @@
     border-radius: 4px;
   }
 </style>
-
-
-

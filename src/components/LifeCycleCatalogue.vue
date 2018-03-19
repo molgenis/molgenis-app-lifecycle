@@ -1,39 +1,24 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 mb-2">
         <molgenis-menu></molgenis-menu>
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
+      <div class="col-3 mb-2">
         <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
-        <hr/>
       </div>
-      <div class="col-12">
-        <div class="row">
-          <div class="col-12">
-            <h4>{{selectedFeature}}</h4>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="col-12">
-            <TableCoreVariables></TableCoreVariables>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="col-12">
-            <TableHarmonizations></TableHarmonizations>
-          </div>
-        </div>
+      <div class="col-9 mb-2">
+        <Harmonizations :title="selectedFeature"></Harmonizations>
       </div>
     </div>
   </div>
 </template>
 <script>
   import Tree from './Tree'
-  import TableCoreVariables from './TableCoreVariables'
-  import TableHarmonizations from './TableHarmonizations'
+  import CoreVariables from './core-variables/CoreVariables'
+  import Harmonizations from './harmonization/Harmonizations'
   import MolgenisMenu from './MolgenisMenu'
   import { GET_TREE_DATA, GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
   import { mapGetters } from 'vuex'
@@ -42,8 +27,8 @@
     name: 'LifeCycleCatalogue',
     components: {
       Tree,
-      TableCoreVariables,
-      TableHarmonizations,
+      CoreVariables,
+      Harmonizations,
       MolgenisMenu
     },
     computed: {
