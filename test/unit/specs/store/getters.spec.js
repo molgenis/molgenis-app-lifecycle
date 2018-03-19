@@ -1,72 +1,55 @@
 import getters from '@/store/getters'
+import EntityV2Response from '../mock-responses/EntityV2Response'
+import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
+import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 
 describe('getters', () => {
   const mockedState = {
     tree: {
-      data: [
-        {
-          'id': 'p2',
-          'text': 'Parent2',
-          'value': 'Parent2',
-          'icon': 'fa fa-file-o',
-          'opened': true,
-          'selected': false,
-          'disabled': false,
-          'loading': false,
-          'children': []
-        },
-        {
-          'id': 'p1',
-          'text': 'Parent1',
-          'value': 'Parent1',
-          'icon': '',
-          'opened': true,
-          'selected': false,
-          'disabled': false,
-          'loading': false,
-          'children': [
-            {
-              'id': 'c1',
-              'text': 'Child1',
-              'value': 'Child1',
-              'icon': 'fa fa-file-o',
-              'opened': true,
-              'selected': false,
-              'disabled': false,
-              'loading': false,
-              'children': []
-            },
-            {
-              'id': 'c2',
-              'text': 'Child2',
-              'value': 'Child2',
-              'icon': '',
-              'opened': true,
-              'selected': false,
-              'disabled': false,
-              'loading': false,
-              'children': [
-                {
-                  'id': 'gc1',
-                  'text': 'Grandchild1',
-                  'value': 'Grandchild1',
-                  'icon': 'fa fa-file-o',
-                  'opened': true,
-                  'selected': false,
-                  'disabled': false,
-                  'loading': false,
-                  'children': []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+      data: TreeMapperResponse.mockTreeData,
+      raw: EntityV2Response.mockRawTreeData
+    },
+    variables: {
+      data: EntityV2Response.mockCoreVariablesResponse.items,
+      source: EntityV2Response.mockSourceVariablesResponse.items,
+      columns: ColumnsMapperResponse.mockColumns
+    },
+    cohorts: EntityV2Response.mockCohortsResponse.items,
+    harmonizations: EntityV2Response.mockHarmonizationResponse
   }
   it('getTreeData returns a clone of the tree data array in the state', () => {
     const clone = getters.getTreeData(mockedState)
     expect(clone).to.not.equal(mockedState.tree.data)
     expect(clone).to.deep.equal(mockedState.tree.data)
+  })
+  it('getRawTreeData returns a clone of the raw tree data array in the state', () => {
+    const clone = getters.getRawTreeData(mockedState)
+    expect(clone).to.not.equal(mockedState.tree.raw)
+    expect(clone).to.deep.equal(mockedState.tree.raw)
+  })
+  it('getCoreVariableColumns returns a clone of the core variable columns', () => {
+    const clone = getters.getCoreVariableColumns(mockedState)
+    expect(clone).to.not.equal(mockedState.variables.columns)
+    expect(clone).to.deep.equal(mockedState.variables.columns)
+  })
+  it('getCoreVariableData returns a clone of the core variable items', () => {
+    const clone = getters.getCoreVariableData(mockedState)
+    expect(clone).to.not.equal(mockedState.variables.data)
+    expect(clone).to.deep.equal(mockedState.variables.data)
+  })
+  it('getSourceVariables returns a clone of the source variables items', () => {
+    const clone = getters.getSourceVariables(mockedState)
+    expect(clone).to.not.equal(mockedState.variables.source)
+    expect(clone).to.deep.equal(mockedState.variables.source)
+  })
+  it('getCohorts returns a clone of the cohorts', () => {
+    const clone = getters.getCohorts(mockedState)
+    expect(clone).to.not.equal(mockedState.cohorts)
+    expect(clone).to.deep.equal(mockedState.cohorts)
+  })
+  it('getHarmonizations returns a clone of the harmonization', () => {
+    const clone = getters.getHarmonizations(mockedState)
+    expect(clone).to.not.equal(mockedState.harmonizations)
+    expect(clone).to.deep.equal(mockedState.harmonizations)
   })
 })
