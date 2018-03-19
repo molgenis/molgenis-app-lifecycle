@@ -1,3 +1,17 @@
+const mockAppSettingsData = {
+  '_href': '/api/v2/sys_set_app/app',
+  'title': 'MOLGENIS',
+  'logo_href_navbar': '/img/logo_molgenis_small.png',
+  'fixed_logo_height': 150,
+  'molgenis_menu': '{\'type\':\'menu\',\'id\':\'main\',\'label\':\'Home\',\'items\':[{\'type\':\'plugin\',\'id\':\'home\',\'label\':\'Home\'},{\'type\':\'menu\',\'id\':\'vkgl\',\'label\':\'MVL\',\'items\':[{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'Consensus\',\'params\':\'entity\\u003dVKGL_consensus\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'Opposite classifications\',\'params\':\'entity\\u003dVKGL_consensus\\u0026hideselect\\u003dtrue\\u0026mod\\u003ddata\\u0026attrs%5B%5D\\u003dchromosome\\u0026attrs%5B%5D\\u003dPOS\\u0026attrs%5B%5D\\u003dstop\\u0026attrs%5B%5D\\u003dREF\\u0026attrs%5B%5D\\u003dALT\\u0026attrs%5B%5D\\u003dgene\\u0026attrs%5B%5D\\u003dprotein\\u0026attrs%5B%5D\\u003dlab_classifications\\u0026attrs%5B%5D\\u003dconsensus_classification\\u0026filter\\u003dconsensus_classification\\u003dq\\u003d%27Opposite%20classification%27\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'AMC\',\'params\':\'entity\\u003dVKGL_AMC\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'Erasmus\',\'params\':\'entity\\u003dVKGL_ERASMUS\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'LUMC\',\'params\':\'entity\\u003dVKGL_LUMC\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'NKI\',\'params\':\'entity\\u003dVKGL_NKI\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'Radboud\',\'params\':\'entity\\u003dVKGL_RADBOUD\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'VUMC\',\'params\':\'entity\\u003dVKGL_VUMC\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'UMCG\',\'params\':\'entity\\u003dVKGL_UMCG\\u0026hideselect\\u003dtrue\'},{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'UMCU\',\'params\':\'entity\\u003dVKGL_UMCU\\u0026hideselect\\u003dtrue\'}]},{\'type\':\'menu\',\'id\':\'importdata\',\'label\':\'Import data\',\'items\':[{\'type\':\'plugin\',\'id\':\'one-click-importer\',\'label\':\'Quick data import\'},{\'type\':\'plugin\',\'id\':\'importwizard\',\'label\':\'Advanced data import\'}]},{\'type\':\'plugin\',\'id\':\'navigator\',\'label\':\'Navigator\'},{\'type\':\'menu\',\'id\':\'dataintegration\',\'label\':\'Data Integration\',\'items\':[{\'type\':\'plugin\',\'id\':\'dataexplorer\',\'label\':\'Data Explorer\'},{\'type\':\'plugin\',\'id\':\'metadata-manager\',\'label\':\'Metadata Manager\'},{\'type\':\'plugin\',\'id\':\'mappingservice\',\'label\':\'Mapping Service\'},{\'type\':\'plugin\',\'id\':\'tagwizard\',\'label\':\'Tag Wizard\'},{\'type\':\'plugin\',\'id\':\'ontologymanager\',\'label\':\'Ontology manager\'}]},{\'type\':\'menu\',\'id\':\'plugins\',\'label\':\'Plugins\',\'items\':[{\'type\':\'plugin\',\'id\':\'swagger\',\'label\':\'API documentation\'},{\'type\':\'plugin\',\'id\':\'apps\',\'label\':\'App store\'},{\'type\':\'plugin\',\'id\':\'catalogue\',\'label\':\'Catalogue\'},{\'type\':\'plugin\',\'id\':\'feedback\',\'label\':\'Feedback\'},{\'type\':\'plugin\',\'id\':\'gavin-app\',\'label\':\'Gavin\'},{\'type\':\'plugin\',\'id\':\'jobs\',\'label\':\'Job Overview\',\'params\':\'\'},{\'type\':\'plugin\',\'id\':\'pathways\',\'label\':\'Pathways\'},{\'type\':\'plugin\',\'id\':\'questionnaires\',\'label\':\'Questionnaires\'},{\'type\':\'plugin\',\'id\':\'standardsregistry\',\'label\':\'Model registry\'},{\'type\':\'plugin\',\'id\':\'scripts\',\'label\':\'Scripts\'}]},{\'type\':\'menu\',\'id\':\'admin\',\'label\':\'Admin\',\'items\':[{\'type\':\'plugin\',\'id\':\'indexmanager\',\'label\':\'Index manager\'},{\'type\':\'plugin\',\'id\':\'logmanager\',\'label\':\'Log manager\'},{\'type\':\'plugin\',\'id\':\'menumanager\',\'label\':\'Menu Manager\'},{\'type\':\'plugin\',\'id\':\'permissionmanager\',\'label\':\'Permission Manager\'},{\'type\':\'plugin\',\'id\':\'scheduledjobs\',\'label\':\'Scheduled Jobs\'},{\'type\':\'plugin\',\'id\':\'settingsmanager\',\'label\':\'Settings\'},{\'type\':\'plugin\',\'id\':\'thememanager\',\'label\':\'Theme Manager\'},{\'type\':\'plugin\',\'id\':\'usermanager\',\'label\':\'User Manager\'}]},{\'type\':\'plugin\',\'id\':\'useraccount\',\'label\':\'Account\'}]}',
+  'language_code': 'en',
+  'bootstrap_theme': 'bootstrap-molgenis.min.css',
+  'ga_privacy_friendly': true,
+  'ga_acc_privacy_friendly': false,
+  'ga_acc_privacy_friendly_mgs': true,
+  'id': 'app'
+}
+
 const mockRawTreeData = {
   'items': [
     {
@@ -1003,6 +1017,7 @@ const mockHarmonizationResponse = {
 }
 
 export default {
+  mockAppSettingsData,
   mockRawTreeData,
   mockCoreVariablesResponse,
   mockSourceVariablesResponse,
