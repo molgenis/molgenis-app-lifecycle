@@ -3,7 +3,7 @@
     <div class="card-header">
       Core variable: {{ selectedVariable[0].label }}
     </div>
-    <div class="card-body">
+    <div class="card-body card-overflow">
       <table class="table table-striped">
         <tr v-for="column in variableColumns">
           <th>{{ column.label }}</th>
@@ -52,6 +52,9 @@
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+  .card-overflow {
+    overflow: auto;
   }
 </style>
 
