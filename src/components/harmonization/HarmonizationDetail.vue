@@ -91,6 +91,7 @@
     border-radius: 4px;
   }
   .pre-wrap {
+    width: 35rem;
     white-space: pre-wrap;       /* css-3 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -o-pre-wrap;    /* Opera 7 */
