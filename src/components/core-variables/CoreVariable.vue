@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      Core variable: {{ selectedVariable[0].label }}
+      <h6>Core variable: {{ selectedVariable[0].label }}</h6>
     </div>
     <div class="card-body card-overflow">
       <table class="table table-striped">
