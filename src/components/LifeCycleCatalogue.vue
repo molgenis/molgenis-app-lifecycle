@@ -10,6 +10,12 @@
         <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
       </div>
       <div class="col-9 mb-2">
+        <CoreVariables :title="selectedFeature"></CoreVariables>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 mb-2"></div>
+      <div class="col-9 mb-2">
         <Harmonizations :title="selectedFeature"></Harmonizations>
       </div>
     </div>
@@ -20,7 +26,7 @@
   import CoreVariables from './core-variables/CoreVariables'
   import Harmonizations from './harmonization/Harmonizations'
   import MolgenisMenu from './MolgenisMenu'
-  import { GET_TREE_DATA, GET_CORE_VARIABLES, GET_COHORTS } from '../store/actions'
+  import { GET_TREE_DATA, GET_CORE_VARIABLES_FROM_TREE, GET_COHORTS } from '../store/actions'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -47,7 +53,7 @@
     methods: {
       treeClick (node) {
         this.selectedFeature = node.model.value
-        this.$store.dispatch(GET_CORE_VARIABLES, node.model.id)
+        this.$store.dispatch(GET_CORE_VARIABLES_FROM_TREE, node.model.id)
       }
     },
     mounted () {

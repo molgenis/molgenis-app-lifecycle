@@ -3,6 +3,7 @@ pipeline {
 
   environment {
     APP_NAME = "molgenis-app-lifecycle"
+    APPSTORE_PATH = "/var/www/html/appstore/${APP_NAME}/"
   }
   stages {
     stage('Preparation') {
@@ -16,6 +17,7 @@ pipeline {
     stage('Build UI-component') {
       steps {
         echo "Build the MOLGENIS Vue forms"
+        sh "npm install yarn"
         sh "yarn install"
         sh "yarn build"
       }
@@ -28,8 +30,17 @@ pipeline {
     }
     stage('Publish App to appstore.molgenis.org') {
       steps {
-        echo "Publish App to appstore.molgenis.org"
-
+        script {
+          def TAG_NAME = binding.variables.get("TAG_NAME")
+          if (TAG_NAME != null) {
+            echo "Publish App to appstore.molgenis.org"
+            sh "tar -cvzf ${APP_NAME}-${TAG_NAME}.tar.gz dist"
+            sh "ssh molgenis@appstore.molgenis.org -c 'mkdir -p ${APPSTORE_PATH}/${TAG_NAME}/'"
+            sh "scp ${APP_NAME}-${TAG_NAME}.tar.gz molgenis@molgenis@appstore.molgenis.org:${PPSTORE_PATH}/${TAG_NAME}/"
+          } else {
+            echo "No tags are pushed so no releases are triggered"
+          }
+        }
       }
     }
   }

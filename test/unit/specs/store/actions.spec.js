@@ -10,9 +10,9 @@ import {
   SET_HARMONIZATION_DATA,
   SET_RAW_TREE_DATA,
   SET_SOURCE_VARIABLES,
-  SET_TREE_DATA
+  SET_TREE_DATA,
+  SET_CORE_VARIABLE_COLUMNS
 } from '@/store/mutations'
-import { SET_CORE_VARIABLE_COLUMNS } from '../../../../src/store/mutations'
 import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 

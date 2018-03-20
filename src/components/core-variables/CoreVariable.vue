@@ -1,16 +1,17 @@
 <template>
   <div class="card">
     <div class="card-header">
-      {{ selectedVariable.variable }}
+      Core variable: {{ selectedVariable[0].label }}
     </div>
     <div class="card-body">
       <table class="table table-striped">
         <tr v-for="column in variableColumns">
           <th>{{ column.label }}</th>
           <td>
-            <span v-if="typeof selectedVariable[column.name] === 'object'">test {{ selectedVariable[column.name].label }}</span>
-            <pre v-else-if="column.name === 'values' || column.name === 'comments'">{{ selectedVariable[column.name] }}</pre>
-            <span v-else>{{ selectedVariable[column.name] }}</span>
+            <span v-if="typeof selectedVariable[0][column.name] === 'object'">test {{ selectedVariable[0][column.name].label }}</span>
+            <pre v-else-if="column.name === 'values'">{{ selectedVariable[0][column.name] }}</pre>
+            <pre class="pre-wrap" v-else-if="column.name === 'comments'">{{ selectedVariable[0][column.name] }}</pre>
+            <span v-else>{{ selectedVariable[0][column.name] }}</span>
           </td>
         </tr>
       </table>
@@ -23,12 +24,10 @@
 
   export default {
     name: 'CoreVariable',
-    props: {
-      selectedVariable: {}
-    },
     computed: {
       ...mapGetters({
-        variableColumns: 'getCoreVariableColumns'
+        variableColumns: 'getCoreVariablesColumns',
+        selectedVariable: 'getCoreVariablesData'
       })
     }
   }
@@ -47,6 +46,12 @@
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 4px;
+  }
+  .pre-wrap {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
   }
 </style>
 

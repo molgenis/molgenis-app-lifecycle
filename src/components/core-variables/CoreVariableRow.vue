@@ -24,7 +24,7 @@
     },
     computed: {
       ...mapGetters({
-        variableColumns: 'getCoreVariableColumns'
+        variableColumns: 'getCoreVariablesColumns'
       })
     }
   }

@@ -6,20 +6,24 @@ import HarmonizationComparison from '@/components/harmonization/HarmonizationCom
 Vue.use(Router)
 
 export default new Router({
-  props: true,
+  mode: 'history',
   routes: [
     {
       path: '/',
       component: LifeCycleCatalogue
     },
     {
+      props: true,
       path: '/:variable',
-      component: LifeCycleCatalogue
-    },
-    {
-      path: '/:variable/:harmonization',
-      name: 'harmonization',
-      component: HarmonizationComparison
+      component: HarmonizationComparison,
+      children: [
+        {
+          path: ':harmonization',
+          name: 'harmonization',
+          props: true,
+          component: HarmonizationComparison
+        }
+      ]
     }
   ]
 })

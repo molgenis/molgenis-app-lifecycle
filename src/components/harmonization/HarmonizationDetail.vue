@@ -3,49 +3,26 @@
     <div class="card-header">
       <ul id="harmonization-detail-nav" class="nav nav-tabs card-header-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" role="tab" href="#general-information" aria-selected="true">General
-            information</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" role="tab" href="#harmonization-mapping" aria-selected="false">Harmonization
-            mapping</a>
+          <a class="nav-link active" data-toggle="tab" role="tab" href="#harmonization-mapping" aria-selected="false">Description</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" role="tab" href="#harmonization-variables-used" aria-selected="false">Variables
             used</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" role="tab" href="#harmonization-script-syntax" aria-selected="false">Script syntax</a>
+        </li>
       </ul>
     </div>
     <div class="card-body">
       <div id="harmonization-detail-nav-content" class="tab-content">
-        <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="general-information-tab"
-             id="general-information">
-          <div class="row">
-            <div class="col-md-6">
-              <table class="table p-4">
-                <thead>
-                <tr>
-                  <td>Subject</td>
-                  <td>Status</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>Harmonization</td>
-                  <td v-if="harmonization.status">{{ harmonization.status.label }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" role="tabpanel" aria-labelledby="harmonization-mapping-tab"
+        <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="harmonization-mapping-tab"
              id="harmonization-mapping">
-          <pre class="p-4">{{ harmonization.description }}</pre>
+          <pre class="pre-wrap p-4">{{ harmonization.description }}</pre>
         </div>
-        <div class="tab-pane fade" role="tabpanel" aria-labelledby="harmonization-variables-used-tab"
+        <div class="tab-pane fade card-overflow" role="tabpanel" aria-labelledby="harmonization-variables-used-tab"
              id="harmonization-variables-used">
-          <table class="table">
+          <table class="table table-sm">
             <thead>
             <tr>
               <td>Cohort</td>
@@ -65,7 +42,7 @@
               <td>{{ sourceVariable.variable }}</td>
               <td>{{ sourceVariable.description }}</td>
               <td>
-                <pre>{{ sourceVariable.values }}</pre>
+                <pre class="pre-wrap">{{ sourceVariable.values }}</pre>
               </td>
               <td>{{ sourceVariable.unit }}</td>
               <td v-if="sourceVariable.datatype">{{ sourceVariable.datatype.label }}</td>
@@ -76,6 +53,10 @@
             </tbody>
           </table>
         </div>
+        <div class="tab-pane fade" role="tabpanel" aria-labelledby="harmonization-script-syntax-tab"
+             id="harmonization-script-syntax">
+          <pre class="p-4">{{ harmonization.syntax }}</pre>
+        </div>
       </div>
     </div>
   </div>
@@ -83,16 +64,9 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { GET_HARMONIZATIONS } from '../../store/actions'
 
   export default {
     name: 'HarmonizationDetail',
-    props: {
-      selectedHarmonization: {}
-    },
-    mounted () {
-      this.$store.dispatch(GET_HARMONIZATIONS, this.selectedHarmonization)
-    },
     computed: {
       ...mapGetters({
         harmonization: 'getHarmonizations',
@@ -101,3 +75,28 @@
     }
   }
 </script>
+
+<style>
+  pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .pre-wrap {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+  .card-overflow {
+    overflow: auto;
+  }
+</style>

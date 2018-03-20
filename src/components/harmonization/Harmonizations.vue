@@ -4,7 +4,7 @@
       Harmonizations of {{ title }}
     </div>
     <div class="card-body">
-      <table class="table borderless" cellspacing="0">
+      <table class="table table-sm" cellspacing="0">
         <thead>
           <tr>
             <th></th>
@@ -22,7 +22,7 @@
             <td>{{ cohort.label }}</td>
             <td v-for="variable in variableData">
               <div v-if="variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:Green">
-                <i class="fa fa-check-circle"><router-link :to="{ name: 'harmonization', params: { variable: variable, harmonization: getSelectedHarmonization(variable, cohort.id) }}"></router-link></i>
+                <router-link :to="'/' + variable.variable + '/' + getSelectedHarmonization(variable, cohort.id)"><i class="fa fa-check-circle text-success"></i></router-link>
               </div>
               <div v-else="!variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:#970404">
                 <i class="fa fa-times-circle"></i>
@@ -48,8 +48,8 @@
     },
     computed: {
       ...mapGetters({
-        variableData: 'getCoreVariableData',
-        variableColumns: 'getCoreVariableColumns',
+        variableData: 'getCoreVariablesData',
+        variableColumns: 'getCoreVariablesColumns',
         cohorts: 'getCohorts'
       })
     },
@@ -71,8 +71,10 @@
         })
       },
       getSelectedHarmonization (selectedVariable, selectedCohort) {
-        return selectedVariable.harmonizations.find(harmonization => harmonization.sourceLabel === selectedCohort)
+        return selectedVariable.harmonizations.find(harmonization => harmonization.sourceLabel === selectedCohort).id
       }
     }
   }
 </script>
+
+
