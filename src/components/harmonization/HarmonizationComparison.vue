@@ -35,7 +35,6 @@
       }
     },
     mounted () {
-      console.log(this.variable)
       this.$store.dispatch(GET_HARMONIZATIONS, this.harmonization)
       this.$store.dispatch(GET_CORE_VARIABLES, this.variable)
     },
