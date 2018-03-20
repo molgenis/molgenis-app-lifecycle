@@ -1,9 +1,9 @@
 <template>
   <div class="card" v-if="variableData.length > 0">
     <div class="card-header">
-      {{ title }}
+      {{ selectedVariable }}
     </div>
-    <div class="card-body card-overflow">
+    <div class="card-body table-responsive">
     <table class="table table-sm">
       <thead>
         <tr>
@@ -31,9 +31,12 @@
   export default {
     name: 'CoreVariables',
     props: {
-      title: ''
+      variable: ''
     },
     computed: {
+      selectedVariable () {
+        return this.variable
+      },
       ...mapGetters({
         variableColumns: 'getCoreVariablesColumns',
         variableData: 'getCoreVariablesData'
@@ -61,8 +64,5 @@
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  }
-  .card-overflow {
-    overflow: auto;
   }
 </style>

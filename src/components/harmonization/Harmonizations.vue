@@ -1,9 +1,9 @@
 <template>
   <div class="card" v-if="variableData.length > 0">
     <div class="card-header">
-      Harmonizations of {{ title }}
+      Harmonizations of {{ variable }}
     </div>
-    <div class="card-body">
+    <div class="card-body table-responsive">
       <table class="table table-sm" cellspacing="0">
         <thead>
           <tr>
@@ -21,7 +21,7 @@
           <tr>
             <td>{{ cohort.label }}</td>
             <td v-for="variable in variableData">
-              <div v-if="variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:Green">
+              <div v-if="variableExists(cohort.id, variable.harmonizations)" style="font-size:20px">
                 <router-link :to="'/' + variable.variable + '/' + getSelectedHarmonization(variable, cohort.id)"><i class="fa fa-check-circle text-success"></i></router-link>
               </div>
               <div v-else="!variableExists(cohort.id, variable.harmonizations)" style="font-size:20px; color:#970404">
@@ -44,7 +44,7 @@
   export default {
     name: 'Harmonizations',
     props: {
-      title: ''
+      variable: ''
     },
     computed: {
       ...mapGetters({
@@ -76,5 +76,3 @@
     }
   }
 </script>
-
-

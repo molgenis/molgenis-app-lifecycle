@@ -1,24 +1,29 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 mb-2">
-        <molgenis-menu></molgenis-menu>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xl-3 col-lg-3 col-12 mb-2">
+
+    <molgenis-menu></molgenis-menu>
+
+    <div class="row mt-3">
+
+      <div class="col-xl-4 col-lg-4 col-12 mb-2">
         <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
       </div>
-      <div class="col-xl-9 col-lg-9 col-12 mb-2">
-        <CoreVariables :title="selectedFeature"></CoreVariables>
+
+      <div class="col-xl-8 col-lg-8 col-12 mb-2">
+        <CoreVariables :variable="selectedFeature"></CoreVariables>
       </div>
+
     </div>
+
     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-12 mb-2"></div>
-      <div class="col-xl-9 col-lg-9 col-12 mb-2">
-        <Harmonizations :title="selectedFeature"></Harmonizations>
+
+      <div class="col-xl-4 col-lg-4 col-12 mb-2"></div>
+      <div class="col-xl-8 col-lg-8 col-12 mb-2">
+        <Harmonizations :variable="selectedFeature"></Harmonizations>
       </div>
+
     </div>
+
   </div>
 </template>
 <script>
@@ -41,9 +46,6 @@
       ...mapGetters({
         treeData: 'getTreeData'
       })
-    },
-    props: {
-      msg: String
     },
     data () {
       return {

@@ -15,12 +15,12 @@
       </ul>
     </div>
     <div class="card-body">
-      <div id="harmonization-detail-nav-content" class="tab-content">
-        <div class="tab-pane fade card-overflow show active" role="tabpanel" aria-labelledby="harmonization-mapping-tab"
+      <div id="harmonization-detail-nav-content" class="tab-content table-responsive">
+        <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="harmonization-mapping-tab"
              id="harmonization-mapping">
           <pre class="pre-wrap p-4">{{ harmonization.description }}</pre>
         </div>
-        <div class="tab-pane fade card-overflow" role="tabpanel" aria-labelledby="harmonization-variables-used-tab"
+        <div class="tab-pane fade" role="tabpanel" aria-labelledby="harmonization-variables-used-tab"
              id="harmonization-variables-used">
           <table class="table table-sm">
             <thead>
@@ -53,7 +53,7 @@
             </tbody>
           </table>
         </div>
-        <div class="tab-pane fade card-overflow" role="tabpanel" aria-labelledby="harmonization-script-syntax-tab"
+        <div class="tab-pane fade" role="tabpanel" aria-labelledby="harmonization-script-syntax-tab"
              id="harmonization-script-syntax">
           <pre class="p-4">{{ harmonization.syntax }}</pre>
         </div>
@@ -96,8 +96,5 @@
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  }
-  .card-overflow {
-    overflow: auto;
   }
 </style>
