@@ -21,5 +21,8 @@ export default {
   },
   getSourceVariables: state => {
     return _.cloneDeep(state.variables.source)
+  },
+  getSelectedFeature: state => {
+    return state.selectedFeature
   }
 }

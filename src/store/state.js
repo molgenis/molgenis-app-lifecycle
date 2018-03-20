@@ -23,5 +23,6 @@ export default{
   cohorts: [],
   harmonizations: [],
   navbarLogo: '',
-  error: undefined
+  error: undefined,
+  selectedFeature: ''
 }

@@ -24,7 +24,7 @@
 <script>
   import { GET_NAVBAR_LOGO } from '../store/actions'
 
-  const {server, menuItems} = window.__INITIAL_STATE__
+  const {server, menuItems} = window.__INITIAL_STATE__ || {}
 
   export default{
     name: 'molgenis-menu',
