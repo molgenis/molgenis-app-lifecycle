@@ -3,7 +3,7 @@
     <div class="card-header">
       {{ title }}
     </div>
-    <div class="card-body card-overflow">
+    <div class="card-body table-responsive">
     <table class="table table-sm">
       <thead>
         <tr>
@@ -61,8 +61,5 @@
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  }
-  .card-overflow {
-    overflow: auto;
   }
 </style>
