@@ -17,13 +17,9 @@ export const GET_HARMONIZATIONS = '__GET_HARMONIZATIONS__'
 export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
 export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
-/* API PATHS */
-const TREE_API_PATH = '/api/v2/UI_Menu'
-const MOLGENIS_MENU_API_PATH = '/api/v2/sys_set_app/app'
-
 export default {
   [GET_TREE_DATA] ({state, commit}) {
-    api.get(TREE_API_PATH).then(response => {
+    api.get('/api/v2/UI_Menu').then(response => {
       commit(SET_RAW_TREE_DATA, response.items)
       // We do this because we can test this method more easily
       // We used to use the getters in the generateTreeData method
@@ -71,7 +67,7 @@ export default {
     })
   },
   [GET_NAVBAR_LOGO] ({state, commit}) {
-    api.get(MOLGENIS_MENU_API_PATH).then(response => {
+    api.get('/api/v2/sys_set_app/app').then(response => {
       commit(SET_NAVBAR_LOGO, response.logo_href_navbar)
     }, error => {
       commit(SET_ERROR, error)
