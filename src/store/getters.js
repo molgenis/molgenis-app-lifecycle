@@ -7,10 +7,10 @@ export default {
   getRawTreeData: state => {
     return _.cloneDeep(state.tree.raw)
   },
-  getCoreVariableColumns: state => {
+  getCoreVariablesColumns: state => {
     return _.cloneDeep(state.variables.columns)
   },
-  getCoreVariableData: state => {
+  getCoreVariablesData: state => {
     return _.cloneDeep(state.variables.data)
   },
   getCohorts: state => {

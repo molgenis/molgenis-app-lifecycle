@@ -1,17 +1,11 @@
 import Vue from 'vue'
 import store from './store'
-import Router from 'vue-router'
-
+import router from './router'
+import { sync } from 'vuex-router-sync'
 import App from './App.vue'
 
-const router = new Router({
-  routes: [
-    {
-      path: '/',
-      component: App
-    }
-  ]
-})
+sync(store, router)
+
 export default new Vue({
   el: '#app',
   store,

@@ -10,6 +10,7 @@ import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 
 /* ACTION CONSTANTS */
 export const GET_TREE_DATA = '__GET_TREE_DATA__'
+export const GET_CORE_VARIABLES_FROM_TREE = '__GET_CORE_VARIABLES_FROM_TREE__'
 export const GET_CORE_VARIABLES = '__GET_CORE_VARIABLES__'
 export const GET_COHORTS = '__GET_COHORTS__'
 export const GET_HARMONIZATIONS = '__GET_HARMONIZATIONS__'
@@ -29,12 +30,14 @@ export default {
       commit(SET_ERROR, error)
     })
   },
-  [GET_CORE_VARIABLES] ({state, commit, getters}, treeId) {
+  [GET_CORE_VARIABLES_FROM_TREE] ({state, commit, dispatch, getters}, treeId) {
     const treeLeaf = getters.getRawTreeData.find((item) => item.key === treeId)
     const variables = treeLeaf.variables.map(variable => variable.variable).join(',')
+    dispatch(GET_CORE_VARIABLES, variables)
+  },
+  [GET_CORE_VARIABLES] ({state, commit, getters}, variables) {
     api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
-      // const clonedResponse = _.cloneDeep(response)
       commit(SET_CORE_VARIABLE_DATA, response.items)
     }, error => {
       commit(SET_ERROR, error)
