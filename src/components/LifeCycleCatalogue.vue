@@ -10,7 +10,7 @@
       </div>
 
       <div class="col-xl-8 col-lg-8 col-12 mb-2">
-        <CoreVariables :title="selectedFeature"></CoreVariables>
+        <CoreVariables :variable="selectedFeature"></CoreVariables>
       </div>
 
     </div>
@@ -19,7 +19,7 @@
 
       <div class="col-xl-4 col-lg-4 col-12 mb-2"></div>
       <div class="col-xl-8 col-lg-8 col-12 mb-2">
-        <Harmonizations :title="selectedFeature"></Harmonizations>
+        <Harmonizations :variable="selectedFeature"></Harmonizations>
       </div>
 
     </div>
@@ -46,9 +46,6 @@
       ...mapGetters({
         treeData: 'getTreeData'
       })
-    },
-    props: {
-      msg: String
     },
     data () {
       return {

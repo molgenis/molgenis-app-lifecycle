@@ -8,7 +8,7 @@
 
         <div class="card">
           <div class="card-header">
-            Harmonization of {{ selectedHarmonization.targetLabel }} and {{ selectedHarmonization.sourceLabel }}
+            Harmonization of <strong>{{ selectedHarmonization.targetLabel }}</strong> and <strong>{{ selectedHarmonization.sourceLabel }}</strong>
           </div>
 
           <div class="card-body">

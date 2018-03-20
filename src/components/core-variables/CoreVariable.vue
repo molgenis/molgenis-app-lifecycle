@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      Core variable: {{ selectedVariable[0].label }}
+      Core variable: <strong>{{ selectedVariable[0].label }}</strong>
     </div>
     <div class="card-body table-responsive">
       <table class="table table-striped">

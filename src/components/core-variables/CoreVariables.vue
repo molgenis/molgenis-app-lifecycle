@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-if="variableData.length > 0">
     <div class="card-header">
-      {{ title }}
+      {{ selectedVariable }}
     </div>
     <div class="card-body table-responsive">
     <table class="table table-sm">
@@ -31,9 +31,12 @@
   export default {
     name: 'CoreVariables',
     props: {
-      title: ''
+      variable: ''
     },
     computed: {
+      selectedVariable () {
+        return this.variable
+      },
       ...mapGetters({
         variableColumns: 'getCoreVariablesColumns',
         variableData: 'getCoreVariablesData'

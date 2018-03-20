@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-if="variableData.length > 0">
     <div class="card-header">
-      Harmonizations of {{ title }}
+      Harmonizations of {{ variable }}
     </div>
     <div class="card-body table-responsive">
       <table class="table table-sm" cellspacing="0">
@@ -44,7 +44,7 @@
   export default {
     name: 'Harmonizations',
     props: {
-      title: ''
+      variable: ''
     },
     computed: {
       ...mapGetters({
