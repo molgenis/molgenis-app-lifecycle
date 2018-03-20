@@ -6,7 +6,7 @@ export default{
       'id': 'key',
       'label': 'title',
       'folderIcon': '',
-      'leafIcon': 'fa fa-file-o',
+      'leafIcon': 'fa fa-table',
       'isOpened': true,
       'isSelected': false,
       'isDisabled': false,

@@ -27,13 +27,13 @@ describe('getters', () => {
     expect(clone).to.not.equal(mockedState.tree.raw)
     expect(clone).to.deep.equal(mockedState.tree.raw)
   })
-  it('getCoreVariableColumns returns a clone of the core variable columns', () => {
-    const clone = getters.getCoreVariableColumns(mockedState)
+  it('getCoreVariablesColumns returns a clone of the core variable columns', () => {
+    const clone = getters.getCoreVariablesColumns(mockedState)
     expect(clone).to.not.equal(mockedState.variables.columns)
     expect(clone).to.deep.equal(mockedState.variables.columns)
   })
-  it('getCoreVariableData returns a clone of the core variable items', () => {
-    const clone = getters.getCoreVariableData(mockedState)
+  it('getCoreVariablesData returns a clone of the core variable items', () => {
+    const clone = getters.getCoreVariablesData(mockedState)
     expect(clone).to.not.equal(mockedState.variables.data)
     expect(clone).to.deep.equal(mockedState.variables.data)
   })

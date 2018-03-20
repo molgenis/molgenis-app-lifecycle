@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <table class="table table-striped">
+  <div class="card" v-if="variableData.length > 0">
+    <div class="card-header">
+      {{ title }}
+    </div>
+    <div class="card-body card-overflow">
+    <table class="table table-sm">
       <thead>
         <tr>
           <th v-for="column in variableColumns">{{ column.label }}</th>
@@ -10,12 +14,14 @@
         <tr v-for="variable in variableData">
           <td v-for="column in variableColumns">
             <span v-if="typeof variable[column.name] === 'object'">test {{ variable[column.name].label }}</span>
-            <pre v-else-if="column.name === 'values' || column.name === 'comments'">{{ variable[column.name] }}</pre>
+            <pre v-else-if="column.name === 'values'">{{ variable[column.name] }}</pre>
+            <pre class="pre-wrap" v-else-if="column.name === 'comments'">{{ variable[column.name] }}</pre>
             <span v-else>{{ variable[column.name] }}</span>
           </td>
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </template>
 
@@ -23,15 +29,19 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'TableCoreVariables',
+    name: 'CoreVariables',
+    props: {
+      title: ''
+    },
     computed: {
       ...mapGetters({
-        variableColumns: 'getCoreVariableColumns',
-        variableData: 'getCoreVariableData'
+        variableColumns: 'getCoreVariablesColumns',
+        variableData: 'getCoreVariablesData'
       })
     }
   }
 </script>
+
 <style scoped>
   pre {
     display: block;
@@ -46,7 +56,13 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+  .pre-wrap {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+  .card-overflow {
+    overflow: auto;
+  }
 </style>
-
-
-

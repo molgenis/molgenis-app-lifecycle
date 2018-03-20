@@ -7,6 +7,7 @@ import EntityV2Response from '../mock-responses/EntityV2Response'
 import {
   SET_COHORT_DATA,
   SET_CORE_VARIABLE_DATA,
+  SET_CORE_VARIABLE_COLUMNS,
   SET_HARMONIZATION_DATA,
   SET_RAW_TREE_DATA,
   SET_SOURCE_VARIABLES,
@@ -14,7 +15,6 @@ import {
   SET_NAVBAR_LOGO,
   SET_ERROR
 } from '@/store/mutations'
-import { SET_CORE_VARIABLE_COLUMNS } from '../../../../src/store/mutations'
 import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 
