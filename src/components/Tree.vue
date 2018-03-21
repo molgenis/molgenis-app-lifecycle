@@ -51,6 +51,9 @@
         })
       }
     },
-    props: ['treeData', 'itemClick']
+    props: {
+      treeData: Array,
+      itemClick: Function
+    }
   }
 </script>
