@@ -1,3 +1,6 @@
+// @flow
+import type { State } from '../flow.types'
+
 export const SET_TREE_DATA = '__SET_TREE_DATA__'
 export const SET_RAW_TREE_DATA = '__SET_RAW_TREE_DATA__'
 export const SET_CORE_VARIABLE_COLUMNS = '__SET_CORE_VARIABLE_COLUMNS__'
@@ -10,34 +13,34 @@ export const SET_SELECTED_FEATURE = '__SET_SELECTED_FEATURE__'
 export const SET_ERROR = '__SET_ERROR__'
 
 export default {
-  [SET_TREE_DATA] (state, data) {
+  [SET_TREE_DATA] (state: State, data: Array<String>) {
     state.tree.data = data
   },
-  [SET_RAW_TREE_DATA] (state, rawData) {
+  [SET_RAW_TREE_DATA] (state: State, rawData: Array<String>) {
     state.tree.raw = rawData
   },
-  [SET_CORE_VARIABLE_COLUMNS] (state, columns) {
+  [SET_CORE_VARIABLE_COLUMNS] (state: State, columns: Array<String>) {
     state.variables.columns = columns
   },
-  [SET_CORE_VARIABLE_DATA] (state, data) {
+  [SET_CORE_VARIABLE_DATA] (state: State, data: Array<String>) {
     state.variables.data = data
   },
-  [SET_SOURCE_VARIABLES] (state, sources) {
+  [SET_SOURCE_VARIABLES] (state: State, sources: Array<String>) {
     state.variables.source = sources
   },
-  [SET_COHORT_DATA] (state, data) {
+  [SET_COHORT_DATA] (state: State, data: Array<String>) {
     state.cohorts = data
   },
-  [SET_HARMONIZATION_DATA] (state, data) {
+  [SET_HARMONIZATION_DATA] (state: State, data: Array<String>) {
     state.harmonizations = data
   },
-  [SET_ERROR] (state, error) {
+  [SET_ERROR] (state: State, error: Object) {
     state.error = error
   },
-  [SET_NAVBAR_LOGO] (state, logo) {
+  [SET_NAVBAR_LOGO] (state: State, logo: string) {
     state.navbarLogo = logo
   },
-  [SET_SELECTED_FEATURE] (state, feature) {
+  [SET_SELECTED_FEATURE] (state: State, feature: string) {
     state.selectedFeature = feature
   }
 }

@@ -44,7 +44,9 @@
   export default {
     name: 'Harmonizations',
     props: {
-      variable: ''
+      variable: {
+        type: String
+      }
     },
     computed: {
       ...mapGetters({
