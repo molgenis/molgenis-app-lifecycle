@@ -3,18 +3,27 @@ import Tree from '@/components/Tree'
 import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 
 describe('Tree unit tests', () => {
+  const mockTreeData = TreeMapperResponse.mockTreeData
+
+  const testFunction = (node) => {
+    console.log(node.model.id)
+  }
+
+  const Constructor = Vue.extend(Tree)
+
+  const propsData = {treeData: mockTreeData, itemClick: testFunction}
+
+  let vm
+
+  beforeEach(function () {
+    vm = new Constructor({propsData: propsData}).$mount()
+  })
+
   it('should load "Tree" component as a name', () => {
     expect(Tree.name).to.equal('Tree')
   })
 
   it('should render correctly', () => {
-    const mockTreeData = TreeMapperResponse.mockTreeData
-    const testFunction = (node) => {
-      console.log(node.model.id)
-    }
-    const Constructor = Vue.extend(Tree)
-    const propsData = {treeData: mockTreeData, itemClick: testFunction}
-    const vm = new Constructor({propsData: propsData}).$mount()
     const expectedHTML = `<div class="card"><div class="card-header"><a href="#" class="badge badge-secondary">-</a> <span>Catalogue</span></div> <div class="card-body"><form class="form-inline my-2 my-lg-0"><input type="search" placeholder="Search" aria-label="Search" class="form-control mr-sm-2"></form> <br> <span><div role="tree" class="tree tree-default"><ul role="group" class="tree-container-ul tree-children"><li role="treeitem" draggable="false" class="tree-node tree-open tree-leaf"><!----> <i role="presentation" class="tree-icon tree-ocl"></i> <div class="tree-anchor tree-disabled"><!----> <i role="presentation" class="tree-icon tree-themeicon fa fa-file-o tree-themeicon-custom"></i>
         Parent2
     </div> <!----></li><li role="treeitem" draggable="false" class="tree-node tree-open tree-last"><!----> <i role="presentation" class="tree-icon tree-ocl"></i> <div class="tree-anchor tree-disabled"><!----> <i role="presentation" class="tree-icon tree-themeicon"></i>
@@ -30,13 +39,6 @@ describe('Tree unit tests', () => {
   })
 
   it('should color correct node red when searching for it', () => {
-    const mockTreeData = TreeMapperResponse.mockTreeData
-    const testFunction = (node) => {
-      console.log(node.model.id)
-    }
-    const Constructor = Vue.extend(Tree)
-    const propsData = {treeData: mockTreeData, itemClick: testFunction}
-    const vm = new Constructor({propsData: propsData}).$mount()
     vm.searchInput = 'grandchild'
     vm.filterTree()
     document.write(vm.$el.outerHTML)
