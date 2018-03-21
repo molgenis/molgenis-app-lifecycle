@@ -28,7 +28,8 @@ describe('mutations', () => {
     cohorts: [],
     harmonizations: [],
     navbarLogo: '',
-    error: undefined
+    error: undefined,
+    selectedFeature: ''
   }
 
   it('should set the tree data in the state with the payload', () => {
@@ -74,5 +75,10 @@ describe('mutations', () => {
   it('should set navbar logo in state', () => {
     mutations.__SET_NAVBAR_LOGO__(state, EntityV2Response.mockAppSettingsData.logo_href_navbar)
     expect(state.navbarLogo).to.equal(EntityV2Response.mockAppSettingsData.logo_href_navbar)
+  })
+
+  it('should set selected feature in state', () => {
+    mutations.__SET_SELECTED_FEATURE__(state, 'test')
+    expect(state.selectedFeature).to.equal('test')
   })
 })

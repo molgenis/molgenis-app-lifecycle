@@ -9,7 +9,6 @@ export default{
       'leafIcon': 'fa fa-table',
       'isOpened': true,
       'isSelected': false,
-      'isDisabled': false,
       'isLoading': false
     },
     data: [],
@@ -23,5 +22,6 @@ export default{
   cohorts: [],
   harmonizations: [],
   navbarLogo: '',
-  error: undefined
+  error: undefined,
+  selectedFeature: ''
 }

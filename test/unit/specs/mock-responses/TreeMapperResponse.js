@@ -7,7 +7,7 @@ const mockTreeData =
       'icon': 'fa fa-file-o',
       'opened': true,
       'selected': false,
-      'disabled': false,
+      'disabled': true,
       'loading': false,
       'children': []
     },
@@ -18,7 +18,7 @@ const mockTreeData =
       'icon': '',
       'opened': true,
       'selected': false,
-      'disabled': false,
+      'disabled': true,
       'loading': false,
       'children': [
         {
