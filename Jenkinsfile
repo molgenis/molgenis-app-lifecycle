@@ -33,7 +33,7 @@ pipeline {
         script {
           def TAG_NAME = binding.variables.get("TAG_NAME")
           if (TAG_NAME != null) {
-            sshagent(credentials: ['deploy-dev']) {
+            sshagent(credentials: ['molgenis-release']) {
               echo "Publish App to appstore.molgenis.org"
               sh "tar -cvzf ${APP_NAME}-${TAG_NAME}.tar.gz dist"
               sh "ssh molgenis@appstore.molgenis.org -c 'mkdir -p ${APPSTORE_PATH}/${TAG_NAME}/'"
