@@ -1,72 +1,10 @@
 import { expect } from 'chai'
 import EntityToTreeMapper from '@/util/EntityToTreeMapper.js'
+import EntityV2Response from '../mock-responses/EntityV2Response'
+import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 
 describe('EntityToTreeMapper', () => {
-  const mockApiResponse = [
-    {
-      '_href': '/api/v2/menu/1',
-      'key': 'c1',
-      'title': 'Child1',
-      'parent': {
-        '_href': '/api/v2/menu/p1',
-        'key': 'p1',
-        'title': 'Parent1'
-      },
-      'children': []
-    },
-    {
-      '_href': '/api/v2/menu/p2',
-      'key': 'p2',
-      'title': 'Parent2',
-      'children': []
-    },
-    {
-      '_href': '/api/v2/menu/p1',
-      'key': 'p1',
-      'title': 'Parent1',
-      'children': [
-        {
-          '_href': '/api/v2/UI_Menu/c1',
-          'key': 'c1',
-          'title': 'Child1'
-        },
-        {
-          '_href': '/api/v2/UI_Menu/c2',
-          'key': 'c2',
-          'title': 'Child2'
-        }
-      ]
-    },
-    {
-      '_href': '/api/v2/menu/c2',
-      'key': 'c2',
-      'title': 'Child2',
-      'parent': {
-        '_href': '/api/v2/menu/p1',
-        'key': 'p1',
-        'title': 'Parent1'
-      },
-      'children': [
-        {
-          '_href': '/api/v2/UI_Menu/gc1',
-          'key': 'gc1',
-          'title': 'Grandchild1'
-        }
-      ]
-    },
-    {
-      '_href': '/api/v2/menu/gc1',
-      'key': 'gc1',
-      'title': 'Grandchild1',
-      'parent': {
-        '_href': '/api/v2/menu/c2',
-        'key': 'c2',
-        'title': 'Child2'
-      },
-      'children': []
-    }
-  ]
-
+  const mockApiResponse = EntityV2Response.mockRawTreeData.items
   const settings = {
     'id': 'key',
     'label': 'title',
@@ -74,9 +12,9 @@ describe('EntityToTreeMapper', () => {
     'leafIcon': 'fa fa-file-o',
     'isOpened': true,
     'isSelected': false,
-    'isDisabled': false,
     'isLoading': false
   }
+
   it('Returns the next child in the tree', () => {
     const parentNode = {
       'id': 'p1',
@@ -103,6 +41,7 @@ describe('EntityToTreeMapper', () => {
     const next = EntityToTreeMapper.getNextChild(parentNode, positionOfChild)
     expect(next).to.deep.equal(child2)
   })
+
   it('Adds new child node to tree', () => {
     const tree = [
       {
@@ -120,6 +59,7 @@ describe('EntityToTreeMapper', () => {
     const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
     expect(newTree[0].children).to.include(newChild)
   })
+
   it('Adds new grandchild node to tree', () => {
     const tree = [
       {
@@ -148,6 +88,7 @@ describe('EntityToTreeMapper', () => {
     const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
     expect(newTree[0].children[1].children[0]).to.deep.equal(newChild)
   })
+
   it('Has to create a node element', () => {
     const text = 'test'
     const icon = ''
@@ -167,68 +108,29 @@ describe('EntityToTreeMapper', () => {
     const observed = EntityToTreeMapper.createNewNode(text, text, icon, children, bool, bool, bool, bool)
     expect(observed).to.deep.equal(expected)
   })
+
   it('converts the api response to tree data with two root elements', () => {
     const mappedResponse = EntityToTreeMapper.generateTreeData(mockApiResponse, settings)
-    const expected = [
-      {
-        'id': 'p2',
-        'text': 'Parent2',
-        'value': 'Parent2',
-        'icon': 'fa fa-file-o',
-        'opened': true,
-        'selected': false,
-        'disabled': false,
-        'loading': false,
-        'children': []
-      },
-      {
-        'id': 'p1',
-        'text': 'Parent1',
-        'value': 'Parent1',
-        'icon': '',
-        'opened': true,
-        'selected': false,
-        'disabled': false,
-        'loading': false,
-        'children': [
-          {
-            'id': 'c1',
-            'text': 'Child1',
-            'value': 'Child1',
-            'icon': 'fa fa-file-o',
-            'opened': true,
-            'selected': false,
-            'disabled': false,
-            'loading': false,
-            'children': []
-          },
-          {
-            'id': 'c2',
-            'text': 'Child2',
-            'value': 'Child2',
-            'icon': '',
-            'opened': true,
-            'selected': false,
-            'disabled': false,
-            'loading': false,
-            'children': [
-              {
-                'id': 'gc1',
-                'text': 'Grandchild1',
-                'value': 'Grandchild1',
-                'icon': 'fa fa-file-o',
-                'opened': true,
-                'selected': false,
-                'disabled': false,
-                'loading': false,
-                'children': []
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    const expected = TreeMapperResponse.mockTreeData
     expect(mappedResponse.length).to.equal(2)
     expect(mappedResponse).to.deep.equal(expected)
+  })
+
+  it('returns false when node does not have variables', () => {
+    const node = {
+      'id': 'test',
+      'variables': []
+    }
+    const isDisabled = EntityToTreeMapper.disableNode(node)
+    expect(isDisabled).to.equal(true)
+  })
+
+  it('returns true when node has variables', () => {
+    const node = {
+      'id': 'test',
+      'variables': ['test']
+    }
+    const isDisabled = EntityToTreeMapper.disableNode(node)
+    expect(isDisabled).to.equal(false)
   })
 })

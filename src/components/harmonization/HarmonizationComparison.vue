@@ -2,15 +2,14 @@
   <div class="container-fluid">
 
     <molgenis-menu></molgenis-menu>
-
     <div class="row mt-3">
       <div class="col-12">
+        <router-link :to="'/'"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to filter</router-link>
 
         <div class="card">
           <div class="card-header">
             Harmonization of <strong>{{ selectedHarmonization.targetLabel }}</strong> and <strong>{{ selectedHarmonization.sourceLabel }}</strong>
           </div>
-
           <div class="card-body">
 
             <div class="container-fluid">

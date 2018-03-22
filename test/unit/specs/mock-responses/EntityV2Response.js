@@ -23,13 +23,15 @@ const mockRawTreeData = {
         'key': 'p1',
         'title': 'Parent1'
       },
-      'children': []
+      'children': [],
+      'variables': ['test']
     },
     {
       '_href': '/api/v2/menu/p2',
       'key': 'p2',
       'title': 'Parent2',
-      'children': []
+      'children': [],
+      'variables': []
     },
     {
       '_href': '/api/v2/menu/p1',
@@ -46,7 +48,8 @@ const mockRawTreeData = {
           'key': 'c2',
           'title': 'Child2'
         }
-      ]
+      ],
+      'variables': []
     },
     {
       '_href': '/api/v2/menu/c2',
@@ -63,7 +66,8 @@ const mockRawTreeData = {
           'key': 'gc1',
           'title': 'Grandchild1'
         }
-      ]
+      ],
+      'variables': ['test']
     },
     {
       '_href': '/api/v2/menu/gc1',
@@ -74,7 +78,8 @@ const mockRawTreeData = {
         'key': 'c2',
         'title': 'Child2'
       },
-      'children': []
+      'children': [],
+      'variables': ['test']
     }
   ]
 }

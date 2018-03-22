@@ -31,6 +31,7 @@
   import CoreVariables from './core-variables/CoreVariables'
   import Harmonizations from './harmonization/Harmonizations'
   import MolgenisMenu from './MolgenisMenu'
+  import { SET_SELECTED_FEATURE } from '../store/mutations'
   import { GET_TREE_DATA, GET_CORE_VARIABLES_FROM_TREE, GET_COHORTS } from '../store/actions'
   import { mapGetters } from 'vuex'
 
@@ -44,17 +45,13 @@
     },
     computed: {
       ...mapGetters({
-        treeData: 'getTreeData'
+        treeData: 'getTreeData',
+        selectedFeature: 'getSelectedFeature'
       })
-    },
-    data () {
-      return {
-        selectedFeature: ''
-      }
     },
     methods: {
       treeClick (node) {
-        this.selectedFeature = node.model.value
+        this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
         this.$store.dispatch(GET_CORE_VARIABLES_FROM_TREE, node.model.id)
       }
     },

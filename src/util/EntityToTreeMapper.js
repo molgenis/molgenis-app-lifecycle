@@ -13,7 +13,8 @@ const generateTreeData = (apiResponse, settings) => {
 const extentTree = (node, forest, paths, orphanage, settings) => {
   const icon = node.children.length > 0 ? settings.folderIcon : settings.leafIcon
   const nodeId = node[settings.id]
-  const treeNode = createNewNode(nodeId, node[settings.label], icon, [], settings.isOpened, settings.isSelected, settings.isDisabled, settings.isLoading)
+  const isDisabled = disableNode(node)
+  const treeNode = createNewNode(nodeId, node[settings.label], icon, [], settings.isOpened, settings.isSelected, isDisabled, settings.isLoading)
   const id = settings.id
   let newForest = forest.slice()
   // Check if node is rootnode
@@ -57,8 +58,9 @@ const populateChildren = (children, orphanage, forest, paths, path, settings) =>
     if (childId in orphanage) {
       // add previous saved branch to tree
       const child = orphanage[childId]
+      const isDisabled = disableNode(child)
       const icon = child.children.length > 0 ? settings.folderIcon : settings.leafIcon
-      const childNode = createNewNode(childId, child[settings.label], icon, [], settings.isOpened, settings.isSelected, settings.isDisabled, settings.isLoading)
+      const childNode = createNewNode(childId, child[settings.label], icon, [], settings.isOpened, settings.isSelected, isDisabled, settings.isLoading)
       const childInfo = addChildToTree(forest, path, childNode)
       const newForest = childInfo.forest
       forest = newForest
@@ -114,9 +116,14 @@ const createNewNode = (id, label, icon, children, isOpened, isSelected, isDisabl
   return node
 }
 
+const disableNode = (node) => {
+  return node.variables.length === 0
+}
+
 export default {
   generateTreeData,
   addChildToTree,
   getNextChild,
-  createNewNode
+  createNewNode,
+  disableNode
 }
