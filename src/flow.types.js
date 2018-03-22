@@ -1,5 +1,4 @@
 // @flow
-
 export type TreeSettings = {
   id: string,
   label: string,
@@ -28,6 +27,6 @@ export type State = {
   cohorts: Array<Object>,
   harmonizations: Array<Object>,
   navbarLogo: string,
-  error: Object,
+  error: string,
   selectedFeature: string
 }
