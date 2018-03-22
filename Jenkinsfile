@@ -33,10 +33,12 @@ pipeline {
         script {
           def TAG_NAME = binding.variables.get("TAG_NAME")
           if (TAG_NAME != null) {
-            echo "Publish App to appstore.molgenis.org"
-            sh "tar -cvzf ${APP_NAME}-${TAG_NAME}.tar.gz dist"
-            sh "ssh molgenis@appstore.molgenis.org -c 'mkdir -p ${APPSTORE_PATH}/${TAG_NAME}/'"
-            sh "scp ${APP_NAME}-${TAG_NAME}.tar.gz molgenis@molgenis@appstore.molgenis.org:${PPSTORE_PATH}/${TAG_NAME}/"
+            sshagent(credentials: ['deploy-dev']) {
+              echo "Publish App to appstore.molgenis.org"
+              sh "tar -cvzf ${APP_NAME}-${TAG_NAME}.tar.gz dist"
+              sh "ssh molgenis@appstore.molgenis.org -c 'mkdir -p ${APPSTORE_PATH}/${TAG_NAME}/'"
+              sh "scp ${APP_NAME}-${TAG_NAME}.tar.gz molgenis@molgenis@appstore.molgenis.org:${APPSTORE_PATH}/${TAG_NAME}/"
+            }
           } else {
             echo "No tags are pushed so no releases are triggered"
           }

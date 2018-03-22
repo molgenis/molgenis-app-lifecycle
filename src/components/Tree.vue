@@ -35,20 +35,23 @@
         this.collapseText = this.collapse ? '+' : '-'
       },
       filterTree () {
-        var text = this.searchInput
-        const patt = new RegExp(text, 'i')
+        const self = this
         this.$refs.tree.handleRecursionNodeChilds(this.$refs.tree, function (node) {
-          if (text !== '') {
-            const str = node.model.text
-            if (patt.test(str)) {
-              node.$el.querySelector('.tree-anchor').style.color = '#D11313'
-            } else {
-              node.$el.querySelector('.tree-anchor').style.color = '#000'
-            } // or other operations
-          } else {
-            node.$el.querySelector('.tree-anchor').style.color = '#000'
-          }
+          self.setTreeLeafColor(node)
         })
+      },
+      setTreeLeafColor (node) {
+        const red = '#D11313'
+        const black = '#000'
+        const text = this.searchInput
+        const patt = new RegExp(text, 'i')
+
+        if (text !== '') {
+          const str = node.model.text
+          node.$el.querySelector('.tree-anchor').style.color = patt.test(str) ? red : black
+        } else {
+          node.$el.querySelector('.tree-anchor').style.color = black
+        }
       }
     },
     props: {
