@@ -25,7 +25,7 @@ const state: State = {
   cohorts: [],
   harmonizations: [],
   navbarLogo: '',
-  error: {},
+  error: '',
   selectedFeature: ''
 }
 
