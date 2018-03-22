@@ -3,22 +3,20 @@ import EntityV2Response from '../mock-responses/EntityV2Response'
 import { shallow } from 'vue-test-utils'
 import Vuex from 'vuex'
 
-
 describe('Harmonizations unit tests', () => {
-
   let wrapper
 
   beforeEach(function () {
     let getters = {
-        getCoreVariablesData: () => {
-          return []
-        },
-        getCoreVariablesColumns: () => {
-          return []
-        },
-        getCohorts: () => {
-          return []
-        }
+      getCoreVariablesData: () => {
+        return []
+      },
+      getCoreVariablesColumns: () => {
+        return []
+      },
+      getCohorts: () => {
+        return []
+      }
     }
 
     let store = new Vuex.Store({
@@ -28,8 +26,7 @@ describe('Harmonizations unit tests', () => {
       {
         propsData: {},
         store
-      }
-      )
+      })
   })
 
   it('should load "Harmonizations" component as a name', () => {
@@ -57,5 +54,4 @@ describe('Harmonizations unit tests', () => {
     const actual = wrapper.vm.getSelectedHarmonization(selectedVariable, selectedCohort)
     expect(actual).to.equal(expected)
   })
-
 })

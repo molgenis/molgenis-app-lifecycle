@@ -34,7 +34,7 @@ export default {
   [SET_HARMONIZATION_DATA] (state: State, data: Array<String>) {
     state.harmonizations = data
   },
-  [SET_ERROR] (state: State, error: Object) {
+  [SET_ERROR] (state: State, error: string) {
     state.error = error
   },
   [SET_NAVBAR_LOGO] (state: State, logo: string) {
