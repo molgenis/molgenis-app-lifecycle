@@ -37,7 +37,7 @@ pipeline {
               echo "Publish App to appstore.molgenis.org"
               sh "tar -cvzf ${APP_NAME}-${TAG_NAME}.tar.gz dist"
               sh "ssh molgenis@appstore.molgenis.org -c 'mkdir -p ${APPSTORE_PATH}/${TAG_NAME}/'"
-              sh "scp ${APP_NAME}-${TAG_NAME}.tar.gz molgenis@appstore.molgenis.org:${APPSTORE_PATH}/${TAG_NAME}/"
+              sh "scp ${APP_NAME}-${TAG_NAME}.tar.gz molgenis@molgenis26.gcc.rug.nl:${APPSTORE_PATH}/${TAG_NAME}/"
             }
           } else {
             echo "No tags are pushed so no releases are triggered"
