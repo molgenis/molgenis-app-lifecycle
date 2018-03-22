@@ -20,7 +20,9 @@
   export default {
     name: 'CoreVariables',
     props: {
-      variable: {}
+      variable: {
+        type: Object
+      }
     },
     computed: {
       ...mapGetters({

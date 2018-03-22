@@ -31,7 +31,9 @@
   export default {
     name: 'CoreVariables',
     props: {
-      variable: ''
+      variable: {
+        tyoe: String
+      }
     },
     computed: {
       selectedVariable () {
