@@ -10,7 +10,7 @@ const state: State = {
       label: 'title',
       folderIcon: '',
       leafIcon: 'fa fa-table',
-      isOpened: true,
+      isOpened: false,
       isSelected: false,
       isLoading: false
     },

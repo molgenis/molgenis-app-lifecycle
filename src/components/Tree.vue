@@ -4,12 +4,19 @@
       <a href="#" class="badge badge-secondary" @click="toggleCollapse">{{collapseText}}</a>
       <span>Catalogue</span>
     </div>
-    <div class="card-body" v-if="!collapse">
+    <div class="card-body" v-if="!isMenuCollapsed">
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchInput" @keyup="filterTree">
       </form>
       <br/>
-      <span><v-jstree @item-click="itemClick" :onselectstart="false" :data="treeData" ref="tree"></v-jstree></span>
+      <span>
+        <v-jstree
+          ref="tree"
+          :data="treeData"
+          :onselectstart="false"
+          @item-click="itemClick">
+        </v-jstree>
+      </span>
     </div>
   </div>
 </template>
@@ -24,15 +31,15 @@
     },
     data () {
       return {
-        collapse: false,
+        isMenuCollapsed: false,
         collapseText: '-',
         searchInput: ''
       }
     },
     methods: {
       toggleCollapse () {
-        this.collapse = !this.collapse
-        this.collapseText = this.collapse ? '+' : '-'
+        this.isMenuCollapsed = !this.isMenuCollapsed
+        this.collapseText = this.isMenuCollapsed ? '+' : '-'
       },
       filterTree () {
         const self = this
