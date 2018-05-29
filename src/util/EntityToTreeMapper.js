@@ -21,7 +21,7 @@ const createTreeNode = (entity) => ({
   id: entity.key,
   value: entity.title,
   text: entity.title,
-  icon: !entity.children || entity.children.length === 0 ? 'fa fa-table' : 'fa fa-folder-o',
+  icon: !entity.children || entity.children.length === 0 ? 'fa fa-table' : '',
   opened: false,
   disabled: isNodeDisabled(entity),
   loading: false,
@@ -48,7 +48,7 @@ const generateTreeNodes = (entities) => {
  * @returns returns whether a node has variables or not
  */
 const isNodeDisabled = (node) => {
-  return node.variables.length === 0
+  return node.variables.length === 0 && node.children.length === 0
 }
 
 export default {

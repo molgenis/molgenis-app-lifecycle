@@ -45,8 +45,13 @@
     },
     methods: {
       treeClick (node) {
-        this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
-        this.$store.dispatch(GET_CORE_VARIABLES_FROM_TREE, node.model.id)
+        const isFolder = node.data.icon === ''
+        if (isFolder) {
+          node.model.opened = !node.model.opened
+        } else {
+          this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
+          this.$store.dispatch(GET_CORE_VARIABLES_FROM_TREE, node.model.id)
+        }
       }
     },
     mounted () {
