@@ -8,6 +8,7 @@ import {
 } from './mutations'
 import type { State } from '../flow.types'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
+import sortArray from '../util/sort-array'
 
 /* ACTION CONSTANTS */
 export const GET_TREE_DATA = '__GET_TREE_DATA__'
@@ -39,7 +40,7 @@ export default {
   [GET_CORE_VARIABLES] ({state, commit}: { state: State, commit: Function, dispatch: Function, getters: Function }, variables: string) {
     api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
-      commit(SET_CORE_VARIABLE_DATA, response.items)
+      commit(SET_CORE_VARIABLE_DATA, sortArray(response.items, 'variable'))
     }, error => {
       commit(SET_ERROR, error)
     })
