@@ -4,66 +4,63 @@
       <a href="#" class="badge badge-secondary" @click="toggleCollapse">{{collapseText}}</a>
       <span>Catalogue</span>
     </div>
+
     <div class="card-body" v-if="!isMenuCollapsed">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchInput" @keyup="filterTree">
-      </form>
-      <br/>
-      <span>
-        <v-jstree
-          ref="tree"
-          :data="treeData"
-          :onselectstart="false"
-          @item-click="itemClick">
-        </v-jstree>
-      </span>
+      <div class="row">
+        <div class="col">
+          <input class="form-control mb-2" type="search" placeholder="Search" aria-label="Search" v-model="query">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <template v-if="treeNodes.length === 0">
+            <i class="fa fa-spinner fa-spin"></i>
+          </template>
+
+          <template v-else>
+            <v-jstree
+              :data="filteredTreeNodes"
+              :onselectstart="false"
+              @item-click="itemClick">
+            </v-jstree>
+          </template>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import VJstree from 'vue-jstree'
+  import filterTreeNodes from '@/util/filter-tree-nodes'
 
   export default {
     name: 'Tree',
-    components: {
-      VJstree
+    props: {
+      treeNodes: Array,
+      itemClick: Function
     },
     data () {
       return {
-        isMenuCollapsed: false,
         collapseText: '-',
-        searchInput: ''
+        isMenuCollapsed: false,
+        query: ''
+      }
+    },
+    computed: {
+      filteredTreeNodes () {
+        return this.query === '' ? this.treeNodes : filterTreeNodes(this.treeNodes, this.query)
       }
     },
     methods: {
       toggleCollapse () {
         this.isMenuCollapsed = !this.isMenuCollapsed
         this.collapseText = this.isMenuCollapsed ? '+' : '-'
-      },
-      filterTree () {
-        const self = this
-        this.$refs.tree.handleRecursionNodeChilds(this.$refs.tree, function (node) {
-          self.setTreeLeafColor(node)
-        })
-      },
-      setTreeLeafColor (node) {
-        const red = '#D11313'
-        const black = '#000'
-        const text = this.searchInput
-        const patt = new RegExp(text, 'i')
-
-        if (text !== '') {
-          const str = node.model.text
-          node.$el.querySelector('.tree-anchor').style.color = patt.test(str) ? red : black
-        } else {
-          node.$el.querySelector('.tree-anchor').style.color = black
-        }
       }
     },
-    props: {
-      treeData: Array,
-      itemClick: Function
+    components: {
+      VJstree
     }
   }
 </script>
