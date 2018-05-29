@@ -18,7 +18,7 @@
         </div>
 
         <div class="row">
-          <div class="col-xl-8 col-lg-8 col-12 mb-2">
+          <div class="col-12 mb-2">
             <Harmonizations :variable="selectedFeature"></Harmonizations>
           </div>
         </div>
