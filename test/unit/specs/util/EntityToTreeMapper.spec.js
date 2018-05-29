@@ -1,9 +1,7 @@
-import EntityToTreeMapper from '@/util/EntityToTreeMapper.js'
-import EntityV2Response from '../mock-responses/EntityV2Response'
+import EntityToTreeMapper from '@/util/EntityToTreeMapper'
+import entities from '../../../data/entities'
 
 describe('EntityToTreeMapper', () => {
-  const entities = EntityV2Response.mockRawTreeData.items
-
   it('should map a MOLGENIS entity to a tree node', () => {
     const actual = EntityToTreeMapper.generateTreeNodes(entities)
     const expected = [
@@ -14,6 +12,7 @@ describe('EntityToTreeMapper', () => {
         'id': 'p2',
         'loading': false,
         'opened': false,
+        'position': 1,
         'selected': false,
         'text': 'Parent2',
         'value': 'Parent2',
@@ -21,20 +20,6 @@ describe('EntityToTreeMapper', () => {
       },
       {
         'children': [
-          {
-            'children': [],
-            'disabled': false,
-            'icon': 'fa fa-table',
-            'id': 'c1',
-            'loading': false,
-            'opened': false,
-            'selected': false,
-            'text': 'Child1',
-            'value': 'Child1',
-            'variables': [
-              'test'
-            ]
-          },
           {
             'children': [
               {
@@ -44,6 +29,7 @@ describe('EntityToTreeMapper', () => {
                 'id': 'gc1',
                 'loading': false,
                 'opened': false,
+                'position': 1,
                 'selected': false,
                 'text': 'Grandchild1',
                 'value': 'Grandchild1',
@@ -57,9 +43,25 @@ describe('EntityToTreeMapper', () => {
             'id': 'c2',
             'loading': false,
             'opened': false,
+            'position': 1,
             'selected': false,
             'text': 'Child2',
             'value': 'Child2',
+            'variables': [
+              'test'
+            ]
+          },
+          {
+            'children': [],
+            'disabled': false,
+            'icon': 'fa fa-table',
+            'id': 'c1',
+            'loading': false,
+            'opened': false,
+            'position': 2,
+            'selected': false,
+            'text': 'Child1',
+            'value': 'Child1',
             'variables': [
               'test'
             ]
@@ -70,6 +72,7 @@ describe('EntityToTreeMapper', () => {
         'id': 'p1',
         'loading': false,
         'opened': false,
+        'position': 2,
         'selected': false,
         'text': 'Parent1',
         'value': 'Parent1',

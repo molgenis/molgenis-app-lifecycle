@@ -2,12 +2,13 @@ import getters from '@/store/getters'
 import EntityV2Response from '../mock-responses/EntityV2Response'
 import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
+import entities from '../../../data/entities'
 
 describe('getters', () => {
   const mockedState = {
     tree: {
       data: TreeMapperResponse.mockTreeData,
-      raw: EntityV2Response.mockRawTreeData
+      raw: entities
     },
     variables: {
       data: EntityV2Response.mockCoreVariablesResponse.items,

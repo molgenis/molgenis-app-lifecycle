@@ -29,11 +29,13 @@ export default {
       commit(SET_ERROR, error)
     })
   },
+
   [GET_CORE_VARIABLES_FROM_TREE] ({state, commit, dispatch, getters}: { state: State, commit: Function, dispatch: Function, getters: Function }, treeId: string) {
     const treeLeaf = getters.getRawTreeData.find((item) => item.key === treeId)
     const variables = treeLeaf.variables.map(variable => variable.variable).join(',')
     dispatch(GET_CORE_VARIABLES, variables)
   },
+
   [GET_CORE_VARIABLES] ({state, commit}: { state: State, commit: Function, dispatch: Function, getters: Function }, variables: string) {
     api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
@@ -42,6 +44,7 @@ export default {
       commit(SET_ERROR, error)
     })
   },
+
   [GET_COHORTS] ({state, commit}: { state: State, commit: Function }) {
     api.get('/api/v2/LifeCycle_Cohorts').then(response => {
       commit(SET_COHORT_DATA, response.items)

@@ -2,7 +2,8 @@
  * Recursively lookup children for nested parent entities
  */
 const lookupChildren = (parent, entitiesByKey) => ({
-  ...parent, children: parent.children.map(child => lookupChildren(entitiesByKey[child.key], entitiesByKey))
+  ...parent,
+  children: parent.children.map(child => lookupChildren(entitiesByKey[child.key], entitiesByKey)).sort((c1, c2) => c1.position - c2.position)
 })
 
 /**
@@ -10,7 +11,7 @@ const lookupChildren = (parent, entitiesByKey) => ({
  */
 const createEntityTree = (entities) => {
   const entitiesByKey = entities.reduce((accumulator, entity) => ({...accumulator, [entity.key]: entity}), {})
-  return entities.filter(entity => !entity.parent).map(parent => lookupChildren(parent, entitiesByKey))
+  return entities.filter(entity => !entity.parent).map(parent => lookupChildren(parent, entitiesByKey)).sort((e1, e2) => e1.position - e2.position)
 }
 
 /**
@@ -26,11 +27,12 @@ const createTreeNode = (entity) => ({
   loading: false,
   selected: false,
   variables: entity.variables,
+  position: entity.position,
   children: entity.children.map(createTreeNode)
 })
 
 /**
- * Generates an array of tree nodes
+ * Generates a sorted array of tree nodes
  *
  * @param entities A list of MOLGENIS entities
  * @returns A list of tree nodes
