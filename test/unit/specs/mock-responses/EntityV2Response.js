@@ -12,78 +12,6 @@ const mockAppSettingsData = {
   'id': 'app'
 }
 
-const mockRawTreeData = {
-  'items': [
-    {
-      '_href': '/api/v2/menu/1',
-      'key': 'c1',
-      'title': 'Child1',
-      'parent': {
-        '_href': '/api/v2/menu/p1',
-        'key': 'p1',
-        'title': 'Parent1'
-      },
-      'children': [],
-      'variables': ['test']
-    },
-    {
-      '_href': '/api/v2/menu/p2',
-      'key': 'p2',
-      'title': 'Parent2',
-      'children': [],
-      'variables': []
-    },
-    {
-      '_href': '/api/v2/menu/p1',
-      'key': 'p1',
-      'title': 'Parent1',
-      'children': [
-        {
-          '_href': '/api/v2/UI_Menu/c1',
-          'key': 'c1',
-          'title': 'Child1'
-        },
-        {
-          '_href': '/api/v2/UI_Menu/c2',
-          'key': 'c2',
-          'title': 'Child2'
-        }
-      ],
-      'variables': []
-    },
-    {
-      '_href': '/api/v2/menu/c2',
-      'key': 'c2',
-      'title': 'Child2',
-      'parent': {
-        '_href': '/api/v2/menu/p1',
-        'key': 'p1',
-        'title': 'Parent1'
-      },
-      'children': [
-        {
-          '_href': '/api/v2/UI_Menu/gc1',
-          'key': 'gc1',
-          'title': 'Grandchild1'
-        }
-      ],
-      'variables': ['test']
-    },
-    {
-      '_href': '/api/v2/menu/gc1',
-      'key': 'gc1',
-      'title': 'Grandchild1',
-      'parent': {
-        '_href': '/api/v2/menu/c2',
-        'key': 'c2',
-        'title': 'Child2'
-      },
-      'children': [],
-      'variables': ['test']
-    }
-  ]
-}
-
 const mockCoreVariablesResponse = {
   'href': '/api/v2/LifeCycle_CoreVariables',
   'meta': {
@@ -1023,7 +951,6 @@ const mockHarmonizationResponse = {
 
 export default {
   mockAppSettingsData,
-  mockRawTreeData,
   mockCoreVariablesResponse,
   mockSourceVariablesResponse,
   mockCohortsResponse,

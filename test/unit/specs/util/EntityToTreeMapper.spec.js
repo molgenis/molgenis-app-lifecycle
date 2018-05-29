@@ -1,136 +1,101 @@
-import { expect } from 'chai'
-import EntityToTreeMapper from '@/util/EntityToTreeMapper.js'
-import EntityV2Response from '../mock-responses/EntityV2Response'
-import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
+import EntityToTreeMapper from '@/util/EntityToTreeMapper'
+import entities from '../../../data/entities'
 
 describe('EntityToTreeMapper', () => {
-  const mockApiResponse = EntityV2Response.mockRawTreeData.items
-  const settings = {
-    'id': 'key',
-    'label': 'title',
-    'folderIcon': '',
-    'leafIcon': 'fa fa-file-o',
-    'isOpened': true,
-    'isSelected': false,
-    'isLoading': false
-  }
-
-  it('Returns the next child in the tree', () => {
-    const parentNode = {
-      'id': 'p1',
-      'label': 'parent1',
-      'children': [
-        {
-          'id': 'c1',
-          'label': 'child1',
-          'children': []
-        },
-        {
-          'id': 'c2',
-          'label': 'child2',
-          'children': []
-        }
-      ]
-    }
-    const positionOfChild = 1
-    const child2 = {
-      'id': 'c2',
-      'label': 'child2',
-      'children': []
-    }
-    const next = EntityToTreeMapper.getNextChild(parentNode, positionOfChild)
-    expect(next).to.deep.equal(child2)
-  })
-
-  it('Adds new child node to tree', () => {
-    const tree = [
+  it('should map a MOLGENIS entity to a tree node', () => {
+    const actual = EntityToTreeMapper.generateTreeNodes(entities)
+    const expected = [
       {
-        'id': 'p1',
-        'label': 'parent1',
-        'children': []
-      }
-    ]
-    const path = [0]
-    const newChild = {
-      'id': 'c1',
-      'label': 'child1',
-      'children': []
-    }
-    const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
-    expect(newTree[0].children).to.include(newChild)
-  })
-
-  it('Adds new grandchild node to tree', () => {
-    const tree = [
+        'children': [],
+        'disabled': true,
+        'icon': 'fa fa-table',
+        'id': 'p2',
+        'loading': false,
+        'opened': false,
+        'position': 1,
+        'selected': false,
+        'text': 'Parent2',
+        'value': 'Parent2',
+        'variables': []
+      },
       {
-        'id': 'p1',
-        'label': 'parent1',
         'children': [
           {
-            'id': 'c1',
-            'label': 'child1',
-            'children': []
+            'children': [
+              {
+                'children': [],
+                'disabled': false,
+                'icon': 'fa fa-table',
+                'id': 'gc1',
+                'loading': false,
+                'opened': false,
+                'position': 1,
+                'selected': false,
+                'text': 'Grandchild1',
+                'value': 'Grandchild1',
+                'variables': [
+                  'test'
+                ]
+              }
+            ],
+            'disabled': false,
+            'icon': 'fa fa-folder-o',
+            'id': 'c2',
+            'loading': false,
+            'opened': false,
+            'position': 1,
+            'selected': false,
+            'text': 'Child2',
+            'value': 'Child2',
+            'variables': [
+              'test'
+            ]
           },
           {
-            'id': 'c2',
-            'label': 'child2',
-            'children': []
+            'children': [],
+            'disabled': false,
+            'icon': 'fa fa-table',
+            'id': 'c1',
+            'loading': false,
+            'opened': false,
+            'position': 2,
+            'selected': false,
+            'text': 'Child1',
+            'value': 'Child1',
+            'variables': [
+              'test'
+            ]
           }
-        ]
+        ],
+        'disabled': true,
+        'icon': 'fa fa-folder-o',
+        'id': 'p1',
+        'loading': false,
+        'opened': false,
+        'position': 2,
+        'selected': false,
+        'text': 'Parent1',
+        'value': 'Parent1',
+        'variables': []
       }
     ]
-    const path = [0, 1]
-    const newChild = {
-      'id': 'gc1',
-      'label': 'grandchild1',
-      'children': []
-    }
-    const newTree = EntityToTreeMapper.addChildToTree(tree, path, newChild).forest
-    expect(newTree[0].children[1].children[0]).to.deep.equal(newChild)
+
+    expect(actual).to.deep.equal(expected)
   })
 
-  it('Has to create a node element', () => {
-    const text = 'test'
-    const icon = ''
-    const bool = false
-    const children = []
-    const expected = {
-      'id': text,
-      'text': text,
-      'value': text,
-      'icon': icon,
-      'opened': bool,
-      'selected': bool,
-      'disabled': bool,
-      'loading': bool,
-      'children': children
-    }
-    const observed = EntityToTreeMapper.createNewNode(text, text, icon, children, bool, bool, bool, bool)
-    expect(observed).to.deep.equal(expected)
+  it('should return true if a tree node has no variables', () => {
+    const node = {variables: []}
+    const actual = EntityToTreeMapper.isNodeDisabled(node)
+    const expected = true
+
+    expect(actual).to.equal(expected)
   })
 
-  it('converts the api response to tree data with two root elements', () => {
-    const mappedResponse = EntityToTreeMapper.generateTreeData(mockApiResponse, settings)
-    const expected = TreeMapperResponse.mockTreeData
-    expect(mappedResponse.length).to.equal(2)
-    expect(mappedResponse).to.deep.equal(expected)
-  })
+  it('should return false if a tree node has one or more variables', () => {
+    const node = {variables: ['1', '2']}
+    const actual = EntityToTreeMapper.isNodeDisabled(node)
+    const expected = false
 
-  it('returns false when node does not have variables', () => {
-    const node = {
-      'id': 'test',
-      'variables': []
-    }
-    const isDisabled = EntityToTreeMapper.disableNode(node)
-    expect(isDisabled).to.equal(true)
-  })
-
-  it('returns true when node has variables', () => {
-    const node = {
-      'id': 'test',
-      'variables': ['test']
-    }
-    const isDisabled = EntityToTreeMapper.disableNode(node)
-    expect(isDisabled).to.equal(false)
+    expect(actual).to.equal(expected)
   })
 })

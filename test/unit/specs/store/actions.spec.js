@@ -3,6 +3,8 @@ import api from '@molgenis/molgenis-api-client'
 import td from 'testdouble'
 import actions from '@/store/actions'
 import EntityV2Response from '../mock-responses/EntityV2Response'
+import entities from '../../../data/entities'
+import EntityToTreeMapper from '@/util/EntityToTreeMapper'
 
 import {
   SET_COHORT_DATA,
@@ -16,7 +18,6 @@ import {
   SET_ERROR
 } from '@/store/mutations'
 import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
-import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 
 describe('actions', () => {
   afterEach(() => td.reset())
@@ -34,20 +35,25 @@ describe('actions', () => {
         'isLoading': false
       },
       data: [],
-      raw: EntityV2Response.mockRawTreeData
+      raw: entities
     },
     error: undefined
   }
 
   describe('GET_TREE_DATA', () => {
     it('should retrieve tree data from the server and store it in the state', done => {
-      td.when(get('/api/v2/UI_Menu')).thenResolve(EntityV2Response.mockRawTreeData)
+      td.when(get('/api/v2/UI_Menu')).thenResolve(entities)
       td.replace(api, 'get', get)
+
+      const generatedTreeNodes = ['node1', 'node2']
+      const generateTreeNodes = td.function('EntityToTreeMapper.generateTreeNodes')
+      td.when(generateTreeNodes(entities)).thenReturn(generatedTreeNodes)
+      td.replace(EntityToTreeMapper, 'generateTreeNodes', generateTreeNodes)
 
       const options = {
         expectedMutations: [
-          {type: SET_RAW_TREE_DATA, payload: EntityV2Response.mockRawTreeData.items},
-          {type: SET_TREE_DATA, payload: TreeMapperResponse.mockTreeData}
+          {type: SET_RAW_TREE_DATA, payload: entities},
+          {type: SET_TREE_DATA, payload: generatedTreeNodes}
         ],
         state: mockedState
       }
