@@ -3,6 +3,7 @@ import api from '@molgenis/molgenis-api-client'
 import td from 'testdouble'
 import actions from '@/store/actions'
 import EntityV2Response from '../mock-responses/EntityV2Response'
+import EntityToTreeMapper from '@/util/EntityToTreeMapper'
 
 import {
   SET_COHORT_DATA,
@@ -16,7 +17,6 @@ import {
   SET_ERROR
 } from '@/store/mutations'
 import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
-import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 
 describe('actions', () => {
   afterEach(() => td.reset())
@@ -44,10 +44,15 @@ describe('actions', () => {
       td.when(get('/api/v2/UI_Menu')).thenResolve(EntityV2Response.mockRawTreeData)
       td.replace(api, 'get', get)
 
+      const generatedTreeNodes = ['node1', 'node2']
+      const generateTreeNodes = td.function('EntityToTreeMapper.generateTreeNodes')
+      td.when(generateTreeNodes(EntityV2Response.mockRawTreeData.items)).thenReturn(generatedTreeNodes)
+      td.replace(EntityToTreeMapper, 'generateTreeNodes', generateTreeNodes)
+
       const options = {
         expectedMutations: [
           {type: SET_RAW_TREE_DATA, payload: EntityV2Response.mockRawTreeData.items},
-          {type: SET_TREE_DATA, payload: TreeMapperResponse.mockTreeData}
+          {type: SET_TREE_DATA, payload: generatedTreeNodes}
         ],
         state: mockedState
       }
