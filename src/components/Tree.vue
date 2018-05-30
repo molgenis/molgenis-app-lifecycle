@@ -8,7 +8,14 @@
     <div class="card-body" v-if="!isMenuCollapsed">
       <div class="row">
         <div class="col">
-          <input class="form-control mb-2" type="search" placeholder="Search" aria-label="Search" v-model="query">
+          <section class="mb-2" id="search">
+            <label for="search-input">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </label>
+            <input id="search-input" class="form-control" type="search" placeholder="Search catalogue"
+                   aria-label="Search"
+                   v-model="query" tabindex="1">
+          </section>
         </div>
       </div>
 
@@ -30,6 +37,31 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+  #search {
+    position: relative;
+    font-size: 16px;
+  }
+
+  #search label {
+    position: absolute;
+    left: 17px;
+    top: 7px;
+  }
+
+  #search #search-input, #search .hint {
+    padding-left: 43px;
+    padding-right: 43px;
+  }
+
+  label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+</style>
 
 <script>
   import VJstree from 'vue-jstree'
