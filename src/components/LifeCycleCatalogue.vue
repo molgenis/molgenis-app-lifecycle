@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-xl-4 col-lg-4 col-12 mb-2">
-        <Tree :treeNodes="treeData"></Tree>
+        <tree-menu :treeNodes="treeData"/>
       </div>
 
       <div class="col-xl-8 col-lg-8 col-12 mb-2">
@@ -39,19 +39,16 @@
 </style>
 
 <script>
-  import Tree from './Tree'
   import CoreVariables from './core-variables/CoreVariables'
   import Harmonizations from './harmonization/Harmonizations'
+  import TreeMenu from './TreeMenu'
+
   import { GET_TREE_DATA, GET_COHORTS } from '../store/actions'
+
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'LifeCycleCatalogue',
-    components: {
-      Tree,
-      CoreVariables,
-      Harmonizations
-    },
     computed: {
       ...mapGetters({
         treeData: 'getTreeData',
@@ -61,6 +58,11 @@
     mounted () {
       this.$store.dispatch(GET_TREE_DATA)
       this.$store.dispatch(GET_COHORTS)
+    },
+    components: {
+      TreeMenu,
+      CoreVariables,
+      Harmonizations
     }
   }
 </script>

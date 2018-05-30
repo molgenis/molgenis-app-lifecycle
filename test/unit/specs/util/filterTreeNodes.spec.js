@@ -1,4 +1,4 @@
-import filterTreeNodes from '@/util/filter-tree-nodes'
+import filterTreeNodes from '@/util/filterTreeNodes'
 
 describe('filter-tree-nodes', () => {
   const treeNodes = [

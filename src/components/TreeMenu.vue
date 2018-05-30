@@ -68,7 +68,7 @@
   import filterTreeNodes from '../util/filterTreeNodes'
 
   export default {
-    name: 'Tree',
+    name: 'TreeMenu',
     props: ['treeNodes'],
     data () {
       return {

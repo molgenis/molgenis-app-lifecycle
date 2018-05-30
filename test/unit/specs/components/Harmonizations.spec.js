@@ -1,4 +1,4 @@
-import Harmonizations from '../../../../src/components/harmonization/Harmonizations'
+import Harmonizations from '@/components/harmonization/Harmonizations'
 import EntityV2Response from '../mock-responses/EntityV2Response'
 import { shallow } from 'vue-test-utils'
 import Vuex from 'vuex'
