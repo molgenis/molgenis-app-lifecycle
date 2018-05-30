@@ -1,46 +1,37 @@
-import td from 'testdouble'
 import Tree from '@/components/Tree'
-import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
 import { shallow } from 'vue-test-utils'
+import td from 'testdouble'
 
 describe('Tree unit tests', () => {
-  const mockTreeData = JSON.parse(JSON.stringify(TreeMapperResponse.mockTreeData))
-
-  const treeClick = td.function()
-
   const propsData = {
-    treeData: mockTreeData,
-    itemClick: treeClick
+    treeNodes: [
+      {text: 'test1', children: []},
+      {text: 'test2', children: []}
+    ],
+    itemClick: td.function()
   }
 
-  let wrapper
-
-  beforeEach(function () {
-    wrapper = shallow(Tree, {
-      propsData: propsData
-    })
+  it('should load "Tree" as the component name', () => {
+    const wrapper = shallow(Tree, {propsData})
+    expect(wrapper.name()).to.equal('Tree')
   })
 
-  it('should load "Tree" component as a name', () => {
-    expect(Tree.name).to.equal('Tree')
+  it('should toggle collapse on click of button', () => {
+    const wrapper = shallow(Tree, {propsData})
+    expect(wrapper.vm.isMenuCollapsed).to.equal(false)
+    expect(wrapper.vm.collapseText).to.equal('-')
+
+    wrapper.vm.toggleCollapse()
+    expect(wrapper.vm.isMenuCollapsed).to.equal(true)
+    expect(wrapper.vm.collapseText).to.equal('+')
   })
 
-  it('should color the tree leafs on filter', () => {
-    wrapper.searchInput = 'test'
-    const node = {
-      model: {
-        text: 'test'
-      },
-      $el: {
-        querySelector: (selector) => {
-          return {
-            style: {
-              color: ''
-            }
-          }
-        }
-      }
-    }
-    wrapper.vm.setTreeLeafColor(node)
+  it('should compute which tree nodes to show when query changes', () => {
+    const wrapper = shallow(Tree, {propsData})
+    expect(wrapper.vm.filteredTreeNodes).to.deep.equal(propsData.treeNodes)
+
+    wrapper.setData({query: 'test1'})
+    const filteredTreeNodes = [{text: 'test1', children: []}]
+    expect(wrapper.vm.filteredTreeNodes).to.deep.equal(filteredTreeNodes)
   })
 })

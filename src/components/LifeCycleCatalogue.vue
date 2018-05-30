@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-xl-4 col-lg-4 col-12 mb-2">
-        <Tree :treeData="treeData" :itemClick="treeClick"></Tree>
+        <Tree :treeNodes="treeData" :itemClick="treeClick"></Tree>
       </div>
 
       <div class="col-xl-8 col-lg-8 col-12 mb-2">
