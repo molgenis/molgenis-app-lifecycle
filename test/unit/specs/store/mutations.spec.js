@@ -7,18 +7,7 @@ import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 describe('mutations', () => {
   const state = {
     tree: {
-      settings: {
-        'id': 'key',
-        'label': 'title',
-        'folderIcon': '',
-        'leafIcon': 'fa fa-file-o',
-        'isOpened': true,
-        'isSelected': false,
-        'isDisabled': false,
-        'isLoading': false
-      },
-      data: [],
-      raw: []
+      data: []
     },
     variables: {
       columns: [],
@@ -35,11 +24,6 @@ describe('mutations', () => {
   it('should set the tree data in the state with the payload', () => {
     mutations.__SET_TREE_DATA__(state, TreeMapperResponse.mockTreeData)
     expect(state.tree.data).to.deep.equal(TreeMapperResponse.mockTreeData)
-  })
-
-  it('should set the raw tree data in the state with the payload', () => {
-    mutations.__SET_RAW_TREE_DATA__(state, EntityV2Response.mockRawTreeData)
-    expect(state.tree.raw).to.deep.equal(EntityV2Response.mockRawTreeData)
   })
 
   it('should set the core variable columns in the state with the payload', () => {

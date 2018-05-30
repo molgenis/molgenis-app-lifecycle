@@ -1,18 +1,25 @@
 // @flow
 import api from '@molgenis/molgenis-api-client'
 import EntityToTreeMapper from '../util/EntityToTreeMapper'
+
 import {
   SET_TREE_DATA,
-  SET_ERROR, SET_CORE_VARIABLE_COLUMNS, SET_CORE_VARIABLE_DATA, SET_COHORT_DATA, SET_HARMONIZATION_DATA,
-  SET_RAW_TREE_DATA, SET_SOURCE_VARIABLES, SET_NAVBAR_LOGO
+  SET_ERROR,
+  SET_CORE_VARIABLE_COLUMNS,
+  SET_CORE_VARIABLE_DATA,
+  SET_COHORT_DATA,
+  SET_HARMONIZATION_DATA,
+  SET_SOURCE_VARIABLES,
+  SET_NAVBAR_LOGO
 } from './mutations'
-import type { VuexContext } from '../flow.types'
+
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 import sortArray from '../util/sort-array'
 
+import type { VuexContext } from '../flow.types'
+
 /* ACTION CONSTANTS */
 export const GET_TREE_DATA = '__GET_TREE_DATA__'
-export const GET_CORE_VARIABLES_FROM_TREE = '__GET_CORE_VARIABLES_FROM_TREE__'
 export const GET_CORE_VARIABLES = '__GET_CORE_VARIABLES__'
 export const GET_COHORTS = '__GET_COHORTS__'
 export const GET_HARMONIZATIONS = '__GET_HARMONIZATIONS__'
@@ -22,19 +29,10 @@ export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 export default {
   [GET_TREE_DATA] ({state, commit}: VuexContext) {
     api.get('/api/v2/UI_Menu').then(response => {
-      commit(SET_RAW_TREE_DATA, response.items)
-
-      const generatedTreeNodes = EntityToTreeMapper.generateTreeNodes(response.items)
-      commit(SET_TREE_DATA, generatedTreeNodes)
+      commit(SET_TREE_DATA, EntityToTreeMapper.generateTreeNodes(response.items))
     }, error => {
       commit(SET_ERROR, error)
     })
-  },
-
-  [GET_CORE_VARIABLES_FROM_TREE] ({state, commit, dispatch, getters}: VuexContext, treeId: string) {
-    const treeLeaf = getters.getRawTreeData.find((item) => item.key === treeId)
-    const variables = treeLeaf.variables.map(variable => variable.variable).join(',')
-    dispatch(GET_CORE_VARIABLES, variables)
   },
 
   [GET_CORE_VARIABLES] ({state, commit}: VuexContext, variables: string) {

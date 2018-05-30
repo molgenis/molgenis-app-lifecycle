@@ -52,7 +52,6 @@ describe('actions', () => {
 
       const options = {
         expectedMutations: [
-          {type: SET_RAW_TREE_DATA, payload: entities},
           {type: SET_TREE_DATA, payload: generatedTreeNodes}
         ],
         state: mockedState

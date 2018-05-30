@@ -1,17 +1,33 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import state from './state'
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
 
-Vue.use(Vuex)
+import type { State } from '../flow.types'
 
+const state: State = {
+  tree: {
+    data: []
+  },
+  variables: {
+    columns: [],
+    data: [],
+    source: []
+  },
+  cohorts: [],
+  harmonizations: [],
+  navbarLogo: '',
+  error: '',
+  selectedFeature: ''
+}
+
+Vue.use(Vuex)
 export default new Vuex.Store({
-  state,
-  mutations,
   actions,
   getters,
+  mutations,
+  state,
   strict: process.env.NODE_ENV !== 'production'
 })

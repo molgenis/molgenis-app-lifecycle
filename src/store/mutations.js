@@ -2,7 +2,6 @@
 import type { State } from '../flow.types'
 
 export const SET_TREE_DATA = '__SET_TREE_DATA__'
-export const SET_RAW_TREE_DATA = '__SET_RAW_TREE_DATA__'
 export const SET_CORE_VARIABLE_COLUMNS = '__SET_CORE_VARIABLE_COLUMNS__'
 export const SET_CORE_VARIABLE_DATA = '__SET_CORE_VARIABLE_DATA__'
 export const SET_SOURCE_VARIABLES = '__SET_SOURCE_VARIABLES__'
@@ -15,9 +14,6 @@ export const SET_ERROR = '__SET_ERROR__'
 export default {
   [SET_TREE_DATA] (state: State, data: Array<String>) {
     state.tree.data = data
-  },
-  [SET_RAW_TREE_DATA] (state: State, rawData: Array<String>) {
-    state.tree.raw = rawData
   },
   [SET_CORE_VARIABLE_COLUMNS] (state: State, columns: Array<String>) {
     state.variables.columns = columns

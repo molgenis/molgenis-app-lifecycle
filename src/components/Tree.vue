@@ -67,12 +67,12 @@
   import VJstree from 'vue-jstree'
   import filterTreeNodes from '@/util/filter-tree-nodes'
 
+  import { GET_CORE_VARIABLES } from '../store/actions'
+  import { SET_SELECTED_FEATURE } from '../store/mutations'
+
   export default {
     name: 'Tree',
-    props: {
-      treeNodes: Array,
-      itemClick: Function
-    },
+    props: ['treeNodes'],
     data () {
       return {
         collapseText: '-',
@@ -86,6 +86,17 @@
       }
     },
     methods: {
+      itemClick (node) {
+        const isFolder = node.data.icon === ''
+        if (isFolder) {
+          node.model.opened = !node.model.opened
+        } else {
+          this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
+          const variables = node.model.variables.map(variable => variable.variable).join(',')
+          this.$store.dispatch(GET_CORE_VARIABLES, variables)
+        }
+      },
+
       toggleCollapse () {
         this.isMenuCollapsed = !this.isMenuCollapsed
         this.collapseText = this.isMenuCollapsed ? '+' : '-'
