@@ -28,7 +28,7 @@
     name: 'CoreVariables',
     props: {
       variable: {
-        tyoe: String
+        type: String
       }
     },
     computed: {
