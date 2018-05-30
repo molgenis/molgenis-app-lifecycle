@@ -1,6 +1,6 @@
 // @flow
 import api from '@molgenis/molgenis-api-client'
-import EntityToTreeMapper from '../util/EntityToTreeMapper'
+import EntityToTreeMapper from '../mappers/entities-to-tree-menu-mapper'
 
 import {
   SET_TREE_DATA,
@@ -55,7 +55,7 @@ export default {
 
   [GET_TREE_DATA] ({state, commit}: VuexContext) {
     api.get('/api/v2/UI_Menu').then(response => {
-      commit(SET_TREE_DATA, EntityToTreeMapper.generateTreeNodes(response.items))
+      commit(SET_TREE_DATA, EntityToTreeMapper.mapEntitiesToTreeMenu(response.items))
     }, error => {
       commit(SET_ERROR, error)
     })

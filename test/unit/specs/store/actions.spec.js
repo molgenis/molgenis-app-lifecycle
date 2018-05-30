@@ -4,7 +4,7 @@ import td from 'testdouble'
 import actions from '@/store/actions'
 import EntityV2Response from '../mock-responses/EntityV2Response'
 import entities from '../../../data/entities'
-import EntityToTreeMapper from '@/util/EntityToTreeMapper'
+import EntityToTreeMapper from '@/mappers/entities-to-tree-menu-mapper'
 
 import {
   SET_COHORT_DATA,
@@ -45,9 +45,9 @@ describe('actions', () => {
       td.replace(api, 'get', get)
 
       const generatedTreeNodes = ['node1', 'node2']
-      const generateTreeNodes = td.function('EntityToTreeMapper.generateTreeNodes')
-      td.when(generateTreeNodes(entities)).thenReturn(generatedTreeNodes)
-      td.replace(EntityToTreeMapper, 'generateTreeNodes', generateTreeNodes)
+      const mapEntitiesToTreeMenu = td.function('EntityToTreeMapper.mapEntitiesToTreeMenu')
+      td.when(mapEntitiesToTreeMenu(entities)).thenReturn(generatedTreeNodes)
+      td.replace(EntityToTreeMapper, 'mapEntitiesToTreeMenu', mapEntitiesToTreeMenu)
 
       const options = {
         expectedMutations: [

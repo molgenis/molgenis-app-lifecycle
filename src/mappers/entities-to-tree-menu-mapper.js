@@ -9,7 +9,7 @@ const lookupChildren = (parent, entitiesByKey) => ({
 /**
  * Turn flat entity data to a tree structure
  */
-const createEntityTree = (entities) => {
+const createTree = (entities) => {
   const entitiesByKey = entities.reduce((accumulator, entity) => ({...accumulator, [entity.key]: entity}), {})
   return entities.filter(entity => !entity.parent).map(parent => lookupChildren(parent, entitiesByKey)).sort((e1, e2) => e1.position - e2.position)
 }
@@ -17,7 +17,7 @@ const createEntityTree = (entities) => {
 /**
  * Transform a MOLGENIS entity into a tree node used by vue-jstree
  */
-const createTreeNode = (entity) => ({
+const createNode = (entity) => ({
   id: entity.key,
   value: entity.title,
   text: entity.title,
@@ -28,7 +28,7 @@ const createTreeNode = (entity) => ({
   selected: false,
   variables: entity.variables,
   position: entity.position,
-  children: entity.children.map(createTreeNode)
+  children: entity.children.map(createNode)
 })
 
 /**
@@ -37,8 +37,8 @@ const createTreeNode = (entity) => ({
  * @param entities A list of MOLGENIS entities
  * @returns A list of tree nodes
  */
-const generateTreeNodes = (entities) => {
-  return createEntityTree(entities).map(createTreeNode)
+const mapEntitiesToTreeMenu = (entities) => {
+  return createTree(entities).map(createNode)
 }
 
 /**
@@ -52,6 +52,6 @@ const isNodeDisabled = (node) => {
 }
 
 export default {
-  generateTreeNodes,
+  mapEntitiesToTreeMenu,
   isNodeDisabled
 }
