@@ -4,7 +4,6 @@ import td from 'testdouble'
 import actions from '@/store/actions'
 import EntityV2Response from '../mock-responses/EntityV2Response'
 import entities from '../../../data/entities'
-import EntityToTreeMapper from '@/mappers/entities-to-tree-menu-mapper'
 
 import {
   SET_COHORT_DATA,
@@ -19,7 +18,8 @@ import {
 import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 
 describe('actions', () => {
-  afterEach(() => td.reset())
+  beforeEach(() => td.reset())
+
   const get = td.function('api.get')
   const mockedState = {
     tree: {
@@ -44,14 +44,85 @@ describe('actions', () => {
       td.when(get('/api/v2/UI_Menu')).thenResolve(entities)
       td.replace(api, 'get', get)
 
-      const generatedTreeNodes = ['node1', 'node2']
-      const mapEntitiesToTreeMenu = td.function('EntityToTreeMapper.mapEntitiesToTreeMenu')
-      td.when(mapEntitiesToTreeMenu(entities)).thenReturn(generatedTreeNodes)
-      td.replace(EntityToTreeMapper, 'mapEntitiesToTreeMenu', mapEntitiesToTreeMenu)
+      const payload = [
+        {
+          'children': [],
+          'disabled': true,
+          'icon': 'fa fa-table',
+          'id': 'p2',
+          'loading': false,
+          'opened': false,
+          'position': 1,
+          'selected': false,
+          'text': 'Parent2',
+          'value': 'Parent2',
+          'variables': []
+        },
+        {
+          'children': [
+            {
+              'children': [
+                {
+                  'children': [],
+                  'disabled': false,
+                  'icon': 'fa fa-table',
+                  'id': 'gc1',
+                  'loading': false,
+                  'opened': false,
+                  'position': 1,
+                  'selected': false,
+                  'text': 'Grandchild1',
+                  'value': 'Grandchild1',
+                  'variables': [
+                    'test'
+                  ]
+                }
+              ],
+              'disabled': false,
+              'icon': '',
+              'id': 'c2',
+              'loading': false,
+              'opened': false,
+              'position': 1,
+              'selected': false,
+              'text': 'Child2',
+              'value': 'Child2',
+              'variables': [
+                'test'
+              ]
+            },
+            {
+              'children': [],
+              'disabled': false,
+              'icon': 'fa fa-table',
+              'id': 'c1',
+              'loading': false,
+              'opened': false,
+              'position': 2,
+              'selected': false,
+              'text': 'Child1',
+              'value': 'Child1',
+              'variables': [
+                'test'
+              ]
+            }
+          ],
+          'disabled': false,
+          'icon': '',
+          'id': 'p1',
+          'loading': false,
+          'opened': false,
+          'position': 2,
+          'selected': false,
+          'text': 'Parent1',
+          'value': 'Parent1',
+          'variables': []
+        }
+      ]
 
       const options = {
         expectedMutations: [
-          {type: SET_TREE_DATA, payload: generatedTreeNodes}
+          {type: SET_TREE_DATA, payload: payload}
         ],
         state: mockedState
       }

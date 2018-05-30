@@ -1,4 +1,4 @@
-import mapEntitiesToHarmonizationTable from '@/mappers/entities-to-harmonization-table-mapper'
+import mapEntitiesToHarmonizationTable from '@/mappers/entitiesToHarmonizationTableMapper'
 
 describe('mappers', () => {
   describe('mapEntitiesToHarmonizationTable', () => {

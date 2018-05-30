@@ -1,10 +1,10 @@
-import EntityToTreeMapper from '@/mappers/entities-to-tree-menu-mapper'
+import mapEntitiesToTreeMenu from '@/mappers/entitiesToTreeMenuMapper'
 import entities from '../../../data/entities'
 
 describe('mappers', () => {
   describe('entityToTreeMenuMapper', () => {
     it('should map a MOLGENIS entity to a tree node', () => {
-      const actual = EntityToTreeMapper.mapEntitiesToTreeMenu(entities)
+      const actual = mapEntitiesToTreeMenu(entities.items)
       const expected = [
         {
           'children': [],
@@ -82,22 +82,6 @@ describe('mappers', () => {
       ]
 
       expect(actual).to.deep.equal(expected)
-    })
-
-    it('should return true if a tree node has no variables and the node has no children', () => {
-      const node = {variables: [], children: []}
-      const actual = EntityToTreeMapper.isNodeDisabled(node)
-      const expected = true
-
-      expect(actual).to.equal(expected)
-    })
-
-    it('should return false if a tree node has one or more variables', () => {
-      const node = {variables: ['1', '2']}
-      const actual = EntityToTreeMapper.isNodeDisabled(node)
-      const expected = false
-
-      expect(actual).to.equal(expected)
     })
   })
 })

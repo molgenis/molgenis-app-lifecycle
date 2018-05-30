@@ -1,4 +1,11 @@
 /**
+ * Check if a specific node is disabled
+ */
+const isNodeDisabled = (node) => {
+  return node.variables.length === 0 && node.children.length === 0
+}
+
+/**
  * Recursively lookup children for nested parent entities
  */
 const lookupChildren = (parent, entitiesByKey) => ({
@@ -41,17 +48,4 @@ const mapEntitiesToTreeMenu = (entities) => {
   return createTree(entities).map(createNode)
 }
 
-/**
- * Check if a specific node is disabled
- *
- * @param node A Tree node object
- * @returns returns whether a node has variables or not
- */
-const isNodeDisabled = (node) => {
-  return node.variables.length === 0 && node.children.length === 0
-}
-
-export default {
-  mapEntitiesToTreeMenu,
-  isNodeDisabled
-}
+export default mapEntitiesToTreeMenu
