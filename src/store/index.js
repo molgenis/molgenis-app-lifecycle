@@ -8,7 +8,12 @@ import getters from './getters'
 import type { State } from '../flow.types'
 
 const state: State = {
+  cohorts: [],
   harmonizationTableData: {},
+  selectedNode: '',
+  treeMenu: [],
+
+  // Old
   tree: {
     data: []
   },
@@ -17,7 +22,6 @@ const state: State = {
     data: [],
     source: []
   },
-  cohorts: [],
   harmonizations: [],
   navbarLogo: '',
   error: '',

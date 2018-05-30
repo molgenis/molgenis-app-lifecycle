@@ -6,16 +6,10 @@ import EntityV2Response from '../mock-responses/EntityV2Response'
 import entities from '../../../data/entities'
 
 import {
-  SET_COHORT_DATA,
-  SET_CORE_VARIABLE_DATA,
-  SET_CORE_VARIABLE_COLUMNS,
-  SET_HARMONIZATION_DATA,
   SET_SOURCE_VARIABLES,
-  SET_TREE_DATA,
   SET_NAVBAR_LOGO,
   SET_ERROR
 } from '@/store/mutations'
-import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 
 describe('actions', () => {
   beforeEach(() => td.reset())
@@ -39,7 +33,7 @@ describe('actions', () => {
     error: undefined
   }
 
-  describe('GET_TREE_DATA', () => {
+  describe('FETCH_TREE_MENU', () => {
     it('should retrieve tree data from the server and store it in the state', done => {
       td.when(get('/api/v2/UI_Menu')).thenResolve(entities)
       td.replace(api, 'get', get)
@@ -122,11 +116,11 @@ describe('actions', () => {
 
       const options = {
         expectedMutations: [
-          {type: SET_TREE_DATA, payload: payload}
+          {type: 'SET_TREE_MENU', payload: payload}
         ],
         state: mockedState
       }
-      utils.testAction(actions.__GET_TREE_DATA__, options, done)
+      utils.testAction(actions.FETCH_TREE_MENU, options, done)
     })
 
     it('should set error when api request is invalid', done => {
@@ -139,41 +133,7 @@ describe('actions', () => {
         ],
         state: mockedState
       }
-      utils.testAction(actions.__GET_TREE_DATA__, options, done)
-    })
-  })
-
-  describe('GET_HARMONIZATIONS', () => {
-    const payload = 'aaaacyc67m5p56qwh3nxvnaaae'
-
-    it('should retrieve harmonization data from the server and store it in the state', done => {
-      td.when(get('/api/v2/LifeCycle_Harmonizations/' + payload)).thenResolve(EntityV2Response.mockHarmonizationResponse)
-      td.replace(api, 'get', get)
-
-      const options = {
-        payload: payload,
-        expectedMutations: [
-          {type: SET_HARMONIZATION_DATA, payload: EntityV2Response.mockHarmonizationResponse}
-        ],
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_HARMONIZATIONS__, options, done)
-    })
-
-    it('should set error when api request is invalid', done => {
-      td.when(get('/api/v2/LifeCycle_Harmonizations/' + payload)).thenReject('ERROR')
-      td.replace(api, 'get', get)
-
-      const options = {
-        payload: payload,
-        expectedMutations: [
-          {type: SET_ERROR, payload: 'ERROR'}
-        ],
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_HARMONIZATIONS__, options, done)
+      utils.testAction(actions.FETCH_TREE_MENU, options, done)
     })
   })
 
@@ -213,85 +173,6 @@ describe('actions', () => {
       }
 
       utils.testAction(actions.__GET_SOURCE_VARIABLES__, options, done)
-    })
-  })
-
-  describe('GET_COHORTS', () => {
-    it('should retrieve cohorts data from the server and store it in the state', done => {
-      td.when(get('/api/v2/LifeCycle_Cohorts')).thenResolve(EntityV2Response.mockCohortsResponse)
-      td.replace(api, 'get', get)
-
-      const options = {
-        expectedMutations: [
-          {type: SET_COHORT_DATA, payload: EntityV2Response.mockCohortsResponse.items}
-        ],
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_COHORTS__, options, done)
-    })
-
-    it('should set error when api request is invalid', done => {
-      td.when(get('/api/v2/LifeCycle_Cohorts')).thenReject('ERROR')
-      td.replace(api, 'get', get)
-
-      const options = {
-        expectedMutations: [
-          {type: SET_ERROR, payload: 'ERROR'}
-        ],
-        state: mockedState
-      }
-      utils.testAction(actions.__GET_COHORTS__, options, done)
-    })
-  })
-
-  describe('GET_CORE_VARIABLES', () => {
-    const payload = 'aaaacyc66nrzd6qwh3nxvnaaae'
-    const query = '?q=variable=in=(aaaacyc66nrzd6qwh3nxvnaaae)'
-    const rawTreeData = [
-      {
-        key: 'aaaacyc66nrzd6qwh3nxvnaaae',
-        variables: [{'variable': 'aaaacyc66nrzd6qwh3nxvnaaae'}]
-      }]
-
-    it('should retrieve core variable colums and data from the server and store it in the state', done => {
-      const generateColumns = td.function('EntityToCoreVariableMapper.generateColumns')
-
-      td.when(generateColumns(EntityV2Response.mockCoreVariablesResponse.meta.attributes)).thenReturn(ColumnsMapperResponse.mockColumns)
-      td.when(get('/api/v2/LifeCycle_CoreVariables' + query)).thenResolve(EntityV2Response.mockCoreVariablesResponse)
-      td.replace(api, 'get', get)
-
-      const options = {
-        payload: payload,
-        expectedMutations: [
-          {type: SET_CORE_VARIABLE_COLUMNS, payload: ColumnsMapperResponse.mockColumns},
-          {type: SET_CORE_VARIABLE_DATA, payload: EntityV2Response.mockCoreVariablesResponse.items}
-        ],
-        getters: {
-          getRawTreeData: rawTreeData
-        },
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_CORE_VARIABLES__, options, done)
-    })
-
-    it('should set error when api request is invalid', done => {
-      td.when(get('/api/v2/LifeCycle_CoreVariables' + query)).thenReject('ERROR')
-      td.replace(api, 'get', get)
-
-      const options = {
-        payload: payload,
-        expectedMutations: [
-          {type: SET_ERROR, payload: 'ERROR'}
-        ],
-        getters: {
-          getRawTreeData: rawTreeData
-        },
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_CORE_VARIABLES__, options, done)
     })
   })
 

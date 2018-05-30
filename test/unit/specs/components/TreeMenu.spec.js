@@ -1,18 +1,16 @@
 import TreeMenu from '@/components/TreeMenu'
 import { shallow } from 'vue-test-utils'
-import td from 'testdouble'
 
 describe('components', () => {
   describe('TreeMenu', () => {
     const propsData = {
-      treeNodes: [
+      treeMenu: [
         {text: 'test1', children: []},
         {text: 'test2', children: []}
-      ],
-      itemClick: td.function()
+      ]
     }
 
-    it('should load "Tree" as the component name', () => {
+    it('should load "TreeMenu" as the component name', () => {
       const wrapper = shallow(TreeMenu, {propsData})
       expect(wrapper.name()).to.equal('TreeMenu')
     })
@@ -29,11 +27,11 @@ describe('components', () => {
 
     it('should compute which tree nodes to show when query changes', () => {
       const wrapper = shallow(TreeMenu, {propsData})
-      expect(wrapper.vm.filteredTreeNodes).to.deep.equal(propsData.treeNodes)
+      expect(wrapper.vm.filteredTreeMenu).to.deep.equal(propsData.treeMenu)
 
       wrapper.setData({query: 'test1'})
       const filteredTreeNodes = [{text: 'test1', children: []}]
-      expect(wrapper.vm.filteredTreeNodes).to.deep.equal(filteredTreeNodes)
+      expect(wrapper.vm.filteredTreeMenu).to.deep.equal(filteredTreeNodes)
     })
   })
 })

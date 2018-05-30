@@ -21,13 +21,13 @@
 
       <div class="row">
         <div class="col">
-          <template v-if="treeNodes.length === 0">
+          <template v-if="treeMenu.length === 0">
             <i class="fa fa-spinner fa-spin"></i>
           </template>
 
           <template v-else>
             <v-jstree
-              :data="filteredTreeNodes"
+              :data="filteredTreeMenu"
               :onselectstart="false"
               @item-click="itemClick">
             </v-jstree>
@@ -65,11 +65,11 @@
 
 <script>
   import VJstree from 'vue-jstree'
-  import filterTreeNodes from '../util/filterTreeNodes'
+  import filterTreeMenu from '../util/filterTreeMenu'
 
   export default {
     name: 'TreeMenu',
-    props: ['treeNodes'],
+    props: ['treeMenu'],
     data () {
       return {
         collapseText: '-',
@@ -78,8 +78,8 @@
       }
     },
     computed: {
-      filteredTreeNodes () {
-        return this.query === '' ? this.treeNodes : filterTreeNodes(this.treeNodes, this.query)
+      filteredTreeMenu () {
+        return this.query === '' ? this.treeMenu : filterTreeMenu(this.treeMenu, this.query)
       }
     },
     methods: {
@@ -88,7 +88,8 @@
         if (isFolder) {
           node.model.opened = !node.model.opened
         } else {
-          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', node)
+          // Node is a VueComponent, pass down the model to work with the data
+          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', node.model)
         }
       },
 

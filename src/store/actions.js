@@ -2,12 +2,9 @@
 import api from '@molgenis/molgenis-api-client'
 
 import {
-  SET_TREE_DATA,
   SET_ERROR,
   SET_CORE_VARIABLE_COLUMNS,
   SET_CORE_VARIABLE_DATA,
-  SET_COHORT_DATA,
-  SET_HARMONIZATION_DATA,
   SET_SOURCE_VARIABLES,
   SET_NAVBAR_LOGO
 } from './mutations'
@@ -31,6 +28,14 @@ export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
 export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 export default {
+  'FETCH_COHORTS' ({commit}: VuexContext) {
+    api.get('/api/v2/LifeCycle_Cohorts').then(response => {
+      commit('SET_COHORTS', response.items.map(item => item.id))
+    }, error => {
+      commit(SET_ERROR, error)
+    })
+  },
+
   'FETCH_CORE_VARIABLES' ({commit}: VuexContext, variables: string) {
     api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
@@ -41,10 +46,11 @@ export default {
   },
 
   // TODO Make flow type for Tree Node object
-  'FETCH_DATA_FOR_SELECTED_NODE' ({commit, dispatch}: VuexContext, node: Object) {
-    const variables = node.model.variables.map(variable => variable.variable).join(',')
+  'FETCH_DATA_FOR_SELECTED_NODE' ({commit, dispatch}: VuexContext, selectedNode: Object) {
+    const variables = selectedNode.variables.map(variable => variable.variable).join(',')
     dispatch('FETCH_CORE_VARIABLES', variables)
     dispatch('FETCH_HARMONIZATIONS', variables)
+    commit('SET_SELECTED_NODE', selectedNode.value)
   },
 
   'FETCH_HARMONIZATIONS' ({commit}: VuexContext, variables: string) {
@@ -55,35 +61,9 @@ export default {
     })
   },
 
-  [GET_TREE_DATA] ({state, commit}: VuexContext) {
+  'FETCH_TREE_MENU' ({commit}: VuexContext) {
     api.get('/api/v2/UI_Menu').then(response => {
-      commit(SET_TREE_DATA, mapEntitiesToTreeMenu(response.items))
-    }, error => {
-      commit(SET_ERROR, error)
-    })
-  },
-
-  [GET_CORE_VARIABLES] ({state, commit}: VuexContext, variables: string) {
-    api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
-      commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
-      commit(SET_CORE_VARIABLE_DATA, sortArray(response.items, 'variable'))
-    }, error => {
-      commit(SET_ERROR, error)
-    })
-  },
-
-  [GET_COHORTS] ({state, commit}: VuexContext) {
-    api.get('/api/v2/LifeCycle_Cohorts').then(response => {
-      commit(SET_COHORT_DATA, response.items)
-    }, error => {
-      commit(SET_ERROR, error)
-    })
-  },
-
-  [GET_HARMONIZATIONS] ({state, commit, dispatch}: VuexContext, harmonization: string) {
-    api.get('/api/v2/LifeCycle_Harmonizations/' + harmonization).then(response => {
-      commit(SET_HARMONIZATION_DATA, response)
-      dispatch(GET_SOURCE_VARIABLES, response.sources)
+      commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items))
     }, error => {
       commit(SET_ERROR, error)
     })

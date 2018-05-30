@@ -49,18 +49,6 @@
         type: String
       }
     },
-    computed: {
-      ...mapGetters({
-        variableData: 'getCoreVariablesData',
-        variableColumns: 'getCoreVariablesColumns',
-        cohorts: 'getCohorts'
-      })
-    },
-    components: {
-      HarmonizationDetail,
-      CoreVariable,
-      CoreVariableRow
-    },
     data () {
       return {
         showCoreVariable: false,
@@ -76,6 +64,18 @@
       getSelectedHarmonization (selectedVariable, selectedCohort) {
         return selectedVariable.harmonizations.find(harmonization => harmonization.sourceLabel === selectedCohort).id
       }
+    },
+    computed: {
+      ...mapGetters({
+        variableData: 'getCoreVariablesData',
+        variableColumns: 'getCoreVariablesColumns',
+        cohorts: 'getCohorts'
+      })
+    },
+    components: {
+      HarmonizationDetail,
+      CoreVariable,
+      CoreVariableRow
     }
   }
 </script>

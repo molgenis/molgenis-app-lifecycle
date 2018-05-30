@@ -22,10 +22,14 @@ export type Variables = {
 }
 
 export type State = {
+  cohorts: Array<Object>,
   harmonizationTableData: Object,
+  selectedNode: string,
+  treeMenu: Array<Object>,
+
+  // Old
   tree: Tree,
   variables: Variables,
-  cohorts: Array<Object>,
   harmonizations: Array<Object>,
   navbarLogo: string,
   error: string,
