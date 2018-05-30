@@ -5,9 +5,14 @@
       <span>Catalogue</span>
     </div>
     <div class="card-body" v-if="!isMenuCollapsed">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchInput" @keyup="filterTree">
-      </form>
+      <section class="my-2 my-lg-0" id="search">
+        <label for="search-input">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span class="sr-only">Search</span>
+        </label>
+        <input id="search-input" class="form-control input-lg" type="search" placeholder="Search" aria-label="Search"
+               v-model="searchInput" @keyup="filterTree" tabindex="1">
+      </section>
       <br/>
       <span>
         <v-jstree
@@ -20,7 +25,30 @@
     </div>
   </div>
 </template>
+<style scoped>
+  #search {
+    position: relative;
+    font-size: 18px;
+  }
 
+  #search label {
+    position: absolute;
+    left: 15px;
+    top: 5px;
+  }
+
+  #search #search-input, #search .hint {
+    padding-left: 43px;
+    padding-right: 43px;
+  }
+
+  label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+</style>
 <script>
   import VJstree from 'vue-jstree'
 
