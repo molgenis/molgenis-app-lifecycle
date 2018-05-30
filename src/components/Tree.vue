@@ -65,7 +65,7 @@
 
 <script>
   import VJstree from 'vue-jstree'
-  import filterTreeNodes from '@/util/filter-tree-nodes'
+  import filterTreeNodes from '../util/filterTreeNodes'
 
   export default {
     name: 'Tree',

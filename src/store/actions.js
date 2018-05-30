@@ -14,11 +14,13 @@ import {
 
 import type { VuexContext } from '../flow.types'
 
-import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
-import sortArray from '../util/sort-array'
-
+/* Mappers */
 import mapEntitiesToHarmonizationTable from '../mappers/entitiesToHarmonizationTableMapper'
 import mapEntitiesToTreeMenu from '../mappers/entitiesToTreeMenuMapper'
+import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
+
+/* Utilities */
+import sortArray from '../util/sortArray'
 
 /* ACTION CONSTANTS */
 export const GET_TREE_DATA = '__GET_TREE_DATA__'
