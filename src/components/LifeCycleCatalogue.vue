@@ -6,14 +6,21 @@
       </div>
 
       <div class="col-xl-8 col-lg-8 col-12 mb-2">
-        <div class="row">
-          <div class="col-12 mb-2">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="core-variables-tab" data-toggle="tab" href="#core-variables" role="tab" aria-controls="core-variables"
+               aria-selected="true">Core variables</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="harmonization-tab" data-toggle="tab" href="#harmonization" role="tab" aria-controls="harmonization"
+               aria-selected="false">Harmonization</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="core-variables" role="tabpanel" aria-labelledby="core-variables-tab">
             <CoreVariables :variable="selectedFeature"></CoreVariables>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12 mb-2">
+          <div class="tab-pane fade" id="harmonization" role="tabpanel" aria-labelledby="harmonization-tab">
             <Harmonizations :variable="selectedFeature"></Harmonizations>
           </div>
         </div>
@@ -21,7 +28,11 @@
     </div>
   </div>
 </template>
-
+<style scoped>
+  .tab-content{
+    padding: 2rem;
+  }
+</style>
 <script>
   import Tree from './Tree'
   import CoreVariables from './core-variables/CoreVariables'

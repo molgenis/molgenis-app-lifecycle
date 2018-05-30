@@ -1,9 +1,6 @@
 <template>
-  <div class="card" v-if="variableData.length > 0">
-    <div class="card-header">
-      {{ selectedVariable }}
-    </div>
-    <div class="card-body table-responsive">
+  <div v-if="variableData.length > 0">
+    <h4>{{ selectedVariable }}</h4>
     <table class="table table-sm">
       <thead>
         <tr>
@@ -21,7 +18,6 @@
         </tr>
       </tbody>
     </table>
-    </div>
   </div>
 </template>
 
