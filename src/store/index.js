@@ -10,22 +10,17 @@ import type { State } from '../flow.types'
 const state: State = {
   cohorts: [],
   harmonizationTableData: {},
-  selectedNode: '',
+  selectedNode: null,
   treeMenu: [],
 
   // Old
-  tree: {
-    data: []
-  },
   variables: {
     columns: [],
     data: [],
     source: []
   },
-  harmonizations: [],
   navbarLogo: '',
-  error: '',
-  selectedFeature: ''
+  error: ''
 }
 
 Vue.use(Vuex)

@@ -1,6 +1,6 @@
 <template>
   <div v-if="variableData.length > 0" style="overflow-y: visible;height:100%;">
-    <h4>{{ selectedNode }}</h4>
+    <h4>{{ selectedNode.value }}</h4>
     <div v-for="variable in variableData" class="row">
       <div class="col-12">
         <div class="card" style="margin-bottom:1em;">

@@ -50,7 +50,7 @@ export default {
     const variables = selectedNode.variables.map(variable => variable.variable).join(',')
     dispatch('FETCH_CORE_VARIABLES', variables)
     dispatch('FETCH_HARMONIZATIONS', variables)
-    commit('SET_SELECTED_NODE', selectedNode.value)
+    commit('SET_SELECTED_NODE', selectedNode)
   },
 
   'FETCH_HARMONIZATIONS' ({commit}: VuexContext, variables: string) {

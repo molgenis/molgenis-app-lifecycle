@@ -16,7 +16,7 @@ export default {
     state.harmonizationTableData = harmonizationTableData
   },
 
-  'SET_SELECTED_NODE' (state: State, selectedNode: string) {
+  'SET_SELECTED_NODE' (state: State, selectedNode: Object) {
     state.selectedNode = selectedNode
   },
 
