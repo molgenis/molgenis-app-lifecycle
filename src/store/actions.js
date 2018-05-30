@@ -6,7 +6,7 @@ import {
   SET_ERROR, SET_CORE_VARIABLE_COLUMNS, SET_CORE_VARIABLE_DATA, SET_COHORT_DATA, SET_HARMONIZATION_DATA,
   SET_RAW_TREE_DATA, SET_SOURCE_VARIABLES, SET_NAVBAR_LOGO
 } from './mutations'
-import type { State } from '../flow.types'
+import type { VuexContext } from '../flow.types'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 import sortArray from '../util/sort-array'
 
@@ -20,7 +20,7 @@ export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
 export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 export default {
-  [GET_TREE_DATA] ({state, commit}: { state: State, commit: Function }) {
+  [GET_TREE_DATA] ({state, commit}: VuexContext) {
     api.get('/api/v2/UI_Menu').then(response => {
       commit(SET_RAW_TREE_DATA, response.items)
 
@@ -31,13 +31,13 @@ export default {
     })
   },
 
-  [GET_CORE_VARIABLES_FROM_TREE] ({state, commit, dispatch, getters}: { state: State, commit: Function, dispatch: Function, getters: Function }, treeId: string) {
+  [GET_CORE_VARIABLES_FROM_TREE] ({state, commit, dispatch, getters}: VuexContext, treeId: string) {
     const treeLeaf = getters.getRawTreeData.find((item) => item.key === treeId)
     const variables = treeLeaf.variables.map(variable => variable.variable).join(',')
     dispatch(GET_CORE_VARIABLES, variables)
   },
 
-  [GET_CORE_VARIABLES] ({state, commit}: { state: State, commit: Function, dispatch: Function, getters: Function }, variables: string) {
+  [GET_CORE_VARIABLES] ({state, commit}: VuexContext, variables: string) {
     api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
       commit(SET_CORE_VARIABLE_DATA, sortArray(response.items, 'variable'))
@@ -46,14 +46,15 @@ export default {
     })
   },
 
-  [GET_COHORTS] ({state, commit}: { state: State, commit: Function }) {
+  [GET_COHORTS] ({state, commit}: VuexContext) {
     api.get('/api/v2/LifeCycle_Cohorts').then(response => {
       commit(SET_COHORT_DATA, response.items)
     }, error => {
       commit(SET_ERROR, error)
     })
   },
-  [GET_HARMONIZATIONS] ({state, commit, dispatch}: { state: State, commit: Function, dispatch: Function }, harmonization: string) {
+
+  [GET_HARMONIZATIONS] ({state, commit, dispatch}: VuexContext, harmonization: string) {
     api.get('/api/v2/LifeCycle_Harmonizations/' + harmonization).then(response => {
       commit(SET_HARMONIZATION_DATA, response)
       dispatch(GET_SOURCE_VARIABLES, response.sources)
@@ -61,7 +62,8 @@ export default {
       commit(SET_ERROR, error)
     })
   },
-  [GET_SOURCE_VARIABLES] ({state, commit}: { state: State, commit: Function }, sourceVariables: Array<Object>) {
+
+  [GET_SOURCE_VARIABLES] ({state, commit}: VuexContext, sourceVariables: Array<Object>) {
     const variables = sourceVariables.map(sourceVariable => sourceVariable.variable).join(',')
     api.get('/api/v2/LifeCycle_SourceVariables?q=variable=in=(' + variables + ')').then(response => {
       commit(SET_SOURCE_VARIABLES, response.items)
@@ -69,7 +71,8 @@ export default {
       commit(SET_ERROR, error)
     })
   },
-  [GET_NAVBAR_LOGO] ({state, commit}: { state: State, commit: Function }) {
+
+  [GET_NAVBAR_LOGO] ({state, commit}: VuexContext) {
     api.get('/api/v2/sys_set_app/app').then(response => {
       commit(SET_NAVBAR_LOGO, response.logo_href_navbar)
     }, error => {

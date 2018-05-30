@@ -30,3 +30,10 @@ export type State = {
   error: string,
   selectedFeature: string
 }
+
+export type VuexContext = {
+  commit: Function,
+  dispatch: Function,
+  getters: Function,
+  state: State
+}
