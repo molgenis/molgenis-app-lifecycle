@@ -61,7 +61,8 @@
     name: 'LifeCycleCatalogue',
     computed: {
       treeMenu () {
-        return this.$store.state.treeMenu
+        // Make a deep copy to prevent the tree library from changing Vuex state
+        return JSON.parse(JSON.stringify(this.$store.state.treeMenu))
       },
 
       selectedNode () {
