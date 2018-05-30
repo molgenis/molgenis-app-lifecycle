@@ -13,7 +13,7 @@
         </div>
 
         <div class="row">
-          <div class="col-xl-8 col-lg-8 col-12 mb-2">
+          <div class="col-12 mb-2">
             <Harmonizations :variable="selectedFeature"></Harmonizations>
           </div>
         </div>
@@ -45,8 +45,13 @@
     },
     methods: {
       treeClick (node) {
-        this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
-        this.$store.dispatch(GET_CORE_VARIABLES_FROM_TREE, node.model.id)
+        const isFolder = node.data.icon === ''
+        if (isFolder) {
+          node.model.opened = !node.model.opened
+        } else {
+          this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
+          this.$store.dispatch(GET_CORE_VARIABLES_FROM_TREE, node.model.id)
+        }
       }
     },
     mounted () {
