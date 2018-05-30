@@ -12,6 +12,10 @@ export const SET_SELECTED_FEATURE = '__SET_SELECTED_FEATURE__'
 export const SET_ERROR = '__SET_ERROR__'
 
 export default {
+  'SET_HARMONIZATION_TABLE_DATA' (state: State, harmonizationTableData: Object) {
+    state.harmonizationTableData = harmonizationTableData
+  },
+
   [SET_TREE_DATA] (state: State, data: Array<String>) {
     state.tree.data = data
   },

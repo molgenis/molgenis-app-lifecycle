@@ -8,6 +8,7 @@ import getters from './getters'
 import type { State } from '../flow.types'
 
 const state: State = {
+  harmonizationTableData: {},
   tree: {
     data: []
   },

@@ -67,9 +67,6 @@
   import VJstree from 'vue-jstree'
   import filterTreeNodes from '@/util/filter-tree-nodes'
 
-  import { GET_CORE_VARIABLES } from '../store/actions'
-  import { SET_SELECTED_FEATURE } from '../store/mutations'
-
   export default {
     name: 'Tree',
     props: ['treeNodes'],
@@ -91,9 +88,7 @@
         if (isFolder) {
           node.model.opened = !node.model.opened
         } else {
-          this.$store.commit(SET_SELECTED_FEATURE, node.model.value)
-          const variables = node.model.variables.map(variable => variable.variable).join(',')
-          this.$store.dispatch(GET_CORE_VARIABLES, variables)
+          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', node)
         }
       },
 

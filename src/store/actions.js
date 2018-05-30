@@ -13,10 +13,12 @@ import {
   SET_NAVBAR_LOGO
 } from './mutations'
 
+import type { VuexContext } from '../flow.types'
+
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 import sortArray from '../util/sort-array'
 
-import type { VuexContext } from '../flow.types'
+import mapEntitiesToHarmonizationTable from '../mappers/entities-to-harmonization-table-mapper'
 
 /* ACTION CONSTANTS */
 export const GET_TREE_DATA = '__GET_TREE_DATA__'
@@ -27,6 +29,30 @@ export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
 export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 export default {
+  'FETCH_CORE_VARIABLES' ({commit}: VuexContext, variables: string) {
+    api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
+      commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
+      commit(SET_CORE_VARIABLE_DATA, sortArray(response.items, 'variable'))
+    }, error => {
+      commit(SET_ERROR, error)
+    })
+  },
+
+  // TODO Make flow type for Node object
+  'FETCH_DATA_FOR_SELECTED_NODE' ({commit, dispatch}: VuexContext, node: Object) {
+    const variables = node.model.variables.map(variable => variable.variable).join(',')
+    dispatch('FETCH_CORE_VARIABLES', variables)
+    dispatch('FETCH_HARMONIZATIONS', variables)
+  },
+
+  'FETCH_HARMONIZATIONS' ({commit}: VuexContext, variables: string) {
+    api.get('/api/v2/LifeCycle_Harmonizations?q=target=in=(' + variables + ')').then(response => {
+      commit('SET_HARMONIZATION_TABLE_DATA', mapEntitiesToHarmonizationTable(response.items))
+    }, error => {
+      commit(SET_ERROR, error)
+    })
+  },
+
   [GET_TREE_DATA] ({state, commit}: VuexContext) {
     api.get('/api/v2/UI_Menu').then(response => {
       commit(SET_TREE_DATA, EntityToTreeMapper.generateTreeNodes(response.items))
