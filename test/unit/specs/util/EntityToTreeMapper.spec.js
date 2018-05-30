@@ -39,7 +39,7 @@ describe('EntityToTreeMapper', () => {
               }
             ],
             'disabled': false,
-            'icon': 'fa fa-folder-o',
+            'icon': '',
             'id': 'c2',
             'loading': false,
             'opened': false,
@@ -67,8 +67,8 @@ describe('EntityToTreeMapper', () => {
             ]
           }
         ],
-        'disabled': true,
-        'icon': 'fa fa-folder-o',
+        'disabled': false,
+        'icon': '',
         'id': 'p1',
         'loading': false,
         'opened': false,
@@ -83,8 +83,8 @@ describe('EntityToTreeMapper', () => {
     expect(actual).to.deep.equal(expected)
   })
 
-  it('should return true if a tree node has no variables', () => {
-    const node = {variables: []}
+  it('should return true if a tree node has no variables and the node has no children', () => {
+    const node = {variables: [], children: []}
     const actual = EntityToTreeMapper.isNodeDisabled(node)
     const expected = true
 
