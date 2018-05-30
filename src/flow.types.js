@@ -22,6 +22,7 @@ export type Variables = {
 }
 
 export type State = {
+  harmonizationTableData: Object,
   tree: Tree,
   variables: Variables,
   cohorts: Array<Object>,
