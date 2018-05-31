@@ -2,7 +2,7 @@ import mapEntitiesToCohortVariableMapping from '@/mappers/entitiesToCohortVariab
 
 describe('mappers', () => {
   describe('mapEntitiesToCohortVariableMapping', () => {
-    it.only('should map a list of MOLGENIS entities to a cohort variable map', () => {
+    it('should map a list of MOLGENIS entities to a cohort variable map', () => {
       const entities = [
         {id: 'entity1', sources: ['source1'], cohort: {id: 'cohort1'}, target: {variable: 'variable1'}},
         {id: 'entity2', sources: ['source1'], cohort: {id: 'cohort1'}, target: {variable: 'variable2'}},
