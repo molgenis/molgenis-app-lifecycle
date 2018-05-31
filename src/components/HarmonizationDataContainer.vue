@@ -25,9 +25,9 @@
               v-if="isVariableHarmonized(variable.variable)">
 
             <template v-if="variableHarmonizedForCohort(cohort, variable.variable)">
-              <router-link :to="'/' + variable.variable + '/' + getHarmonizationRowId (cohort, variable.variable)">
+              <a @click="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
                 <i class="fa fa-check-circle text-success"></i>
-              </router-link>
+              </a>
             </template>
 
             <template v-else>
@@ -72,9 +72,11 @@
       },
 
       getHarmonizationRowId (cohort, variable) {
-        const mapping = this.cohortVariableMapping[cohort]
-        console.log(mapping, cohort, variable)
         return this.cohortVariableMapping[cohort][variable].id
+      },
+
+      navigateToHarmonizationComparison (harmonizationId) {
+        this.$router.push(this.$route.path + '/' + harmonizationId)
       }
     },
     computed: {

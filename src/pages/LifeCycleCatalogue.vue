@@ -51,6 +51,8 @@
   import HarmonizationDataContainer from '../components/HarmonizationDataContainer'
   import TreeMenu from '../components/TreeMenu'
 
+  import findNodeFromTreeById from '../util/findNodeFromTreeById'
+
   export default {
     name: 'LifeCycleCatalogue',
     props: ['selectedNodeId'],
@@ -61,6 +63,14 @@
 
       selectedNodeLabel () {
         return this.$store.state.selectedNodeLabel
+      }
+    },
+    watch: {
+      treeMenu (treeMenu) {
+        if (this.selectedNodeId) {
+          const selectedNode = findNodeFromTreeById(treeMenu, this.selectedNodeId)
+          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', selectedNode)
+        }
       }
     },
     mounted () {

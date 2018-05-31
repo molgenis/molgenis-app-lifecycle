@@ -6,7 +6,6 @@ describe('getters', () => {
   const mockedState = {
     variables: {
       data: EntityV2Response.mockCoreVariablesResponse.items,
-      source: EntityV2Response.mockSourceVariablesResponse.items,
       columns: ColumnsMapperResponse.mockColumns
     }
   }
@@ -21,11 +20,5 @@ describe('getters', () => {
     const clone = getters.getCoreVariablesData(mockedState)
     expect(clone).to.not.equal(mockedState.variables.data)
     expect(clone).to.deep.equal(mockedState.variables.data)
-  })
-
-  it('getSourceVariables returns a clone of the source variables items', () => {
-    const clone = getters.getSourceVariables(mockedState)
-    expect(clone).to.not.equal(mockedState.variables.source)
-    expect(clone).to.deep.equal(mockedState.variables.source)
   })
 })

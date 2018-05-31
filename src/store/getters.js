@@ -18,9 +18,5 @@ export default {
 
   getCoreVariablesData: (state: LifeCycleState) => {
     return state.variables.data
-  },
-
-  getSourceVariables: (state: LifeCycleState) => {
-    return state.variables.source
   }
 }

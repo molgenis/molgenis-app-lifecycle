@@ -43,7 +43,7 @@ const createNode = (entity, selectedNodeId) => {
     variables: entity.variables,
     position: entity.position,
     children: children,
-    opened: isAChildSelected(children, selectedNodeId),
+    opened: isAChildSelected(children, selectedNodeId)
   }
 }
 
