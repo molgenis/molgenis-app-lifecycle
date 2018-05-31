@@ -1,33 +1,49 @@
 <template>
   <div class="core-variable-data-container m-4">
-    <div v-if="coreVariables.length > 0" style="overflow-y: visible;height:100%;">
+
+    <template v-if="coreVariables.length > 0">
       <h4>{{ selectedNodeLabel }}</h4>
-      <div v-for="variable in coreVariables" class="row">
+      <div class="row">
         <div class="col-12">
-          <div class="card" style="margin-bottom:1em;">
-            <div class="card-header">
-              {{variable['variable']}}
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">{{variable['label']}}</h5>
-              <div class="card-text">
-                <div v-for="column in coreVariableFields">
-                  <div class="row" v-if="column.name !== 'variable' && column.name !='label'">
-                    <div class="col-2"><b v-if="variable[column.name]">{{column.label}}:</b></div>
-                    <div class="col-10">
-                      <span v-if="typeof variable[column.name] === 'object'">{{ variable[column.name].label }}</span>
-                      <pre v-else-if="column.name === 'values'">{{ variable[column.name] }}</pre>
-                      <pre class="pre-wrap" v-else-if="column.name === 'comments'">{{ variable[column.name] }}</pre>
-                      <span v-else-if="variable[column.name]">{{ variable[column.name] }}</span>
-                    </div>
-                  </div>
+
+          <template v-for="variable in coreVariables">
+            <div class="card mb-3">
+              <div class="card-header">
+                <span class="lead">{{variable['label']}}</span>
+              </div>
+
+              <div class="card-body">
+                <div class="card-text">
+                  <dl class="row">
+
+                    <template v-for="field in coreVariableFields" v-if="field.name !== 'label'">
+                      <dt class="col-2">{{ field.name }}</dt>
+                      <dd class="col-10">
+                        <span v-if="typeof variable[field.name] === 'object'">
+                          {{ variable[field.name].label }}
+                        </span>
+
+                        <span v-else-if="field.name === 'harmonizations'">
+                          // TODO This is not showing for mysterious reasons....
+                        </span>
+
+                        <pre v-else-if="field.name === 'values'">{{ variable[field.name] }}</pre>
+                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable[field.name] }}</pre>
+
+                        <span v-else>{{ variable[field.name] }}</span>
+                      </dd>
+                    </template>
+
+                  </dl>
                 </div>
               </div>
             </div>
-          </div>
+          </template>
+
         </div>
       </div>
-    </div>
+    </template>
+
   </div>
 </template>
 
