@@ -86,8 +86,6 @@
     font-size: 13px;
     line-height: 1.42857143;
     color: #333;
-    word-break: break-all;
-    word-wrap: break-word;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -99,5 +97,13 @@
     white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
+    font-family: inherit;
+    display: block;
+    padding: 1rem;
+    margin: 0 0 10px;
+    font-size: inherit;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
 </style>
