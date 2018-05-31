@@ -26,7 +26,7 @@
           <div class="tab-content">
             <div class="tab-pane fade show active" id="core-variables" role="tabpanel"
                  aria-labelledby="core-variables-tab">
-              <core-variables/>
+              <catalogue-core-variable-panel/>
             </div>
 
             <div class="tab-pane fade" id="harmonization" role="tabpanel" aria-labelledby="harmonization-tab">
@@ -47,8 +47,8 @@
 </template>
 
 <script>
+  import CatalogueCoreVariablePanel from '../components/CatalogueCoreVariablePanel'
   import CatalogueHarmonizationPanel from '../components/CatalogueHarmonizationPanel'
-  import CoreVariables from '../components/core-variables/CoreVariables'
   import TreeMenu from '../components/TreeMenu'
 
   import findNodeFromTreeById from '../util/findNodeFromTreeById'
@@ -78,8 +78,8 @@
       this.$store.dispatch('FETCH_COHORTS')
     },
     components: {
+      CatalogueCoreVariablePanel,
       CatalogueHarmonizationPanel,
-      CoreVariables,
       TreeMenu
     }
   }
