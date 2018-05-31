@@ -4,7 +4,9 @@
       <div class="col-12">
 
         <template v-if="selectedHarmonization">
-          <a @click="backToCatalogue"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to catalogue</a>
+          <a href="" @click.prevent="backToCatalogue">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to catalogue
+          </a>
           <div class="card">
             <div class="card-header">
               Harmonization of <strong>{{ selectedHarmonization.targetLabel }}</strong> and <strong>{{

@@ -25,7 +25,7 @@
               v-if="isVariableHarmonized(variable.variable)">
 
             <template v-if="variableHarmonizedForCohort(cohort, variable.variable)">
-              <a @click="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
+              <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
                 <i class="fa fa-check-circle text-success"></i>
               </a>
             </template>
