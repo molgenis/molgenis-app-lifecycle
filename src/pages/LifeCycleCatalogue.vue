@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
     <div class="row mt-3">
-      <div class="col-xl-4 col-lg-4 col-12 mb-2">
+      <div class="col-xl-3 col-lg-3 col-12 mb-2">
         <tree-menu :treeMenu="treeMenu"/>
       </div>
 
-      <div class="col-xl-8 col-lg-8 col-12">
+      <div class="col-xl-9 col-lg-9 col-12">
         <template v-if="selectedNodeLabel">
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
