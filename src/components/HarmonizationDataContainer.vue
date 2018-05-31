@@ -6,8 +6,8 @@
         <tr>
           <th scope="col" class="pr-5">Cohort</th>
 
-          <th v-for="variable in selectedNodeVariables" v-if="isVariableHarmonized(variable.variable)">{{
-            variable.variable }}
+          <th v-for="variable in selectedNodeVariables" v-if="isVariableHarmonized(variable.variable)">
+            {{variable.variable }}
           </th>
         </tr>
         </thead>
@@ -25,9 +25,9 @@
               v-if="isVariableHarmonized(variable.variable)">
 
             <template v-if="variableHarmonizedForCohort(cohort, variable.variable)">
-              <!--<router-link :to="'/' + variable.variable + '/' + getSelectedHarmonization(variable, cohort.id)">-->
-              <i class="fa fa-check-circle text-success"></i>
-              <!--</router-link>-->
+              <router-link :to="'/' + variable.variable + '/' + getHarmonizationRowId (cohort, variable.variable)">
+                <i class="fa fa-check-circle text-success"></i>
+              </router-link>
             </template>
 
             <template v-else>
@@ -69,6 +69,12 @@
 
       variableHarmonizedForCohort (cohort, variable) {
         return this.harmonizationTableData[cohort] === undefined ? false : this.harmonizationTableData[cohort].includes(variable)
+      },
+
+      getHarmonizationRowId (cohort, variable) {
+        const mapping = this.cohortVariableMapping[cohort]
+        console.log(mapping, cohort, variable)
+        return this.cohortVariableMapping[cohort][variable].id
       }
     },
     computed: {

@@ -55,7 +55,7 @@ export default {
   },
 
   'FETCH_HARMONIZATIONS_BY_ID' ({commit}: VuexContext, id: string) {
-    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '&attrs=*,sources(*)&num=10000').then(response => {
+    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '?attrs=*,sources(*)&num=10000').then(response => {
       commit('SET_HARMONIZATION_DATA', [response])
     }, error => {
       commit(SET_ERROR, error)

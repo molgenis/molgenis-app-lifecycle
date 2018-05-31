@@ -14,11 +14,11 @@ export default new Router({
     },
     {
       props: true,
-      path: '/:variable',
+      path: '/:coreVariableId',
       component: HarmonizationComparison,
       children: [
         {
-          path: ':harmonization',
+          path: ':harmonizationId',
           name: 'harmonization',
           props: true,
           component: HarmonizationComparison

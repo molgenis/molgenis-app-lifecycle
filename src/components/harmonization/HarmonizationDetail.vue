@@ -10,7 +10,8 @@
             used</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" role="tab" href="#harmonization-script-syntax" aria-selected="false">Script syntax</a>
+          <a class="nav-link" data-toggle="tab" role="tab" href="#harmonization-script-syntax" aria-selected="false">Script
+            syntax</a>
         </li>
       </ul>
     </div>
@@ -63,15 +64,16 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-
   export default {
     name: 'HarmonizationDetail',
     computed: {
-      ...mapGetters({
-        harmonization: 'getHarmonizations',
-        sourceVariables: 'getSourceVariables'
-      })
+      harmonization () {
+        return this.$store.state.harmonizationData[0]
+      },
+
+      sourceVariables () {
+        return this.$store.state.harmonizationData[0].sources
+      }
     }
   }
 </script>
@@ -90,11 +92,12 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+
   .pre-wrap {
     width: 35rem;
-    white-space: pre-wrap;       /* css-3 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
   }
 </style>
