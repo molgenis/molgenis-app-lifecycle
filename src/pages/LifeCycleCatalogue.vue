@@ -30,7 +30,7 @@
             </div>
 
             <div class="tab-pane fade" id="harmonization" role="tabpanel" aria-labelledby="harmonization-tab">
-              <harmonization-data-container/>
+              <catalogue-harmonization-panel/>
             </div>
           </div>
         </template>
@@ -47,8 +47,8 @@
 </template>
 
 <script>
+  import CatalogueHarmonizationPanel from '../components/CatalogueHarmonizationPanel'
   import CoreVariables from '../components/core-variables/CoreVariables'
-  import HarmonizationDataContainer from '../components/HarmonizationDataContainer'
   import TreeMenu from '../components/TreeMenu'
 
   import findNodeFromTreeById from '../util/findNodeFromTreeById'
@@ -78,9 +78,9 @@
       this.$store.dispatch('FETCH_COHORTS')
     },
     components: {
-      TreeMenu,
+      CatalogueHarmonizationPanel,
       CoreVariables,
-      HarmonizationDataContainer
+      TreeMenu
     }
   }
 </script>

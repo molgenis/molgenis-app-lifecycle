@@ -2,7 +2,7 @@ import findNodeFromTreeById from '@/util/findNodeFromTreeById'
 
 describe('utils', () => {
   describe('findNodeFromTreeById', () => {
-    it.only('should return a node from a tree menu based on node id', () => {
+    it('should return a node from a tree menu based on node id', () => {
       const treeMenu = [{id: '1', children: [{id: '2', children: [{id: '3'}]}]}]
       const actual = findNodeFromTreeById(treeMenu, '3')
       const expected = {id: '3'}
