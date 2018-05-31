@@ -20,7 +20,7 @@ describe('actions', () => {
 
   describe('FETCH_TREE_MENU', () => {
     it('should retrieve tree data from the server and store it in the state', done => {
-      td.when(get('/api/v2/UI_Menu')).thenResolve(entities)
+      td.when(get('/api/v2/UI_Menu?attrs=*,variables(*)&num=10000')).thenResolve(entities)
       td.replace(api, 'get', get)
 
       const payload = [
@@ -109,7 +109,7 @@ describe('actions', () => {
     })
 
     it('should set error when api request is invalid', done => {
-      td.when(get('/api/v2/UI_Menu')).thenReject('ERROR')
+      td.when(get('/api/v2/UI_Menu?attrs=*,variables(*)&num=10000')).thenReject('ERROR')
       td.replace(api, 'get', get)
 
       const options = {
