@@ -1,5 +1,5 @@
 <template>
-  <div class="harmonization-data-container mt-3">
+  <div class="harmonization-panel mt-3">
     <div class="table-responsive">
       <table class="table table-sm table-striped">
         <thead>
@@ -54,7 +54,7 @@
 
 <script>
   export default {
-    name: 'HarmonizationDataContainer',
+    name: 'CatalogueHarmonizationPanel',
     methods: {
       getNumberOfHarmonizations (cohort) {
         if (this.harmonizationTableData[cohort] === undefined) {

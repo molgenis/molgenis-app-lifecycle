@@ -20,7 +20,7 @@ export default {
     api.get('/api/v2/LifeCycle_Cohorts?num=10000').then(response => {
       commit('SET_COHORTS', response.items.map(item => item.id))
     }, error => {
-      commit(SET_ERROR, error)
+      commit('SET_ERROR', error)
     })
   },
 
@@ -29,7 +29,7 @@ export default {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
       commit(SET_CORE_VARIABLE_DATA, sortArray(response.items, 'variable'))
     }, error => {
-      commit(SET_ERROR, error)
+      commit('SET_ERROR', error)
     })
   },
 
@@ -45,7 +45,7 @@ export default {
     api.get('/api/v2/LifeCycle_Harmonizations?q=target=in=(' + variables + ')&attrs=*,sources(*)&num=10000').then(response => {
       commit('SET_HARMONIZATION_DATA', response.items)
     }, error => {
-      commit(SET_ERROR, error)
+      commit('SET_ERROR', error)
     })
   },
 
@@ -53,7 +53,7 @@ export default {
     api.get('/api/v2/LifeCycle_Harmonizations/' + id + '?attrs=*,sources(*),target(*)&num=10000').then(response => {
       commit('SET_HARMONIZATION_DATA', [response])
     }, error => {
-      commit(SET_ERROR, error)
+      commit('SET_ERROR', error)
     })
   },
 
@@ -61,7 +61,7 @@ export default {
     api.get('/api/v2/UI_Menu?num=10000').then(response => {
       commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items, selectedNodeId))
     }, error => {
-      commit(SET_ERROR, error)
+      commit('SET_ERROR', error)
     })
   }
 }
