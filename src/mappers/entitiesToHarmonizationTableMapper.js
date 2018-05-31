@@ -1,3 +1,9 @@
+/**
+ * Map a list of MOLGENIS entities to a key value map where the key is a string and the
+ * value is a list of strings
+ *
+ * If a key already exists, the respective core variable is added to the list
+ */
 const mapEntitiesToHarmonizationTable = (entities) => {
   return entities.reduce((accumulator, entity) => {
     const key = entity.sourceLabel

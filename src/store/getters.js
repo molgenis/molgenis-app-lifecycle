@@ -1,18 +1,20 @@
 // @flow
-import _ from 'lodash'
-import type { State } from '../flow.types'
+import type { LifeCycleState } from '../flow.types'
 
 export default {
-  getCoreVariablesColumns: (state: State) => {
-    return _.cloneDeep(state.variables.columns)
+  getCoreVariablesColumns: (state: LifeCycleState) => {
+    return state.variables.columns
   },
-  getCoreVariablesData: (state: State) => {
-    return _.cloneDeep(state.variables.data)
+
+  getCoreVariablesData: (state: LifeCycleState) => {
+    return state.variables.data
   },
-  getCohorts: (state: State) => {
-    return _.cloneDeep(state.cohorts)
+
+  getCohorts: (state: LifeCycleState) => {
+    return state.cohorts
   },
-  getSourceVariables: (state: State) => {
-    return _.cloneDeep(state.variables.source)
+
+  getSourceVariables: (state: LifeCycleState) => {
+    return state.variables.source
   }
 }

@@ -20,10 +20,6 @@ import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 import sortArray from '../util/sortArray'
 
 /* ACTION CONSTANTS */
-export const GET_TREE_DATA = '__GET_TREE_DATA__'
-export const GET_CORE_VARIABLES = '__GET_CORE_VARIABLES__'
-export const GET_COHORTS = '__GET_COHORTS__'
-export const GET_HARMONIZATIONS = '__GET_HARMONIZATIONS__'
 export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
 export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 

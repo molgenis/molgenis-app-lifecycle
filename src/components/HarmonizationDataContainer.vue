@@ -44,7 +44,7 @@
       },
 
       selectedNodeVariables () {
-        return this.$store.state.selectedNode.variables
+        return this.$store.state.selectedNodeVariables
       }
     }
   }

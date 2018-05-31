@@ -6,7 +6,7 @@
       </div>
 
       <div class="col-xl-8 col-lg-8 col-12">
-        <template v-if="selectedNode">
+        <template v-if="selectedNodeLabel">
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" id="core-variables-tab" data-toggle="tab" href="#core-variables" role="tab"
@@ -61,12 +61,11 @@
     name: 'LifeCycleCatalogue',
     computed: {
       treeMenu () {
-        // Make a deep copy to prevent the tree library from changing Vuex state
-        return JSON.parse(JSON.stringify(this.$store.state.treeMenu))
+        return this.$store.state.treeMenu
       },
 
-      selectedNode () {
-        return this.$store.state.selectedNode
+      selectedNodeLabel () {
+        return this.$store.state.selectedNodeLabel
       }
     },
     mounted () {

@@ -5,10 +5,11 @@ export type Variables = {
   source: Array<Object>
 }
 
-export type State = {
+export type LifeCycleState = {
   cohorts: Array<Object>,
   harmonizationTableData: Object,
-  selectedNode: Object,
+  selectedNodeLabel: string,
+  selectedNodeVariables: Array<Object>,
   treeMenu: Array<Object>,
 
   // Old
@@ -21,5 +22,5 @@ export type VuexContext = {
   commit: Function,
   dispatch: Function,
   getters: Function,
-  state: State
+  state: LifeCycleState
 }

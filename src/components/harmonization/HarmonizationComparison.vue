@@ -35,7 +35,6 @@
   import CoreVariable from '../core-variables/CoreVariable'
   import HarmonizationDetail from './HarmonizationDetail'
   import MolgenisMenu from '../MolgenisMenu'
-  import { GET_CORE_VARIABLES, GET_HARMONIZATIONS } from '../../store/actions'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -49,8 +48,8 @@
       }
     },
     mounted () {
-      this.$store.dispatch(GET_HARMONIZATIONS, this.harmonization)
-      this.$store.dispatch(GET_CORE_VARIABLES, this.variable)
+      this.$store.dispatch('FETCH_HARMONIZATIONS', this.harmonization)
+      this.$store.dispatch('FETCH_CORE_VARIABLES', this.variable)
     },
     computed: {
       ...mapGetters({

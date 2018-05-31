@@ -5,12 +5,32 @@ import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
 
-import type { State } from '../flow.types'
+import type { LifeCycleState } from '../flow.types'
 
-const state: State = {
+const state: LifeCycleState = {
+  /**
+   * A list of cohort identifiers
+   */
   cohorts: [],
+
+  /**
+   * A key value map containing a cohort as key and a list of mapped core variables as value
+   */
   harmonizationTableData: {},
-  selectedNode: null,
+
+  /**
+   * The label of the selected node from the tree menu
+   */
+  selectedNodeLabel: '',
+
+  /**
+   * The list of variables of the selected node from the tree menu
+   */
+  selectedNodeVariables: [],
+
+  /**
+   * An array of tree nodes which build up the tree menu
+   */
   treeMenu: [],
 
   // Old
