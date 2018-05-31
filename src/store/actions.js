@@ -62,9 +62,9 @@ export default {
     })
   },
 
-  'FETCH_TREE_MENU' ({commit}: VuexContext) {
+  'FETCH_TREE_MENU' ({commit}: VuexContext, selectedNodeId?: string) {
     api.get('/api/v2/UI_Menu?num=10000').then(response => {
-      commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items))
+      commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items, selectedNodeId))
     }, error => {
       commit(SET_ERROR, error)
     })

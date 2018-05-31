@@ -13,17 +13,14 @@ export default new Router({
       component: LifeCycleCatalogue
     },
     {
-      props: true,
-      path: '/:coreVariableId',
+      path: '/:selectedNodeId',
+      component: LifeCycleCatalogue,
+      props: true
+    },
+    {
+      path: '/:selectedNodeId/:harmonizationId',
       component: HarmonizationComparison,
-      children: [
-        {
-          path: ':harmonizationId',
-          name: 'harmonization',
-          props: true,
-          component: HarmonizationComparison
-        }
-      ]
+      props: true
     }
   ]
 })

@@ -53,6 +53,7 @@
 
   export default {
     name: 'LifeCycleCatalogue',
+    props: ['selectedNodeId'],
     computed: {
       treeMenu () {
         return this.$store.state.treeMenu
@@ -63,7 +64,7 @@
       }
     },
     mounted () {
-      this.$store.dispatch('FETCH_TREE_MENU')
+      this.$store.dispatch('FETCH_TREE_MENU', this.selectedNodeId)
       this.$store.dispatch('FETCH_COHORTS')
     },
     components: {

@@ -1,4 +1,10 @@
 /**
+ * Returns true if a child or recursively one of his children matches the selected node identifier
+ */
+const isAChildSelected = (children, selectedNodeId) => {
+  return children.some(child => child.id === selectedNodeId || (child.children && isAChildSelected(child.children, selectedNodeId)))
+}
+/**
  * Check if a specific node is disabled
  */
 const isNodeDisabled = (node) => {
@@ -24,28 +30,32 @@ const createTree = (entities) => {
 /**
  * Transform a MOLGENIS entity into a tree node used by vue-jstree
  */
-const createNode = (entity) => ({
-  id: entity.key,
-  value: entity.title,
-  text: entity.title,
-  icon: !entity.children || entity.children.length === 0 ? 'fa fa-table' : '',
-  opened: false,
-  disabled: isNodeDisabled(entity),
-  loading: false,
-  selected: false,
-  variables: entity.variables,
-  position: entity.position,
-  children: entity.children.map(createNode)
-})
+const createNode = (entity, selectedNodeId) => {
+  const children = entity.children.map(entity => createNode(entity, selectedNodeId))
+  return {
+    id: entity.key,
+    value: entity.title,
+    text: entity.title,
+    icon: !entity.children || entity.children.length === 0 ? 'fa fa-table' : '',
+    disabled: isNodeDisabled(entity),
+    loading: false,
+    selected: entity.key === selectedNodeId,
+    variables: entity.variables,
+    position: entity.position,
+    children: children,
+    opened: isAChildSelected(children, selectedNodeId),
+  }
+}
 
 /**
  * Generates a sorted array of tree nodes
  *
  * @param entities A list of MOLGENIS entities
+ * @param selectedNodeId The identifier of a tree node. Can be undefined
  * @returns A list of tree nodes
  */
-const mapEntitiesToTreeMenu = (entities) => {
-  return createTree(entities).map(createNode)
+const mapEntitiesToTreeMenu = (entities, selectedNodeId) => {
+  return createTree(entities).map(entity => createNode(entity, selectedNodeId))
 }
 
 export default mapEntitiesToTreeMenu
