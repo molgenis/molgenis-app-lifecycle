@@ -16,7 +16,7 @@ describe('getters', () => {
 
   describe('getCoreVariableFields', () => {
     it('should return a list of core variable fields based on the harmonization metadata in the state', () => {
-      const actual = getters.getCohortVariableMapping(state)
+      const actual = getters.getCoreVariableFields(state)
       const expected = []
       expect(actual).to.deep.equal(expected)
     })
@@ -24,7 +24,7 @@ describe('getters', () => {
 
   describe('getHarmonizationTable', () => {
     it('should return a harmonization table based on the harmonization data in the state', () => {
-      const actual = getters.getCohortVariableMapping(state)
+      const actual = getters.getHarmonizationTable(state)
       const expected = {}
       expect(actual).to.deep.equal(expected)
     })
@@ -32,8 +32,8 @@ describe('getters', () => {
 
   describe('getSelectedHarmonization', () => {
     it('should return the selected harmonization based on the harmonization data in the state', () => {
-      const actual = getters.getCohortVariableMapping(state)
-      const expected = {}
+      const actual = getters.getSelectedHarmonization(state)
+      const expected = undefined
       expect(actual).to.deep.equal(expected)
     })
   })
