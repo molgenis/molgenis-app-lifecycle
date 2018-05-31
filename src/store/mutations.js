@@ -1,8 +1,9 @@
 // @flow
-import type { LifeCycleState } from '../flow.types'
+/* Utilities */
+import sortArray from '../util/sortArray'
 
-export const SET_CORE_VARIABLE_COLUMNS = '__SET_CORE_VARIABLE_COLUMNS__'
-export const SET_CORE_VARIABLE_DATA = '__SET_CORE_VARIABLE_DATA__'
+/* Flow types */
+import type { LifeCycleState } from '../flow.types'
 
 export default {
   'SET_COHORTS' (state: LifeCycleState, cohorts: Array<String>) {
@@ -17,19 +18,16 @@ export default {
     state.harmonizationData = harmonizationData
   },
 
+  'SET_HARMONIZATION_METADATA' (state: LifeCycleState, harmonizationMetadata: Object) {
+    state.harmonizationMetadata = harmonizationMetadata
+  },
+
   'SET_SELECTED_NODE' (state: LifeCycleState, selectedNode: Object) {
     state.selectedNodeLabel = selectedNode.value
-    state.selectedNodeVariables = selectedNode.variables
+    state.selectedNodeVariables = sortArray(selectedNode.variables, 'variable')
   },
 
   'SET_TREE_MENU' (state: LifeCycleState, treeMenu: Array<Object>) {
     state.treeMenu = treeMenu
-  },
-
-  [SET_CORE_VARIABLE_COLUMNS] (state: LifeCycleState, columns: Array<String>) {
-    state.variables.columns = columns
-  },
-  [SET_CORE_VARIABLE_DATA] (state: LifeCycleState, data: Array<String>) {
-    state.variables.data = data
   }
 }

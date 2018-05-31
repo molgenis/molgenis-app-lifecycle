@@ -20,7 +20,7 @@
                     <HarmonizationDetail></HarmonizationDetail>
                   </div>
                   <div class="col-xl-7 col-lg-7 col-12 mb-2">
-                    <CoreVariable></CoreVariable>
+                    <core-variable :fields="coreVariableFields" :variable="selectedHarmonization.target"/>
                   </div>
                 </div>
               </div>
@@ -46,8 +46,12 @@
       }
     },
     computed: {
+      coreVariableFields () {
+        return this.$store.getters.getCoreVariableFields
+      },
+
       selectedHarmonization () {
-        return this.$store.state.harmonizationData[0]
+        return this.$store.getters.getSelectedHarmonization
       }
     },
     mounted () {

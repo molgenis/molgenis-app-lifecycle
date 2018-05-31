@@ -1,30 +1,57 @@
 import { expect } from 'chai'
 import mutations from '@/store/mutations'
-import EntityV2Response from '../mock-responses/EntityV2Response'
-import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 
 describe('mutations', () => {
   const state = {
     cohorts: [],
     error: '',
-    variables: {
-      columns: [],
-      data: []
-    }
+    harmonizationData: [],
+    harmonizationMetadata: {},
+    selectedNodeLabel: '',
+    selectedNodeVariables: [],
+    treeMenu: []
   }
 
-  it('should set the core variable columns in the state with the payload', () => {
-    mutations.__SET_CORE_VARIABLE_COLUMNS__(state, ColumnsMapperResponse.mockColumns)
-    expect(state.variables.columns).to.deep.equal(ColumnsMapperResponse.mockColumns)
+  describe('SET_COHORTS', () => {
+    it('should set the cohorts variable in the state', () => {
+      mutations.SET_COHORTS(state, ['cohort1'])
+      expect(state.cohorts).to.deep.equal(['cohort1'])
+    })
   })
 
-  it('should set the core variable data in the state with the payload', () => {
-    mutations.__SET_CORE_VARIABLE_DATA__(state, EntityV2Response.mockCoreVariablesResponse.items)
-    expect(state.variables.data).to.deep.equal(EntityV2Response.mockCoreVariablesResponse.items)
+  describe('SET_ERROR', () => {
+    it('should set error message in state', () => {
+      mutations.SET_ERROR(state, 'error')
+      expect(state.error).to.equal('error')
+    })
   })
 
-  it('should set error message in state', () => {
-    mutations.SET_ERROR(state, 'error')
-    expect(state.error).to.equal('error')
+  describe('SET_HARMONIZATION_DATA', () => {
+    it('should set the harmonization data variable in the state', () => {
+      mutations.SET_HARMONIZATION_DATA(state, [{id: '1'}])
+      expect(state.harmonizationData).to.deep.equal([{id: '1'}])
+    })
+  })
+
+  describe('SET_HARMONIZATION_METADATA', () => {
+    it('should set the harmonization metadata variable in the state', () => {
+      mutations.SET_HARMONIZATION_METADATA(state, {id: '1'})
+      expect(state.harmonizationMetadata).to.deep.equal({id: '1'})
+    })
+  })
+
+  describe('SET_SELECTED_NODE', () => {
+    it('should set the selected node label and selected node variables variables in the state', () => {
+      mutations.SET_SELECTED_NODE(state, {value: '1', variables: ['variable']})
+      expect(state.selectedNodeLabel).to.equal('1')
+      expect(state.selectedNodeVariables).to.deep.equal(['variable'])
+    })
+  })
+
+  describe('SET_TREE_MENU', () => {
+    it('should set the tree menu variable in the state', () => {
+      mutations.SET_TREE_MENU(state, ['node'])
+      expect(state.treeMenu).to.deep.equal(['node'])
+    })
   })
 })

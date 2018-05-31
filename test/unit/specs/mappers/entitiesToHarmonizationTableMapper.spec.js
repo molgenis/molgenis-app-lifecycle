@@ -4,11 +4,11 @@ describe('mappers', () => {
   describe('mapEntitiesToHarmonizationTable', () => {
     it('should map a list of entities to a harmonization table data object', () => {
       const entities = [
-        {sourceLabel: 'label 1', target: {variable: 'variable 1'}},
-        {sourceLabel: 'label 2', target: {variable: 'variable 2'}},
-        {sourceLabel: 'label 2', target: {variable: 'variable 3'}},
-        {sourceLabel: 'label 3', target: {variable: 'variable 4'}},
-        {sourceLabel: 'label 3', target: {variable: 'variable 5'}}
+        {cohort: {id: 'label 1'}, target: {variable: 'variable 1'}},
+        {cohort: {id: 'label 2'}, target: {variable: 'variable 2'}},
+        {cohort: {id: 'label 2'}, target: {variable: 'variable 3'}},
+        {cohort: {id: 'label 3'}, target: {variable: 'variable 4'}},
+        {cohort: {id: 'label 3'}, target: {variable: 'variable 5'}}
       ]
 
       const actual = mapEntitiesToHarmonizationTable(entities)

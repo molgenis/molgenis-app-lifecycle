@@ -1,20 +1,12 @@
 // @flow
-export type Variables = {
-  columns: Array<Object>,
-  data: Array<Object>,
-  source: Array<Object>
-}
-
 export type LifeCycleState = {
   cohorts: Array<Object>,
   error: string,
   harmonizationData: Array<Object>,
+  harmonizationMetadata: Object,
   selectedNodeLabel: string,
   selectedNodeVariables: Array<Object>,
-  treeMenu: Array<Object>,
-
-  // Old
-  variables: Variables
+  treeMenu: Array<Object>
 }
 
 export type VuexContext = {

@@ -2,29 +2,20 @@ import utils from '@molgenis/molgenis-vue-test-utils'
 import api from '@molgenis/molgenis-api-client'
 import td from 'testdouble'
 import actions from '@/store/actions'
-import EntityV2Response from '../mock-responses/EntityV2Response'
 import entities from '../../../data/entities'
 
 describe('actions', () => {
   beforeEach(() => td.reset())
 
   const get = td.function('api.get')
-  const mockedState = {
-    tree: {
-      settings: {
-        'id': 'key',
-        'label': 'title',
-        'folderIcon': '',
-        'leafIcon': 'fa fa-file-o',
-        'isOpened': true,
-        'isSelected': false,
-        'isDisabled': false,
-        'isLoading': false
-      },
-      data: [],
-      raw: entities
-    },
-    error: undefined
+  const state = {
+    cohorts: [],
+    error: '',
+    harmonizationData: [],
+    harmonizationMetadata: {},
+    selectedNodeLabel: '',
+    selectedNodeVariables: [],
+    treeMenu: []
   }
 
   describe('FETCH_TREE_MENU', () => {
@@ -112,7 +103,7 @@ describe('actions', () => {
         expectedMutations: [
           {type: 'SET_TREE_MENU', payload: payload}
         ],
-        state: mockedState
+        state: state
       }
       utils.testAction(actions.FETCH_TREE_MENU, options, done)
     })
@@ -123,40 +114,11 @@ describe('actions', () => {
 
       const options = {
         expectedMutations: [
-          {type: SET_ERROR, payload: 'ERROR'}
+          {type: 'SET_ERROR', payload: 'ERROR'}
         ],
-        state: mockedState
+        state: state
       }
       utils.testAction(actions.FETCH_TREE_MENU, options, done)
-    })
-  })
-
-  describe('GET_NAVBAR_LOGO', () => {
-    it('should retrieve the navbar logo information from the application settings', done => {
-      td.when(get('/api/v2/sys_set_app/app')).thenResolve(EntityV2Response.mockAppSettingsData)
-      td.replace(api, 'get', get)
-
-      const options = {
-        expectedMutations: [
-          {type: SET_NAVBAR_LOGO, payload: EntityV2Response.mockAppSettingsData.logo_href_navbar}
-        ],
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_NAVBAR_LOGO__, options, done)
-    })
-
-    it('should set error when api request is invalid', done => {
-      td.when(get('/api/v2/sys_set_app/app')).thenReject('ERROR')
-      td.replace(api, 'get', get)
-
-      const options = {
-        expectedMutations: [
-          {type: SET_ERROR, payload: 'ERROR'}
-        ],
-        state: mockedState
-      }
-      utils.testAction(actions.__GET_NAVBAR_LOGO__, options, done)
     })
   })
 })

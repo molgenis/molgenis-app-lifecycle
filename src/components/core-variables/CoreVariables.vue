@@ -1,8 +1,8 @@
 <template>
   <div class="core-variable-data-container m-4">
-    <div v-if="variableData.length > 0" style="overflow-y: visible;height:100%;">
+    <div v-if="coreVariables.length > 0" style="overflow-y: visible;height:100%;">
       <h4>{{ selectedNodeLabel }}</h4>
-      <div v-for="variable in variableData" class="row">
+      <div v-for="variable in coreVariables" class="row">
         <div class="col-12">
           <div class="card" style="margin-bottom:1em;">
             <div class="card-header">
@@ -11,7 +11,7 @@
             <div class="card-body">
               <h5 class="card-title">{{variable['label']}}</h5>
               <div class="card-text">
-                <div v-for="column in variableColumns">
+                <div v-for="column in coreVariableFields">
                   <div class="row" v-if="column.name !== 'variable' && column.name !='label'">
                     <div class="col-2"><b v-if="variable[column.name]">{{column.label}}:</b></div>
                     <div class="col-10">
@@ -32,19 +32,20 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-
   export default {
     name: 'CoreVariables',
     computed: {
-      selectedNodeLabel () {
-        return this.$store.state.selectedNodeLabel
+      coreVariables () {
+        return this.$store.state.selectedNodeVariables
       },
 
-      ...mapGetters({
-        variableColumns: 'getCoreVariablesColumns',
-        variableData: 'getCoreVariablesData'
-      })
+      coreVariableFields () {
+        return this.$store.getters.getCoreVariableFields
+      },
+
+      selectedNodeLabel () {
+        return this.$store.state.selectedNodeLabel
+      }
     }
   }
 </script>

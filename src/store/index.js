@@ -24,6 +24,11 @@ const state: LifeCycleState = {
   harmonizationData: [],
 
   /**
+   * Contains metadata of the harmonization table
+   */
+  harmonizationMetadata: {},
+
+  /**
    * The label of the selected node from the tree menu
    */
   selectedNodeLabel: '',
@@ -36,13 +41,7 @@ const state: LifeCycleState = {
   /**
    * An array of tree nodes which build up the tree menu
    */
-  treeMenu: [],
-
-  // Old
-  variables: {
-    columns: [],
-    data: []
-  }
+  treeMenu: []
 }
 
 Vue.use(Vuex)
