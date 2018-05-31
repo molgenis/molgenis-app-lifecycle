@@ -6,7 +6,6 @@ import EntityV2Response from '../mock-responses/EntityV2Response'
 import entities from '../../../data/entities'
 
 import {
-  SET_SOURCE_VARIABLES,
   SET_NAVBAR_LOGO,
   SET_ERROR
 } from '@/store/mutations'

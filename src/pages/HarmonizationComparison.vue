@@ -36,16 +36,14 @@
   import CoreVariable from '../components/core-variables/CoreVariable'
   import HarmonizationDetail from '../components/harmonization/HarmonizationDetail'
   import MolgenisMenu from '../components/MolgenisMenu'
-  import { mapGetters } from 'vuex'
 
   export default {
     name: 'HarmonizationComparison',
     props: ['coreVariableId', 'harmonizationId'],
     computed: {
-      selectedHarmonization ()
-      ...mapGetters({
-        selectedHarmonization: 'getHarmonizations'
-      })
+      selectedHarmonization () {
+        return this.$store.state.harmonizationData[0]
+      }
     },
     mounted () {
       this.$store.dispatch('FETCH_HARMONIZATIONS_BY_ID', this.harmonizationId)

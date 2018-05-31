@@ -11,9 +11,7 @@ import {
 import type { VuexContext } from '../flow.types'
 
 /* Mappers */
-import mapEntitiesToHarmonizationTable from '../mappers/entitiesToHarmonizationTableMapper'
 import mapEntitiesToTreeMenu from '../mappers/entitiesToTreeMenuMapper'
-import mapEntitiesToCohortVariableMapping from '../mappers/entitiesToCohortVariableMappingMapper'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 
 /* Utilities */
@@ -24,7 +22,7 @@ export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 export default {
   'FETCH_COHORTS' ({commit}: VuexContext) {
-    api.get('/api/v2/LifeCycle_Cohorts&num=10000').then(response => {
+    api.get('/api/v2/LifeCycle_Cohorts?num=10000').then(response => {
       commit('SET_COHORTS', response.items.map(item => item.id))
     }, error => {
       commit(SET_ERROR, error)
@@ -65,7 +63,7 @@ export default {
   },
 
   'FETCH_TREE_MENU' ({commit}: VuexContext) {
-    api.get('/api/v2/UI_Menu&num=10000').then(response => {
+    api.get('/api/v2/UI_Menu?num=10000').then(response => {
       commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items))
     }, error => {
       commit(SET_ERROR, error)
