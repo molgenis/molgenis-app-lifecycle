@@ -137,45 +137,6 @@ describe('actions', () => {
     })
   })
 
-  describe('GET_SOURCE_VARIABLES', () => {
-    const payload = [
-      {'variable': 'aaaacyc67dgh76qwh3nxvnaaae'},
-      {'variable': 'aaaacyc67fxof6qwh3nxvnaaae'},
-      {'variable': 'aaaacyc67ibsp6qwh3nxvnaaae'}
-    ]
-    const query = '?q=variable=in=(aaaacyc67dgh76qwh3nxvnaaae,aaaacyc67fxof6qwh3nxvnaaae,aaaacyc67ibsp6qwh3nxvnaaae)'
-
-    it('should retrieve source variables data from the server and store it in the state', done => {
-      td.when(get('/api/v2/LifeCycle_SourceVariables' + query)).thenResolve(EntityV2Response.mockSourceVariablesResponse)
-      td.replace(api, 'get', get)
-
-      const options = {
-        payload: payload,
-        expectedMutations: [
-          {type: SET_SOURCE_VARIABLES, payload: EntityV2Response.mockSourceVariablesResponse.items}
-        ],
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_SOURCE_VARIABLES__, options, done)
-    })
-
-    it('should set error when api request is invalid', done => {
-      td.when(get('/api/v2/LifeCycle_SourceVariables' + query)).thenReject('ERROR')
-      td.replace(api, 'get', get)
-
-      const options = {
-        payload: payload,
-        expectedMutations: [
-          {type: SET_ERROR, payload: 'ERROR'}
-        ],
-        state: mockedState
-      }
-
-      utils.testAction(actions.__GET_SOURCE_VARIABLES__, options, done)
-    })
-  })
-
   describe('GET_NAVBAR_LOGO', () => {
     it('should retrieve the navbar logo information from the application settings', done => {
       td.when(get('/api/v2/sys_set_app/app')).thenResolve(EntityV2Response.mockAppSettingsData)

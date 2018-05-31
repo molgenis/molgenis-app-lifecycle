@@ -46,16 +46,10 @@
   </div>
 </template>
 
-<style scoped>
-  .tab-content {
-    padding: 2rem;
-  }
-</style>
-
 <script>
-  import CoreVariables from './core-variables/CoreVariables'
-  import HarmonizationDataContainer from './HarmonizationDataContainer'
-  import TreeMenu from './TreeMenu'
+  import CoreVariables from '../components/core-variables/CoreVariables'
+  import HarmonizationDataContainer from '../components/HarmonizationDataContainer'
+  import TreeMenu from '../components/TreeMenu'
 
   export default {
     name: 'LifeCycleCatalogue',

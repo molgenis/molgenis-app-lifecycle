@@ -30,11 +30,6 @@ describe('mutations', () => {
     expect(state.variables.data).to.deep.equal(EntityV2Response.mockCoreVariablesResponse.items)
   })
 
-  it('should set the source variables in the state with the payload', () => {
-    mutations.__SET_SOURCE_VARIABLES__(state, EntityV2Response.mockSourceVariablesResponse.items)
-    expect(state.variables.source).to.deep.equal(EntityV2Response.mockSourceVariablesResponse.items)
-  })
-
   it('should set error message in state', () => {
     mutations.__SET_ERROR__(state, 'error')
     expect(state.error).to.equal('error')

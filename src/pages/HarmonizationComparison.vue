@@ -8,7 +8,8 @@
 
         <div class="card">
           <div class="card-header">
-            Harmonization of <strong>{{ selectedHarmonization.targetLabel }}</strong> and <strong>{{ selectedHarmonization.sourceLabel }}</strong>
+            Harmonization of <strong>{{ selectedHarmonization.targetLabel }}</strong> and <strong>{{
+            selectedHarmonization.sourceLabel }}</strong>
           </div>
           <div class="card-body">
 
@@ -32,29 +33,23 @@
 </template>
 
 <script>
-  import CoreVariable from '../core-variables/CoreVariable'
-  import HarmonizationDetail from './HarmonizationDetail'
-  import MolgenisMenu from '../MolgenisMenu'
+  import CoreVariable from '../components/core-variables/CoreVariable'
+  import HarmonizationDetail from '../components/harmonization/HarmonizationDetail'
+  import MolgenisMenu from '../components/MolgenisMenu'
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'HarmonizationComparison',
-    props: {
-      variable: {
-        type: String
-      },
-      harmonization: {
-        type: String
-      }
-    },
-    mounted () {
-      this.$store.dispatch('FETCH_HARMONIZATIONS', this.harmonization)
-      this.$store.dispatch('FETCH_CORE_VARIABLES', this.variable)
-    },
+    props: ['coreVariableId', 'harmonizationId'],
     computed: {
+      selectedHarmonization ()
       ...mapGetters({
         selectedHarmonization: 'getHarmonizations'
       })
+    },
+    mounted () {
+      this.$store.dispatch('FETCH_HARMONIZATIONS_BY_ID', this.harmonizationId)
+      this.$store.dispatch('FETCH_CORE_VARIABLES', this.coreVariableId)
     },
     components: {
       CoreVariable,

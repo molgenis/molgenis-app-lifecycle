@@ -79,7 +79,9 @@
     },
     computed: {
       filteredTreeMenu () {
-        return this.query === '' ? this.treeMenu : filterTreeMenu(this.treeMenu, this.query)
+        // Create a local copy to prevent the tree library from mutating state
+        const tree = JSON.parse(JSON.stringify(this.treeMenu))
+        return this.query === '' ? tree : filterTreeMenu(tree, this.query)
       }
     },
     methods: {

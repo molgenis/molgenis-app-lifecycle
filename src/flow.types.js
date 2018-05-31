@@ -7,7 +7,7 @@ export type Variables = {
 
 export type LifeCycleState = {
   cohorts: Array<Object>,
-  harmonizationTableData: Object,
+  harmonizationData: Array<Object>,
   selectedNodeLabel: string,
   selectedNodeVariables: Array<Object>,
   treeMenu: Array<Object>,

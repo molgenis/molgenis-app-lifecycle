@@ -14,9 +14,9 @@ const state: LifeCycleState = {
   cohorts: [],
 
   /**
-   * A key value map containing a cohort as key and a list of mapped core variables as value
+   * Contains harmonization entities based on the core variables of the selected tree node
    */
-  harmonizationTableData: {},
+  harmonizationData: [],
 
   /**
    * The label of the selected node from the tree menu
@@ -36,8 +36,7 @@ const state: LifeCycleState = {
   // Old
   variables: {
     columns: [],
-    data: [],
-    source: []
+    data: []
   },
   navbarLogo: '',
   error: ''

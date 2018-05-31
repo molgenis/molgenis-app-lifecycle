@@ -5,7 +5,6 @@ import {
   SET_ERROR,
   SET_CORE_VARIABLE_COLUMNS,
   SET_CORE_VARIABLE_DATA,
-  SET_SOURCE_VARIABLES,
   SET_NAVBAR_LOGO
 } from './mutations'
 
@@ -14,18 +13,18 @@ import type { VuexContext } from '../flow.types'
 /* Mappers */
 import mapEntitiesToHarmonizationTable from '../mappers/entitiesToHarmonizationTableMapper'
 import mapEntitiesToTreeMenu from '../mappers/entitiesToTreeMenuMapper'
+import mapEntitiesToCohortVariableMapping from '../mappers/entitiesToCohortVariableMappingMapper'
 import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 
 /* Utilities */
 import sortArray from '../util/sortArray'
 
 /* ACTION CONSTANTS */
-export const GET_SOURCE_VARIABLES = '__GET_SOURCE_VARIABLES__'
 export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 export default {
   'FETCH_COHORTS' ({commit}: VuexContext) {
-    api.get('/api/v2/LifeCycle_Cohorts').then(response => {
+    api.get('/api/v2/LifeCycle_Cohorts&num=10000').then(response => {
       commit('SET_COHORTS', response.items.map(item => item.id))
     }, error => {
       commit(SET_ERROR, error)
@@ -33,7 +32,7 @@ export default {
   },
 
   'FETCH_CORE_VARIABLES' ({commit}: VuexContext, variables: string) {
-    api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')').then(response => {
+    api.get('/api/v2/LifeCycle_CoreVariables?q=variable=in=(' + variables + ')&num=10000').then(response => {
       commit(SET_CORE_VARIABLE_COLUMNS, EntityToCoreVariableMapper.generateColumns(response.meta.attributes))
       commit(SET_CORE_VARIABLE_DATA, sortArray(response.items, 'variable'))
     }, error => {
@@ -50,25 +49,24 @@ export default {
   },
 
   'FETCH_HARMONIZATIONS' ({commit}: VuexContext, variables: string) {
-    api.get('/api/v2/LifeCycle_Harmonizations?q=target=in=(' + variables + ')').then(response => {
-      commit('SET_HARMONIZATION_TABLE_DATA', mapEntitiesToHarmonizationTable(response.items))
+    api.get('/api/v2/LifeCycle_Harmonizations?q=target=in=(' + variables + ')&attrs=*,sources(*)&num=10000').then(response => {
+      commit('SET_HARMONIZATION_DATA', response.items)
+    }, error => {
+      commit(SET_ERROR, error)
+    })
+  },
+
+  'FETCH_HARMONIZATIONS_BY_ID' ({commit}: VuexContext, id: string) {
+    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '&attrs=*,sources(*)&num=10000').then(response => {
+      commit('SET_HARMONIZATION_DATA', [response])
     }, error => {
       commit(SET_ERROR, error)
     })
   },
 
   'FETCH_TREE_MENU' ({commit}: VuexContext) {
-    api.get('/api/v2/UI_Menu').then(response => {
+    api.get('/api/v2/UI_Menu&num=10000').then(response => {
       commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items))
-    }, error => {
-      commit(SET_ERROR, error)
-    })
-  },
-
-  [GET_SOURCE_VARIABLES] ({state, commit}: VuexContext, sourceVariables: Array<Object>) {
-    const variables = sourceVariables.map(sourceVariable => sourceVariable.variable).join(',')
-    api.get('/api/v2/LifeCycle_SourceVariables?q=variable=in=(' + variables + ')').then(response => {
-      commit(SET_SOURCE_VARIABLES, response.items)
     }, error => {
       commit(SET_ERROR, error)
     })

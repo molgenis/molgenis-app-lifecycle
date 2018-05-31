@@ -3,7 +3,6 @@ import type { LifeCycleState } from '../flow.types'
 
 export const SET_CORE_VARIABLE_COLUMNS = '__SET_CORE_VARIABLE_COLUMNS__'
 export const SET_CORE_VARIABLE_DATA = '__SET_CORE_VARIABLE_DATA__'
-export const SET_SOURCE_VARIABLES = '__SET_SOURCE_VARIABLES__'
 export const SET_NAVBAR_LOGO = '__SET_NAVBAR_LOGO__'
 export const SET_ERROR = '__SET_ERROR__'
 
@@ -12,8 +11,8 @@ export default {
     state.cohorts = cohorts
   },
 
-  'SET_HARMONIZATION_TABLE_DATA' (state: LifeCycleState, harmonizationTableData: Object) {
-    state.harmonizationTableData = harmonizationTableData
+  'SET_HARMONIZATION_DATA' (state: LifeCycleState, harmonizationData: Array<Object>) {
+    state.harmonizationData = harmonizationData
   },
 
   'SET_SELECTED_NODE' (state: LifeCycleState, selectedNode: Object) {
@@ -30,9 +29,6 @@ export default {
   },
   [SET_CORE_VARIABLE_DATA] (state: LifeCycleState, data: Array<String>) {
     state.variables.data = data
-  },
-  [SET_SOURCE_VARIABLES] (state: LifeCycleState, sources: Array<String>) {
-    state.variables.source = sources
   },
   [SET_ERROR] (state: LifeCycleState, error: string) {
     state.error = error
