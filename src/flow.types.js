@@ -7,15 +7,14 @@ export type Variables = {
 
 export type LifeCycleState = {
   cohorts: Array<Object>,
+  error: string,
   harmonizationData: Array<Object>,
   selectedNodeLabel: string,
   selectedNodeVariables: Array<Object>,
   treeMenu: Array<Object>,
 
   // Old
-  variables: Variables,
-  navbarLogo: string,
-  error: string
+  variables: Variables
 }
 
 export type VuexContext = {

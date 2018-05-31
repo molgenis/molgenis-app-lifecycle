@@ -14,6 +14,11 @@ const state: LifeCycleState = {
   cohorts: [],
 
   /**
+   * Application error string, used to show errors throughout the app
+   */
+  error: '',
+
+  /**
    * Contains harmonization entities based on the core variables of the selected tree node
    */
   harmonizationData: [],
@@ -37,9 +42,7 @@ const state: LifeCycleState = {
   variables: {
     columns: [],
     data: []
-  },
-  navbarLogo: '',
-  error: ''
+  }
 }
 
 Vue.use(Vuex)

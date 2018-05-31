@@ -2,10 +2,8 @@
 import api from '@molgenis/molgenis-api-client'
 
 import {
-  SET_ERROR,
   SET_CORE_VARIABLE_COLUMNS,
   SET_CORE_VARIABLE_DATA,
-  SET_NAVBAR_LOGO
 } from './mutations'
 
 import type { VuexContext } from '../flow.types'
@@ -16,9 +14,6 @@ import EntityToCoreVariableMapper from '../util/EntityToCoreVariableMapper'
 
 /* Utilities */
 import sortArray from '../util/sortArray'
-
-/* ACTION CONSTANTS */
-export const GET_NAVBAR_LOGO = '__GET_NAVBAR_LOGO__'
 
 export default {
   'FETCH_COHORTS' ({commit}: VuexContext) {
@@ -55,7 +50,7 @@ export default {
   },
 
   'FETCH_HARMONIZATIONS_BY_ID' ({commit}: VuexContext, id: string) {
-    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '?attrs=*,sources(*)&num=10000').then(response => {
+    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '?attrs=*,sources(*),target(*)&num=10000').then(response => {
       commit('SET_HARMONIZATION_DATA', [response])
     }, error => {
       commit(SET_ERROR, error)
@@ -65,14 +60,6 @@ export default {
   'FETCH_TREE_MENU' ({commit}: VuexContext, selectedNodeId?: string) {
     api.get('/api/v2/UI_Menu?num=10000').then(response => {
       commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items, selectedNodeId))
-    }, error => {
-      commit(SET_ERROR, error)
-    })
-  },
-
-  [GET_NAVBAR_LOGO] ({state, commit}: VuexContext) {
-    api.get('/api/v2/sys_set_app/app').then(response => {
-      commit(SET_NAVBAR_LOGO, response.logo_href_navbar)
     }, error => {
       commit(SET_ERROR, error)
     })

@@ -5,11 +5,6 @@ import actions from '@/store/actions'
 import EntityV2Response from '../mock-responses/EntityV2Response'
 import entities from '../../../data/entities'
 
-import {
-  SET_NAVBAR_LOGO,
-  SET_ERROR
-} from '@/store/mutations'
-
 describe('actions', () => {
   beforeEach(() => td.reset())
 

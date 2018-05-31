@@ -39,10 +39,10 @@
 
   export default {
     name: 'HarmonizationComparison',
-    props: ['coreVariableId', 'harmonizationId'],
+    props: ['selectedNodeId', 'harmonizationId'],
     methods: {
       backToCatalogue () {
-        this.$router.push('/' + this.$route.params.selectedNodeId)
+        this.$router.push('/' + this.selectedNodeId)
       }
     },
     computed: {
