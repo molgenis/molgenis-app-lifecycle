@@ -1,5 +1,5 @@
 import TreeMenu from '@/components/TreeMenu'
-import { shallow } from 'vue-test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 describe('components', () => {
   describe('TreeMenu', () => {
@@ -11,12 +11,12 @@ describe('components', () => {
     }
 
     it('should load "TreeMenu" as the component name', () => {
-      const wrapper = shallow(TreeMenu, {propsData})
+      const wrapper = shallowMount(TreeMenu, {propsData})
       expect(wrapper.name()).to.equal('TreeMenu')
     })
 
     it('should toggle collapse on click of button', () => {
-      const wrapper = shallow(TreeMenu, {propsData})
+      const wrapper = shallowMount(TreeMenu, {propsData})
       expect(wrapper.vm.isMenuCollapsed).to.equal(false)
       expect(wrapper.vm.collapseText).to.equal('-')
 
@@ -26,7 +26,7 @@ describe('components', () => {
     })
 
     it('should compute which tree nodes to show when query changes', () => {
-      const wrapper = shallow(TreeMenu, {propsData})
+      const wrapper = shallowMount(TreeMenu, {propsData})
       expect(wrapper.vm.filteredTreeMenu).to.deep.equal(propsData.treeMenu)
 
       wrapper.setData({query: 'test1'})
