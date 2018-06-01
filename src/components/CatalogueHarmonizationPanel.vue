@@ -13,7 +13,7 @@
         </thead>
 
         <tbody>
-        <tr v-for="cohort in cohorts">
+        <tr v-for="cohort in cohorts" v-if="doesCohortHaveHarmonization(cohort)">
           <th scope="row" class="number-of-harmonizations-cell pr-5">
             {{ cohort }}
             <span class="badge badge-success badge-pill">
@@ -65,6 +65,10 @@
 
       isVariableHarmonized (variable) {
         return this.harmonizedVariables.includes(variable)
+      },
+
+      doesCohortHaveHarmonization (cohort) {
+        return this.harmonizationTableData[cohort] !== undefined
       },
 
       variableHarmonizedForCohort (cohort, variable) {
