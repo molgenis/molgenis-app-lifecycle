@@ -8,7 +8,7 @@
           <template v-for="variable in coreVariables">
             <div class="card mb-3">
               <div class="card-header">
-                <span class="lead">{{variable['label']}}</span>
+                <span class="lead">{{ variable['label'] }}</span>
               </div>
 
               <div class="card-body">
@@ -18,18 +18,15 @@
                     <template v-for="field in coreVariableFields" v-if="field.name !== 'label'">
                       <dt class="col-2">{{ field.name }}</dt>
                       <dd class="col-10">
-                        <span v-if="typeof variable[field.name] === 'object'">
-                          {{ variable[field.name].label }}
-                        </span>
+                        <span v-if="field.name === 'datatype'">{{ variable['datatype'].label }}</span>
+                        <pre v-else-if="field.name === 'values'">{{ variable['values'] }}</pre>
+                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable['comments'] }}</pre>
 
                         <span v-else-if="field.name === 'harmonizations'">
-                          // TODO This is not showing for mysterious reasons....
+                          {{ getHarmonizationValues(variable['harmonizations']) }}
                         </span>
 
-                        <pre v-else-if="field.name === 'values'">{{ variable[field.name] }}</pre>
-                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable[field.name] }}</pre>
-
-                        <span v-else>{{ variable[field.name] }}</span>
+                        <span v-else> {{ variable[field.name] }}</span>
                       </dd>
                     </template>
 
@@ -68,6 +65,11 @@
 <script>
   export default {
     name: 'CatalogueCoreVariablePanel',
+    methods: {
+      getHarmonizationValues (harmonizations) {
+        return harmonizations.map(harmonization => harmonization.sourceLabel).join(', ')
+      }
+    },
     computed: {
       coreVariables () {
         return this.$store.state.selectedNodeVariables
