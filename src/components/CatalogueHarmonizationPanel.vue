@@ -72,7 +72,7 @@
       },
 
       variableHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort] === undefined ? false : this.harmonizationTableData[cohort].includes(variable)
+        return this.harmonizationTableData[cohort].includes(variable)
       },
 
       getHarmonizationRowId (cohort, variable) {
