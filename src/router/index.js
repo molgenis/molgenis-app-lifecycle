@@ -7,6 +7,7 @@ import HarmonizationComparison from '../pages/HarmonizationComparison'
 Vue.use(Router)
 export default new Router({
   mode: 'history',
+  base: window.__INITIAL_STATE__.baseUrl || '/',
   routes: [
     {
       path: '/',
