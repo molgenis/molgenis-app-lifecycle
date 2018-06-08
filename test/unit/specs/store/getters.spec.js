@@ -1,69 +1,83 @@
 import getters from '@/store/getters'
-import EntityV2Response from '../mock-responses/EntityV2Response'
-import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
-import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
-import entities from '../../../data/entities'
 
 describe('getters', () => {
-  const mockedState = {
-    tree: {
-      data: TreeMapperResponse.mockTreeData,
-      raw: entities
-    },
-    variables: {
-      data: EntityV2Response.mockCoreVariablesResponse.items,
-      source: EntityV2Response.mockSourceVariablesResponse.items,
-      columns: ColumnsMapperResponse.mockColumns
-    },
-    cohorts: EntityV2Response.mockCohortsResponse.items,
-    harmonizations: EntityV2Response.mockHarmonizationResponse,
-    selectedFeature: 'test'
+  const state = {
+    harmonizationData: [
+      {id: 'entity1', sources: ['source1'], cohort: {id: 'cohort1'}, target: {variable: 'variable1'}},
+      {id: 'entity2', sources: ['source1'], cohort: {id: 'cohort1'}, target: {variable: 'variable2'}},
+      {id: 'entity3', sources: ['source1'], cohort: {id: 'cohort2'}, target: {variable: 'variable1'}},
+      {id: 'entity4', sources: ['source1'], cohort: {id: 'cohort2'}, target: {variable: 'variable3'}},
+      {id: 'entity5', sources: ['source1'], cohort: {id: 'cohort3'}, target: {variable: 'variable10'}}
+    ],
+    harmonizationMetadata: {
+      attributes: [
+        {
+          name: 'target',
+          refEntity: {
+            attributes: ['attr1', 'attr2']
+          }
+        }
+      ]
+    }
   }
 
-  it('getTreeData returns a clone of the tree data array in the state', () => {
-    const clone = getters.getTreeData(mockedState)
-    expect(clone).to.not.equal(mockedState.tree.data)
-    expect(clone).to.deep.equal(mockedState.tree.data)
+  describe('getCohortVariableMapping', () => {
+    it('should return a cohortVariableMapping based on the harmonization data in the state', () => {
+      const actual = getters.getCohortVariableMapping(state)
+      const expected = {
+        'cohort1': {
+          'variable1': {id: 'entity1', sources: ['source1']},
+          'variable2': {id: 'entity2', sources: ['source1']}
+        },
+
+        'cohort2': {
+          'variable1': {id: 'entity3', sources: ['source1']},
+          'variable3': {id: 'entity4', sources: ['source1']}
+        },
+
+        'cohort3': {
+          'variable10': {id: 'entity5', sources: ['source1']}
+        }
+      }
+
+      expect(actual).to.deep.equal(expected)
+    })
   })
 
-  it('getRawTreeData returns a clone of the raw tree data array in the state', () => {
-    const clone = getters.getRawTreeData(mockedState)
-    expect(clone).to.not.equal(mockedState.tree.raw)
-    expect(clone).to.deep.equal(mockedState.tree.raw)
+  describe('getCoreVariableFields', () => {
+    it('should return a list of core variable fields based on the harmonization metadata in the state', () => {
+      const actual = getters.getCoreVariableFields(state)
+      const expected = ['attr1', 'attr2']
+      expect(actual).to.deep.equal(expected)
+    })
   })
 
-  it('getCoreVariablesColumns returns a clone of the core variable columns', () => {
-    const clone = getters.getCoreVariablesColumns(mockedState)
-    expect(clone).to.not.equal(mockedState.variables.columns)
-    expect(clone).to.deep.equal(mockedState.variables.columns)
+  describe('getHarmonizationTable', () => {
+    it('should return a harmonization table based on the harmonization data in the state', () => {
+      const actual = getters.getHarmonizationTable(state)
+      const expected = {
+        'cohort1': [
+          'variable1',
+          'variable2'
+        ],
+        'cohort2': [
+          'variable1',
+          'variable3'
+        ],
+        'cohort3': [
+          'variable10'
+        ]
+      }
+
+      expect(actual).to.deep.equal(expected)
+    })
   })
 
-  it('getCoreVariablesData returns a clone of the core variable items', () => {
-    const clone = getters.getCoreVariablesData(mockedState)
-    expect(clone).to.not.equal(mockedState.variables.data)
-    expect(clone).to.deep.equal(mockedState.variables.data)
-  })
-
-  it('getSourceVariables returns a clone of the source variables items', () => {
-    const clone = getters.getSourceVariables(mockedState)
-    expect(clone).to.not.equal(mockedState.variables.source)
-    expect(clone).to.deep.equal(mockedState.variables.source)
-  })
-
-  it('getCohorts returns a clone of the cohorts', () => {
-    const clone = getters.getCohorts(mockedState)
-    expect(clone).to.not.equal(mockedState.cohorts)
-    expect(clone).to.deep.equal(mockedState.cohorts)
-  })
-
-  it('getHarmonizations returns a clone of the harmonization', () => {
-    const clone = getters.getHarmonizations(mockedState)
-    expect(clone).to.not.equal(mockedState.harmonizations)
-    expect(clone).to.deep.equal(mockedState.harmonizations)
-  })
-
-  it('getSelectedFeatures returns selected feature', () => {
-    const feature = getters.getSelectedFeature(mockedState)
-    expect(feature).to.equal(mockedState.selectedFeature)
+  describe('getSelectedHarmonization', () => {
+    it('should return the selected harmonization based on the harmonization data in the state', () => {
+      const actual = getters.getSelectedHarmonization(state)
+      const expected = {id: 'entity1', sources: ['source1'], cohort: {id: 'cohort1'}, target: {variable: 'variable1'}}
+      expect(actual).to.deep.equal(expected)
+    })
   })
 })

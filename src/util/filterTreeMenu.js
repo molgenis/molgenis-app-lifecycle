@@ -11,13 +11,13 @@ const includeNode = (node, query) => nodeMatchesQuery(node, query) || (node.chil
 /**
  * Recursively filter content of a list of tree nodes based on a query
  */
-const filterTreeNodes = (treeNodes, query) => {
+const filterTreeMenu = (treeNodes, query) => {
   return treeNodes
     .filter(node => includeNode(node, query))
     .map(node => nodeMatchesQuery(node, query) ? node : ({
       ...node,
-      children: filterTreeNodes(node.children, query)
+      children: filterTreeMenu(node.children, query)
     }))
 }
 
-export default filterTreeNodes
+export default filterTreeMenu

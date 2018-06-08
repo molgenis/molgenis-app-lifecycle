@@ -1,4 +1,4 @@
-import filterTreeNodes from '@/util/filter-tree-nodes'
+import filterTreeMenu from '@/util/filterTreeMenu'
 
 describe('filter-tree-nodes', () => {
   const treeNodes = [
@@ -30,7 +30,7 @@ describe('filter-tree-nodes', () => {
 
   it('should filter a tree of nodes based on the query "child 3"', () => {
     const query = 'child 3'
-    const actual = filterTreeNodes(treeNodes, query)
+    const actual = filterTreeMenu(treeNodes, query)
     const expected = [
       {
         text: 'parent 2',
@@ -47,7 +47,7 @@ describe('filter-tree-nodes', () => {
 
   it('should filter a tree of nodes based on the query "grandchild 1"', () => {
     const query = 'grandchild 1'
-    const actual = filterTreeNodes(treeNodes, query)
+    const actual = filterTreeMenu(treeNodes, query)
     const expected = [
       {
         text: 'parent 1',
@@ -69,7 +69,7 @@ describe('filter-tree-nodes', () => {
 
   it('should filter a tree of nodes based on the query "parent"', () => {
     const query = 'parent'
-    const actual = filterTreeNodes(treeNodes, query)
+    const actual = filterTreeMenu(treeNodes, query)
     const expected = [
       {
         text: 'parent 1',
@@ -102,7 +102,7 @@ describe('filter-tree-nodes', () => {
 
   it('should filter a tree of nodes based on the query "child"', () => {
     const query = 'child'
-    const actual = filterTreeNodes(treeNodes, query)
+    const actual = filterTreeMenu(treeNodes, query)
     const expected = [
       {
         text: 'parent 1',

@@ -21,13 +21,13 @@
 
       <div class="row">
         <div class="col">
-          <template v-if="treeNodes.length === 0">
+          <template v-if="treeMenu.length === 0">
             <i class="fa fa-spinner fa-spin"></i>
           </template>
 
           <template v-else>
             <v-jstree
-              :data="filteredTreeNodes"
+              :data="filteredTreeMenu"
               :onselectstart="false"
               @item-click="itemClick">
             </v-jstree>
@@ -65,14 +65,11 @@
 
 <script>
   import VJstree from 'vue-jstree'
-  import filterTreeNodes from '@/util/filter-tree-nodes'
+  import filterTreeMenu from '../util/filterTreeMenu'
 
   export default {
-    name: 'Tree',
-    props: {
-      treeNodes: Array,
-      itemClick: Function
-    },
+    name: 'TreeMenu',
+    props: ['treeMenu'],
     data () {
       return {
         collapseText: '-',
@@ -81,11 +78,24 @@
       }
     },
     computed: {
-      filteredTreeNodes () {
-        return this.query === '' ? this.treeNodes : filterTreeNodes(this.treeNodes, this.query)
+      filteredTreeMenu () {
+        // Create a local copy to prevent the tree library from mutating state
+        const tree = JSON.parse(JSON.stringify(this.treeMenu))
+        return this.query === '' ? tree : filterTreeMenu(tree, this.query)
       }
     },
     methods: {
+      itemClick (node) {
+        const isFolder = node.data.icon === ''
+        if (isFolder) {
+          node.model.opened = !node.model.opened
+        } else {
+          // Node is a VueComponent, pass down the model to work with the data
+          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', node.model)
+          this.$router.push('/' + node.model.id)
+        }
+      },
+
       toggleCollapse () {
         this.isMenuCollapsed = !this.isMenuCollapsed
         this.collapseText = this.isMenuCollapsed ? '+' : '-'

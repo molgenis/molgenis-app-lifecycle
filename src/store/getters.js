@@ -1,30 +1,23 @@
 // @flow
-import _ from 'lodash'
-import type { State } from '../flow.types'
+import type { LifeCycleState } from '../flow.types'
+import mapEntitiesToCohortVariableMapping from '../mappers/entitiesToCohortVariableMappingMapper'
+import mapEntitiesToHarmonizationTable from '../mappers/entitiesToHarmonizationTableMapper'
+import mapMetadataToCoreVariableFields from '../mappers/metadataToCoreVariableFieldsMapper'
 
 export default {
-  getTreeData: (state: State) => {
-    return _.cloneDeep(state.tree.data)
+  getCohortVariableMapping: (state: LifeCycleState) => {
+    return mapEntitiesToCohortVariableMapping(state.harmonizationData)
   },
-  getRawTreeData: (state: State) => {
-    return _.cloneDeep(state.tree.raw)
+
+  getCoreVariableFields: (state: LifeCycleState) => {
+    return mapMetadataToCoreVariableFields(state.harmonizationMetadata)
   },
-  getCoreVariablesColumns: (state: State) => {
-    return _.cloneDeep(state.variables.columns)
+
+  getHarmonizationTable: (state: LifeCycleState) => {
+    return mapEntitiesToHarmonizationTable(state.harmonizationData)
   },
-  getCoreVariablesData: (state: State) => {
-    return _.cloneDeep(state.variables.data)
-  },
-  getCohorts: (state: State) => {
-    return _.cloneDeep(state.cohorts)
-  },
-  getHarmonizations: (state: State) => {
-    return _.cloneDeep(state.harmonizations)
-  },
-  getSourceVariables: (state: State) => {
-    return _.cloneDeep(state.variables.source)
-  },
-  getSelectedFeature: (state: State) => {
-    return state.selectedFeature
+
+  getSelectedHarmonization: (state: LifeCycleState) => {
+    return state.harmonizationData[0]
   }
 }

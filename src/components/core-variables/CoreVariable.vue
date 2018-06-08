@@ -1,35 +1,31 @@
 <template>
   <div class="card">
     <div class="card-header">
-      Core variable: <strong>{{ selectedVariable[0].label }}</strong>
+      Core variable: <strong>{{ variable.label }}</strong>
     </div>
-    <div class="card-body table-responsive">
-      <table class="table table-striped">
-        <tr v-for="column in variableColumns">
-          <th>{{ column.label }}</th>
-          <td>
-            <span v-if="typeof selectedVariable[0][column.name] === 'object'">test {{ selectedVariable[0][column.name].label }}</span>
-            <pre v-else-if="column.name === 'values'">{{ selectedVariable[0][column.name] }}</pre>
-            <pre class="pre-wrap" v-else-if="column.name === 'comments'">{{ selectedVariable[0][column.name] }}</pre>
-            <span v-else>{{ selectedVariable[0][column.name] }}</span>
-          </td>
-        </tr>
-      </table>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <tr v-for="column in fields">
+            <th>{{ column.label }}</th>
+            <td>
+              <span v-if="typeof variable[column.name] === 'object'">test {{ variable[column.name].label }}</span>
+              <pre v-else-if="column.name === 'values'">{{ variable[column.name] }}</pre>
+              <pre class="pre-wrap" v-else-if="column.name === 'comments'">{{ variable[column.name] }}</pre>
+              <span v-else>{{ variable[column.name] }}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-
   export default {
     name: 'CoreVariable',
-    computed: {
-      ...mapGetters({
-        variableColumns: 'getCoreVariablesColumns',
-        selectedVariable: 'getCoreVariablesData'
-      })
-    }
+    props: ['fields', 'variable']
   }
 </script>
 

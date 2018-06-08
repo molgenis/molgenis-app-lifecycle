@@ -1,84 +1,57 @@
 import { expect } from 'chai'
 import mutations from '@/store/mutations'
-import TreeMapperResponse from '../mock-responses/TreeMapperResponse'
-import EntityV2Response from '../mock-responses/EntityV2Response'
-import ColumnsMapperResponse from '../mock-responses/ColumnsMapperResponse'
 
 describe('mutations', () => {
   const state = {
-    tree: {
-      settings: {
-        'id': 'key',
-        'label': 'title',
-        'folderIcon': '',
-        'leafIcon': 'fa fa-file-o',
-        'isOpened': true,
-        'isSelected': false,
-        'isDisabled': false,
-        'isLoading': false
-      },
-      data: [],
-      raw: []
-    },
-    variables: {
-      columns: [],
-      data: [],
-      source: []
-    },
     cohorts: [],
-    harmonizations: [],
-    navbarLogo: '',
-    error: undefined,
-    selectedFeature: ''
+    error: '',
+    harmonizationData: [],
+    harmonizationMetadata: {},
+    selectedNodeLabel: '',
+    selectedNodeVariables: [],
+    treeMenu: []
   }
 
-  it('should set the tree data in the state with the payload', () => {
-    mutations.__SET_TREE_DATA__(state, TreeMapperResponse.mockTreeData)
-    expect(state.tree.data).to.deep.equal(TreeMapperResponse.mockTreeData)
+  describe('SET_COHORTS', () => {
+    it('should set the cohorts variable in the state', () => {
+      mutations.SET_COHORTS(state, ['cohort1'])
+      expect(state.cohorts).to.deep.equal(['cohort1'])
+    })
   })
 
-  it('should set the raw tree data in the state with the payload', () => {
-    mutations.__SET_RAW_TREE_DATA__(state, EntityV2Response.mockRawTreeData)
-    expect(state.tree.raw).to.deep.equal(EntityV2Response.mockRawTreeData)
+  describe('SET_ERROR', () => {
+    it('should set error message in state', () => {
+      mutations.SET_ERROR(state, 'error')
+      expect(state.error).to.equal('error')
+    })
   })
 
-  it('should set the core variable columns in the state with the payload', () => {
-    mutations.__SET_CORE_VARIABLE_COLUMNS__(state, ColumnsMapperResponse.mockColumns)
-    expect(state.variables.columns).to.deep.equal(ColumnsMapperResponse.mockColumns)
+  describe('SET_HARMONIZATION_DATA', () => {
+    it('should set the harmonization data variable in the state', () => {
+      mutations.SET_HARMONIZATION_DATA(state, [{id: '1'}])
+      expect(state.harmonizationData).to.deep.equal([{id: '1'}])
+    })
   })
 
-  it('should set the core variable data in the state with the payload', () => {
-    mutations.__SET_CORE_VARIABLE_DATA__(state, EntityV2Response.mockCoreVariablesResponse.items)
-    expect(state.variables.data).to.deep.equal(EntityV2Response.mockCoreVariablesResponse.items)
+  describe('SET_HARMONIZATION_METADATA', () => {
+    it('should set the harmonization metadata variable in the state', () => {
+      mutations.SET_HARMONIZATION_METADATA(state, {id: '1'})
+      expect(state.harmonizationMetadata).to.deep.equal({id: '1'})
+    })
   })
 
-  it('should set the source variables in the state with the payload', () => {
-    mutations.__SET_SOURCE_VARIABLES__(state, EntityV2Response.mockSourceVariablesResponse.items)
-    expect(state.variables.source).to.deep.equal(EntityV2Response.mockSourceVariablesResponse.items)
+  describe('SET_SELECTED_NODE', () => {
+    it('should set the selected node label and selected node variables variables in the state', () => {
+      mutations.SET_SELECTED_NODE(state, {value: '1', variables: ['variable']})
+      expect(state.selectedNodeLabel).to.equal('1')
+      expect(state.selectedNodeVariables).to.deep.equal(['variable'])
+    })
   })
 
-  it('should set cohort data in the state with the payload', () => {
-    mutations.__SET_COHORT_DATA__(state, EntityV2Response.mockCohortsResponse.items)
-    expect(state.cohorts).to.deep.equal(EntityV2Response.mockCohortsResponse.items)
-  })
-
-  it('should set harmonization data in the state with the payload', () => {
-    mutations.__SET_HARMONIZATION_DATA__(state, EntityV2Response.mockHarmonizationResponse)
-    expect(state.harmonizations).to.deep.equal(EntityV2Response.mockHarmonizationResponse)
-  })
-
-  it('should set error message in state', () => {
-    mutations.__SET_ERROR__(state, 'error')
-    expect(state.error).to.equal('error')
-  })
-
-  it('should set navbar logo in state', () => {
-    mutations.__SET_NAVBAR_LOGO__(state, EntityV2Response.mockAppSettingsData.logo_href_navbar)
-    expect(state.navbarLogo).to.equal(EntityV2Response.mockAppSettingsData.logo_href_navbar)
-  })
-
-  it('should set selected feature in state', () => {
-    mutations.__SET_SELECTED_FEATURE__(state, 'test')
-    expect(state.selectedFeature).to.equal('test')
+  describe('SET_TREE_MENU', () => {
+    it('should set the tree menu variable in the state', () => {
+      mutations.SET_TREE_MENU(state, ['node'])
+      expect(state.treeMenu).to.deep.equal(['node'])
+    })
   })
 })

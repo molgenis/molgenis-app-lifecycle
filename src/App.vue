@@ -1,17 +1,9 @@
 <template>
-  <div class="life-cycle-app-container">
-    <molgenis-menu></molgenis-menu>
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-  import MolgenisMenu from './components/MolgenisMenu'
-
   export default {
-    name: 'app',
-    components: {
-      MolgenisMenu
-    }
+    name: 'app'
   }
 </script>
