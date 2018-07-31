@@ -42,7 +42,7 @@ yarn debug
 ```
 
 #### Run end-to-end tests
-You can run edn-to-end test locally by running the following command:
+You can run end-to-end test locally by running the following command:
 
 ```bash
 yarn e2e
