@@ -53,7 +53,7 @@ For local testing with a running MOLGENIS instance you have to alter the config 
 
 Comment in the following block
 
-```src/main/frontend/config/index.js```
+```config/index.js```
 
 ```javascript
 module.exports = {
