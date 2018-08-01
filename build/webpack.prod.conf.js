@@ -10,6 +10,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
+const packageJson = require('../package')
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -48,7 +51,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
       // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
-      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`, 
+      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
       // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
       allChunks: true,
     }),
@@ -112,6 +115,18 @@ const webpackConfig = merge(baseWebpackConfig, {
       minChunks: 3
     }),
 
+    new GenerateJsonPlugin('config.json', {
+      name: packageJson.name,
+      label: packageJson.name,
+      description: packageJson.description,
+      version: packageJson.version,
+      apiDependency: "v2",
+      includeMenuAndFooter: true,
+      runtimeOptions: {
+        language: "en"
+      }
+    }),
+
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -119,27 +134,13 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+
+    new ZipPlugin({
+      filename: packageJson.name + '.zip'
+    })
   ]
 })
-
-if (config.build.productionGzip) {
-  const CompressionWebpackPlugin = require('compression-webpack-plugin')
-
-  webpackConfig.plugins.push(
-    new CompressionWebpackPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: new RegExp(
-        '\\.(' +
-        config.build.productionGzipExtensions.join('|') +
-        ')$'
-      ),
-      threshold: 10240,
-      minRatio: 0.8
-    })
-  )
-}
 
 if (config.build.bundleAnalyzerReport) {
   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin

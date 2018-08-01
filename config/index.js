@@ -3,12 +3,13 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const packageJson = require('../package')
 
 module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: '',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
@@ -45,6 +46,12 @@ module.exports = {
     cacheBusting: true,
 
     cssSourceMap: true
+
+    /**
+     * GET and POST interceptors
+     * Removes the need for a running backend during development
+     */
+    //TODO: add mock data to run locally
   },
 
   build: {
@@ -53,8 +60,8 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: '',
+    assetsPublicPath: '/plugin/app/' + packageJson.name,
 
     /**
      * Source Maps
