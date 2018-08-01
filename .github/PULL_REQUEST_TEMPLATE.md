@@ -5,5 +5,5 @@
 - [ ] User documentation updated
 - [ ] Clean commits
 - [ ] No warnings during install
-- [ ] Updated flow-typing
+- [ ] Updated flow typing
 - [ ] Added Feature/Fix to release notes
