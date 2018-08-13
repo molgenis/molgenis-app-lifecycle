@@ -99,3 +99,4 @@ You can now create a working application that can be imported in MOLGENIS direct
 ```bash
 yarn build
 ```
+You can add your app to a MOLGENIS instance from this location: ```dist/molgenis-app-lifecycle.zip```.
