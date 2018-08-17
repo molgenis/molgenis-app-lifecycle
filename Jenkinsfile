@@ -26,12 +26,12 @@ pipeline {
           sh "yarn install"
           sh "yarn unit"
           sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
-          sh "daemon --name=sauceconnect --stop"
         }
       }
       post {
         always {
           container('node') {
+            sh "daemon --name=sauceconnect --stop"
             sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
           }
         }
@@ -52,12 +52,12 @@ pipeline {
           sh "yarn install"
           sh "yarn unit"
           sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
-          sh "daemon --name=sauceconnect --stop"
         }
       }
       post {
         always {
           container('node') {
+            sh "daemon --name=sauceconnect --stop"
             sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
           }
         }
