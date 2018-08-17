@@ -1,6 +1,6 @@
 {
   "name": "molgenis-app-lifecycle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A variable catalogue for data harmonisation",
   "author": "mkslofstra <mariska-karina@hotmail.com>",
   "private": true,
@@ -130,6 +130,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     },
-    "unsafe-perm":true
+    "unsafe-perm": true
   }
 }
