@@ -104,7 +104,7 @@ pipeline {
           sh "git checkout -f ${BRANCH_NAME}"
 
           sh "npm config set unsafe-perm true"
-          sh "npm version ${env.RELEASE_SCOPE} -m '[ci skip] [npm-version] %s'"
+          sh "npm version ${RELEASE_SCOPE} -m '[ci skip] [npm-version] %s'"
 
           sh "git push --tags origin ${BRANCH_NAME}"
         }
