@@ -97,9 +97,9 @@ pipeline {
         }
         milestone 2
         container('node') {
-          sh "git config --global user.email git@molgenis.org"
-          sh "git config --global user.name ${env.GITHUB_CRED_USR}"
-          sh "git remote set-url origin https://${env.GITHUB_CRED_PSW}@github.com/${ORG}/${APP_NAME}.git"
+          sh "git config --global user.email molgenis+ci@gmail.com"
+          sh "git config --global user.name molgenis-jenkins"
+          sh "git remote set-url origin https://${GITHUB_TOKEN}@github.com/${ORG}/${APP_NAME}.git"
 
           sh "git checkout -f ${BRANCH_NAME}"
 
