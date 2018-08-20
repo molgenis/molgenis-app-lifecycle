@@ -10,6 +10,16 @@ pipeline {
         script {
           env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
         }
+        container('vault') {
+          script {
+            env.GITHUB_TOKEN = sh(script: 'vault read -field=value secret/ops/token/github', returnStdout: true)
+            env.CODECOV_TOKEN = sh(script: 'vault read -field=value secret/ops/token/codecov', returnStdout: true)
+            env.SAUCE_CRED_USR = sh(script: 'vault read -field=username secret/ops/token/saucelabs', returnStdout: true)
+            env.SAUCE_CRED_PSW = sh(script: 'vault read -field=value secret/ops/token/saucelabs', returnStdout: true)
+            env.REGISTRY_CRED_USR = sh(script: 'vault read -field=username secret/ops/account/nexus', returnStdout: true)
+            env.REGISTRY_CRED_PSW = sh(script: 'vault read -field=password secret/ops/account/nexus', returnStdout: true)
+          }
+        }
       }
     }
     stage('Build: [ pull request ]') {
@@ -18,7 +28,6 @@ pipeline {
       }
       environment {
         TUNNEL_IDENTIFIER = "${GIT_COMMIT}-${BUILD_NUMBER}"
-        SAUCE_CRED = credentials('molgenis-jenkins-saucelabs-secret')
       }
       steps {
         container('node') {
@@ -43,7 +52,6 @@ pipeline {
       }
       environment {
         TUNNEL_IDENTIFIER = "${GIT_COMMIT}-${BUILD_NUMBER}"
-        SAUCE_CRED = credentials('molgenis-jenkins-saucelabs-secret')
       }
       steps {
         milestone 1
@@ -71,8 +79,6 @@ pipeline {
         ORG = 'molgenis'
         APP_NAME = 'molgenis-app-lifecycle'
         REGISTRY = 'registry.molgenis.org'
-        GITHUB_CRED = credentials('molgenis-jenkins-github-secret')
-        REGISTRY_CRED = credentials('molgenis-jenkins-nexus-secret')
       }
       steps {
         timeout(time: 30, unit: 'MINUTES') {
