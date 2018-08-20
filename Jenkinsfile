@@ -4,6 +4,9 @@ pipeline {
       label 'node-carbon'
     }
   }
+  environment {
+    npm_config_registry = 'http://nexus.molgenis-nexus:8081/repository/npm-central/'
+  }
   stages {
     stage('Prepare') {
       steps {
