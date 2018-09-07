@@ -18,7 +18,9 @@
                     <template v-for="field in coreVariableFields" v-if="field.name !== 'label'">
                       <dt class="col-2">{{ field.name }}</dt>
                       <dd class="col-10">
-                        <span v-if="field.name === 'datatype' || field.name === 'unit'">{{ variable[field.name].label }}</span>
+                        <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable['unit'])">
+                          {{ variable[field.name].label }}
+                        </span>
                         <pre v-else-if="field.name === 'values'">{{ variable['values'] }}</pre>
                         <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable['comments'] }}</pre>
 
@@ -26,7 +28,8 @@
                           {{ getHarmonizationValues(variable['harmonizations']) }}
                         </span>
 
-                        <span v-else> {{ variable[field.name] }}</span>
+                        <span v-else-if="variable[field.name] === undefined">-</span>
+                        <span v-else>{{ variable[field.name] }}</span>
                       </dd>
                     </template>
 
