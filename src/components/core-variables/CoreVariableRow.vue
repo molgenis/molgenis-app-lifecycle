@@ -5,7 +5,7 @@
       </tr>
       <tr>
         <td v-for="column in variableColumns">
-          <span v-if="typeof variable[column.name] === 'object'">test {{ variable[column.name].label }}</span>
+          <span v-if="typeof variable[column.name] === 'object'">{{ variable[column.name].label }}</span>
           <pre v-else-if="column.name === 'values' || column.name === 'comments'">{{ variable[column.name] }}</pre>
           <span v-else>{{ variable[column.name] }}</span>
         </td>
