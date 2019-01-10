@@ -91,8 +91,6 @@ pipeline {
         }
         milestone 2
         container('node') {
-          sh "git config --global user.email molgenis+ci@gmail.com"
-          sh "git config --global user.name molgenis-jenkins"
           sh "git remote set-url origin https://${GITHUB_TOKEN}@github.com/${ORG}/${APP_NAME}.git"
 
           sh "git checkout -f ${BRANCH_NAME}"
@@ -111,7 +109,6 @@ pipeline {
         sh "daemon --name=sauceconnect --stop"
       }
     }
-    // [ slackSend ]; has to be configured on the host, it is the "Slack Notification Plugin" that has to be installed
     success {
       hubotSend(message: 'Build success', status:'INFO', site: 'slack-pr-app-team')
     }
@@ -119,4 +116,12 @@ pipeline {
       hubotSend(message: 'Build failed', status:'ERROR', site: 'slack-pr-app-team')
     }
   }
+}
+
+def notifySuccess() {
+  hubotSend(message: 'Build success', status: 'INFO', site: 'slack-pr-app-team')
+}
+
+def notifyFailed() {
+  hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-pr-app-team')
 }
