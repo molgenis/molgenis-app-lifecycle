@@ -36,7 +36,7 @@ const createNode = (entity, selectedNodeId) => {
     id: entity.key,
     value: entity.title,
     text: entity.title,
-    icon: !entity.children || entity.children.length === 0 ? 'fa fa-table' : '',
+    icon: !entity.children || entity.children.length === 0 ? 'fas fa-table fa-sm' : '',
     disabled: isNodeDisabled(entity),
     loading: false,
     selected: entity.key === selectedNodeId,
