@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      Core variable: <strong>{{ variable.label }}</strong>
+      LifeCycle variable: <strong>{{ variable.label }}</strong>
     </div>
 
     <div class="card-body">
