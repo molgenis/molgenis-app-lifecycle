@@ -87,7 +87,7 @@
       },
 
       isVariableHarmonized (variable) {
-        return this.harmonizedVariables.find((harmonization) => {
+        return this.harmonizedVariables.some((harmonization) => {
           return harmonization.variable === variable
         })
       },
@@ -97,15 +97,15 @@
       },
 
       variableCompleteHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort].find(harmonization => harmonization.variable === variable && harmonization.status === 'complete')
+        return this.harmonizationTableData[cohort].some(harmonization => harmonization.variable === variable && harmonization.status === 'complete')
       },
 
       variablePartialHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort].find(harmonization => harmonization.variable === variable && harmonization.status === 'partial')
+        return this.harmonizationTableData[cohort].some(harmonization => harmonization.variable === variable && harmonization.status === 'partial')
       },
 
       variableNAHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort].find(harmonization => harmonization.variable === variable && harmonization.status === 'zna')
+        return this.harmonizationTableData[cohort].some(harmonization => harmonization.variable === variable && harmonization.status === 'zna')
       },
 
       getHarmonizationRowId (cohort, variable) {

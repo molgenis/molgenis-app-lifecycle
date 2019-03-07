@@ -33,11 +33,11 @@ describe('components', () => {
     })
 
     it('should return true if a variable is in the list of harmonized variables when isVariableHarmonized is called', () => {
-      expect(wrapper.vm.isVariableHarmonized('variable1')).to.deep.equal({status: 'zna', variable: 'variable1'})
+      expect(wrapper.vm.isVariableHarmonized('variable1')).to.equal(true)
     })
 
     it('should return false if a variable is not in the list of harmonized variables when isVariableHarmonized is called', () => {
-      expect(wrapper.vm.isVariableHarmonized('variable4')).to.deep.equal(undefined)
+      expect(wrapper.vm.isVariableHarmonized('variable4')).to.equal(false)
     })
 
     it('should return true if a cohort has any harmonizations when doesCohortHaveHarmonization is called', () => {
@@ -49,15 +49,15 @@ describe('components', () => {
     })
 
     it('should return true if the variable is harmonized for a cohort when variableFullyHarmonizedForCohort is called', () => {
-      expect(wrapper.vm.variableCompleteHarmonizedForCohort('cohort1', 'variable3')).to.deep.equal({variable: 'variable3', status: 'complete'})
+      expect(wrapper.vm.variableCompleteHarmonizedForCohort('cohort1', 'variable3')).to.deep.equal(true)
     })
 
     it('should return false if the variable is not harmonized for a cohort when variablePartialHarmonizedForCohort is called', () => {
-      expect(wrapper.vm.variablePartialHarmonizedForCohort('cohort1', 'variable2')).to.deep.equal({variable: 'variable2', status: 'partial'})
+      expect(wrapper.vm.variablePartialHarmonizedForCohort('cohort1', 'variable2')).to.deep.equal(true)
     })
 
     it('should return false if the variable is not harmonized for a cohort when variableNAHarmonizedForCohort is called', () => {
-      expect(wrapper.vm.variableNAHarmonizedForCohort('cohort1', 'variable1')).to.deep.equal({variable: 'variable1', status: 'zna'})
+      expect(wrapper.vm.variableNAHarmonizedForCohort('cohort1', 'variable1')).to.deep.equal(true)
     })
 
     it('should return the row identifier of a harmonization when getHarmonizationRowId is called', () => {
