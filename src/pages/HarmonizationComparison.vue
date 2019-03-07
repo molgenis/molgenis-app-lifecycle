@@ -5,7 +5,8 @@
 
         <template v-if="selectedHarmonization">
           <a href="" @click.prevent="backToCatalogue">
-            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to catalogue
+            <font-awesome-icon icon="arrow-circle-left" aria-hidden="true"></font-awesome-icon>
+            Back to catalogue
           </a>
           <div class="card">
             <div class="card-header">
@@ -36,6 +37,11 @@
 <script>
   import CoreVariable from '../components/core-variables/CoreVariable'
   import HarmonizationDetail from '../components/harmonization/HarmonizationDetail'
+  import { library } from '@fortawesome/fontawesome-svg-core'
+  import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+  library.add(faArrowCircleLeft)
 
   export default {
     name: 'HarmonizationComparison',
@@ -59,7 +65,8 @@
     },
     components: {
       CoreVariable,
-      HarmonizationDetail
+      HarmonizationDetail,
+      FontAwesomeIcon
     }
   }
 </script>

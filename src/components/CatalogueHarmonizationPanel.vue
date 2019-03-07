@@ -27,24 +27,24 @@
 
               <template v-if="variableCompleteHarmonizedForCohort(cohort, variable.variable)">
                 <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <i class="fa fa-check-circle text-success"></i>
+                  <font-awesome-icon icon="check-circle" class="text-success"></font-awesome-icon>
                 </a>
               </template>
 
               <template v-else-if="variablePartialHarmonizedForCohort(cohort, variable.variable)">
                 <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <i class="fa fa-check-circle text-warning"></i>
+                  <font-awesome-icon icon="check-circle" class="text-warning"></font-awesome-icon>
                 </a>
               </template>
 
               <template v-else-if="variableNAHarmonizedForCohort(cohort, variable.variable)">
                 <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <i class="fa fa-times " style="font-size: .70em; color: grey"></i>
+                  <font-awesome-icon icon="times" class="text-secondary" size="xs"></font-awesome-icon>
                 </a>
               </template>
 
               <template v-else>
-                <i class="fa fa-question" style="font-size: .70em; color: grey"></i>
+                <font-awesome-icon icon="question" class="text-secondary" size="xs"></font-awesome-icon>
               </template>
             </td>
           </tr>
@@ -66,8 +66,12 @@
 </template>
 
 <style>
+  .harmonization-panel table {
+    text-align: center;
+  }
+
   .icon-cells {
-    font-size: 1.5rem;
+    vertical-align: middle !important;
   }
 
   .number-of-harmonizations-cell {
@@ -76,6 +80,11 @@
 </style>
 
 <script>
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import { library } from '@fortawesome/fontawesome-svg-core'
+  import { faCheckCircle, faQuestion, faTimes } from '@fortawesome/free-solid-svg-icons'
+  library.add(faCheckCircle, faQuestion, faTimes)
+
   export default {
     name: 'CatalogueHarmonizationPanel',
     methods: {
@@ -138,6 +147,9 @@
       selectedNodeVariables () {
         return this.$store.state.selectedNodeVariables
       }
+    },
+    components: {
+      FontAwesomeIcon
     }
   }
 </script>
