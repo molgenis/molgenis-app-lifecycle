@@ -24,7 +24,7 @@
       <div class="row">
         <div class="col">
           <div class="text-center pt-3" v-if="treeMenu.length === 0">
-            <font-awesome-icon icon="spinner" spin size="2x"></font-awesome-icon>
+            <font-awesome-icon icon="spinner" spin size="1x"></font-awesome-icon>
           </div>
           <template v-else>
             <v-jstree

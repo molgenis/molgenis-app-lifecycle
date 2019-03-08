@@ -27,24 +27,24 @@
 
               <template v-if="variableCompleteHarmonizedForCohort(cohort, variable.variable)">
                 <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <font-awesome-icon icon="check-circle" class="text-success"></font-awesome-icon>
+                  <font-awesome-icon icon="check-circle" class="text-success" size="s"></font-awesome-icon>
                 </a>
               </template>
 
               <template v-else-if="variablePartialHarmonizedForCohort(cohort, variable.variable)">
                 <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <font-awesome-icon icon="check-circle" class="text-warning"></font-awesome-icon>
+                  <font-awesome-icon icon="check-circle" class="text-warning" size="s"></font-awesome-icon>
                 </a>
               </template>
 
               <template v-else-if="variableNAHarmonizedForCohort(cohort, variable.variable)">
                 <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <font-awesome-icon icon="times" class="text-secondary" size="xs"></font-awesome-icon>
+                  <font-awesome-icon icon="times" class="text-secondary" size="s"></font-awesome-icon>
                 </a>
               </template>
 
               <template v-else>
-                <font-awesome-icon icon="question" class="text-secondary" size="xs"></font-awesome-icon>
+                <font-awesome-icon icon="question" class="text-secondary" size="s"></font-awesome-icon>
               </template>
             </td>
           </tr>
