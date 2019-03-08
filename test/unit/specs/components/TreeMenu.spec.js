@@ -32,11 +32,9 @@ describe('components', () => {
     it('should toggle collapse on click of button', () => {
       const wrapper = shallowMount(TreeMenu, {propsData})
       expect(wrapper.vm.isMenuCollapsed).to.equal(false)
-      expect(wrapper.vm.collapseText).to.equal('-')
 
       wrapper.vm.toggleCollapse()
       expect(wrapper.vm.isMenuCollapsed).to.equal(true)
-      expect(wrapper.vm.collapseText).to.equal('+')
     })
 
     it('should compute which tree nodes to show when query changes', () => {
@@ -64,7 +62,7 @@ describe('components', () => {
       const router = new VueRouter()
 
       const wrapper = shallowMount(TreeMenu, {localVue, propsData, router, store})
-      const node = {data: {icon: 'fa fa-table'}, model: {opened: false}}
+      const node = {data: {icon: 'fas fa-table fa-sm'}, model: {opened: false}}
 
       wrapper.vm.itemClick(node)
       td.verify(actions.FETCH_DATA_FOR_SELECTED_NODE(td.matchers.anything(), node.model, undefined))
