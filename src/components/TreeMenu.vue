@@ -1,7 +1,9 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <a href="#" class="badge badge-secondary" @click="toggleCollapse">{{collapseText}}</a>
+      <a href="#" class="badge badge-secondary" @click="toggleCollapse">
+        <font-awesome-icon :icon="isMenuCollapsed ? 'plus' : 'minus'" size="xs"></font-awesome-icon>
+      </a>
       <span>Catalogue</span>
     </div>
 
@@ -10,7 +12,7 @@
         <div class="col">
           <section class="mb-2" id="search">
             <label for="search-input">
-              <i class="fa fa-search" aria-hidden="true"></i>
+              <font-awesome-icon icon="search" aria-hidden="true"></font-awesome-icon>
             </label>
             <input id="search-input" class="form-control" type="search" placeholder="Search catalogue"
                    aria-label="Search"
@@ -21,10 +23,9 @@
 
       <div class="row">
         <div class="col">
-          <template v-if="treeMenu.length === 0">
-            <i class="fa fa-spinner fa-spin"></i>
-          </template>
-
+          <div class="text-center pt-3" v-if="treeMenu.length === 0">
+            <font-awesome-icon icon="spinner" spin size="1x"></font-awesome-icon>
+          </div>
           <template v-else>
             <v-jstree
               :data="filteredTreeMenu"
@@ -64,15 +65,21 @@
 </style>
 
 <script>
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import { library, dom } from '@fortawesome/fontawesome-svg-core'
+  import { faSpinner, faSearch, faPlus, faMinus, faTable } from '@fortawesome/free-solid-svg-icons'
   import VJstree from 'vue-jstree'
   import filterTreeMenu from '../util/filterTreeMenu'
+
+  library.add(faSpinner, faSearch, faPlus, faMinus, faTable)
+  // watch the dom to replace the tree's <i class="fas fa-table"> tags with svg
+  dom.watch()
 
   export default {
     name: 'TreeMenu',
     props: ['treeMenu'],
     data () {
       return {
-        collapseText: '-',
         isMenuCollapsed: false,
         query: ''
       }
@@ -98,11 +105,11 @@
 
       toggleCollapse () {
         this.isMenuCollapsed = !this.isMenuCollapsed
-        this.collapseText = this.isMenuCollapsed ? '+' : '-'
       }
     },
     components: {
-      VJstree
+      VJstree,
+      FontAwesomeIcon
     }
   }
 </script>

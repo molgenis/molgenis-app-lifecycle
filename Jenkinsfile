@@ -4,9 +4,6 @@ pipeline {
       label 'node-carbon'
     }
   }
-  environment {
-    npm_config_registry = 'http://nexus.molgenis-nexus:8081/repository/npm-central/'
-  }
   stages {
     stage('Prepare') {
       steps {
@@ -116,12 +113,4 @@ pipeline {
       hubotSend(message: 'Build failed', status:'ERROR', site: 'slack-pr-app-team')
     }
   }
-}
-
-def notifySuccess() {
-  hubotSend(message: 'Build success', status: 'INFO', site: 'slack-pr-app-team')
-}
-
-def notifyFailed() {
-  hubotSend(message: 'Build failed', status: 'ERROR', site: 'slack-pr-app-team')
 }

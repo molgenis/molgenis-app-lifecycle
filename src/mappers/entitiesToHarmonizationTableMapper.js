@@ -8,12 +8,13 @@ const mapEntitiesToHarmonizationTable = (entities) => {
   return entities.reduce((accumulator, entity) => {
     const key = entity.cohort.id
     const variable = entity.target.variable
+    const status = entity.status.id
 
     if (accumulator[key] === undefined) {
-      accumulator[key] = [variable]
+      accumulator[key] = [{variable, status}]
       return accumulator
     }
-    accumulator[key] = [...accumulator[key], variable]
+    accumulator[key] = [...accumulator[key], {variable: variable, status: status}]
     return accumulator
   }, {})
 }

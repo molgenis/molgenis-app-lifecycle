@@ -11,7 +11,7 @@
             <li class="nav-item">
               <a class="nav-link active" id="core-variables-tab" data-toggle="tab" href="#core-variables" role="tab"
                  aria-controls="core-variables" aria-selected="true">
-                Core variables
+                LifeCycle variables
               </a>
             </li>
 

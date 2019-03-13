@@ -7,3 +7,9 @@
     name: 'app'
   }
 </script>
+
+<style>
+  .fa-table.fa-sm.tree-icon {
+    width: 16px;
+  }
+</style>

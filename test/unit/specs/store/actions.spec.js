@@ -108,7 +108,7 @@ describe('actions', () => {
         {
           'children': [],
           'disabled': true,
-          'icon': 'fa fa-table',
+          'icon': 'fas fa-table fa-sm',
           'id': 'p2',
           'loading': false,
           'opened': false,
@@ -125,7 +125,7 @@ describe('actions', () => {
                 {
                   'children': [],
                   'disabled': false,
-                  'icon': 'fa fa-table',
+                  'icon': 'fas fa-table fa-sm',
                   'id': 'gc1',
                   'loading': false,
                   'opened': false,
@@ -154,7 +154,7 @@ describe('actions', () => {
             {
               'children': [],
               'disabled': false,
-              'icon': 'fa fa-table',
+              'icon': 'fas fa-table fa-sm',
               'id': 'c1',
               'loading': false,
               'opened': false,

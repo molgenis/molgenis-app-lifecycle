@@ -70,7 +70,11 @@
     name: 'CatalogueCoreVariablePanel',
     methods: {
       getHarmonizationValues (harmonizations) {
-        return harmonizations.map(harmonization => harmonization.sourceLabel).join(', ')
+        if (harmonizations.length > 0) {
+          return harmonizations.map(harmonization => harmonization.id.substring(0, harmonization.id.indexOf('_'))).join(', ')
+        } else {
+          return '-'
+        }
       }
     },
     computed: {

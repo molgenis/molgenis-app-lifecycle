@@ -12,12 +12,12 @@ describe('components', () => {
     beforeEach(() => {
       getters = {
         getCohortVariableMapping: () => ({'cohort1': {'variable1': {id: '1'}}}),
-        getHarmonizationTable: () => ({'cohort1': ['variable1', 'variable2'], 'cohort2': ['variable3']})
+        getHarmonizationTable: () => ({'cohort1': [{variable: 'variable1', status: 'zna'}, {variable: 'variable2', status: 'partial'}, {variable: 'variable3', status: 'complete'}], 'cohort2': [{variable: 'variable3', status: 'complete'}]})
       }
 
       state = {
         cohorts: ['cohort1'],
-        selectedNodeVariables: ['variable1', 'variable2']
+        selectedNodeVariables: [{variable: 'variable1', status: 'zna'}, {variable: 'variable2', status: 'partial'}]
       }
 
       store = new Vuex.Store({getters, state})
@@ -48,12 +48,16 @@ describe('components', () => {
       expect(wrapper.vm.doesCohortHaveHarmonization('cohort3')).to.equal(false)
     })
 
-    it('should return true if the variable is harmonized for a cohort when variableHarmonizedForCohort is called', () => {
-      expect(wrapper.vm.variableHarmonizedForCohort('cohort1', 'variable1')).to.equal(true)
+    it('should return true if the variable is harmonized for a cohort when variableFullyHarmonizedForCohort is called', () => {
+      expect(wrapper.vm.variableCompleteHarmonizedForCohort('cohort1', 'variable3')).to.deep.equal(true)
     })
 
-    it('should return false if the variable is not harmonized for a cohort when variableHarmonizedForCohort is called', () => {
-      expect(wrapper.vm.variableHarmonizedForCohort('cohort1', 'variable3')).to.equal(false)
+    it('should return false if the variable is not harmonized for a cohort when variablePartialHarmonizedForCohort is called', () => {
+      expect(wrapper.vm.variablePartialHarmonizedForCohort('cohort1', 'variable2')).to.deep.equal(true)
+    })
+
+    it('should return false if the variable is not harmonized for a cohort when variableNAHarmonizedForCohort is called', () => {
+      expect(wrapper.vm.variableNAHarmonizedForCohort('cohort1', 'variable1')).to.deep.equal(true)
     })
 
     it('should return the row identifier of a harmonization when getHarmonizationRowId is called', () => {
@@ -70,17 +74,17 @@ describe('components', () => {
 
     it('should compute harmonizationTableData from a getter', () => {
       expect(wrapper.vm.harmonizationTableData).to.deep.equal({
-        'cohort1': ['variable1', 'variable2'],
-        'cohort2': ['variable3']
+        'cohort1': [{variable: 'variable1', status: 'zna'}, {variable: 'variable2', status: 'partial'}, {variable: 'variable3', status: 'complete'}],
+        'cohort2': [{variable: 'variable3', status: 'complete'}]
       })
     })
 
     it('should compute harmonizedVariables based on the values of harmonizationTableData', () => {
-      expect(wrapper.vm.harmonizedVariables).to.deep.equal(['variable1', 'variable2', 'variable3'])
+      expect(wrapper.vm.harmonizedVariables).to.deep.equal([{status: 'zna', variable: 'variable1'}, {status: 'partial', variable: 'variable2'}, {status: 'complete', variable: 'variable3'}, {status: 'complete', variable: 'variable3'}])
     })
 
     it('should compute selectedNodeVariables from the state', () => {
-      expect(wrapper.vm.selectedNodeVariables).to.deep.equal(['variable1', 'variable2'])
+      expect(wrapper.vm.selectedNodeVariables).to.deep.equal([{variable: 'variable1', status: 'zna'}, {variable: 'variable2', status: 'partial'}])
     })
   })
 })
