@@ -1,10 +1,10 @@
 <template>
     <table class="table table-striped">
       <tr>
-        <th v-for="column in variableColumns">{{ column.label }}</th>
+        <th v-for="column in variableColumns" :key="column.name">{{ column.label }}</th>
       </tr>
       <tr>
-        <td v-for="column in variableColumns">
+        <td v-for="column in variableColumns" :key="column.name">
           <span v-if="typeof variable[column.name] === 'object'">test {{ variable[column.name].label }}</span>
           <pre v-else-if="column.name === 'values' || column.name === 'comments'">{{ variable[column.name] }}</pre>
           <span v-else>{{ variable[column.name] }}</span>

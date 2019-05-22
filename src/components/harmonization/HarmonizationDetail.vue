@@ -38,7 +38,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="sourceVariable in sourceVariables">
+            <tr v-for="sourceVariable in sourceVariables" :key="sourceVariable.variable">
               <td v-if="sourceVariable.cohort">{{ sourceVariable.cohort.label }}</td>
               <td>{{ sourceVariable.variable }}</td>
               <td>{{ sourceVariable.description }}</td>

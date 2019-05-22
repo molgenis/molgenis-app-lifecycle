@@ -57,7 +57,7 @@
         'coreVariableFields': 'variableMetadata',
         'selectedHarmonization': 'harmonization'
       })
-      },
+    },
     mounted () {
       this.$store.dispatch('FETCH_HARMONIZATION', this.harmonizationId)
     },

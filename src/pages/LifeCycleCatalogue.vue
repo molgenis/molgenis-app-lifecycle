@@ -6,18 +6,13 @@
       </div>
 
       <div class="col-xl-9 col-lg-9 col-12">
-        <template v-if="selectedNodeLabel !== ''">
-          <b-tabs content-class="mt-3">
+        <b-tabs content-class="mt-3" v-if="selectedNodeLabel !== ''">
             <b-tab title="LifeCycle variables" active key="variables"><catalogue-core-variable-panel/></b-tab>
             <b-tab title="Harmonization" key="harmonization"><catalogue-harmonization-panel/></b-tab>
           </b-tabs>
-        </template>
-
-        <template v-else>
-          <div class="text-center alert alert-light" role="alert">
+        <div class="text-center alert alert-light" role="alert" v-else>
             <h4>Select variables in the search tree to start</h4>
           </div>
-        </template>
       </div>
 
     </div>
