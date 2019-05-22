@@ -42,7 +42,7 @@
       treeMenu (treeMenu) {
         if (this.selectedNodeId) {
           const selectedNode = findNodeFromTreeById(treeMenu, this.selectedNodeId)
-          this.$store.dispatch('SET_SELECTED_NODE', selectedNode)
+          this.$store.commit('SET_SELECTED_NODE', selectedNode)
         }
       }
     },

@@ -13,8 +13,8 @@ export default {
     state.error = error
   },
 
-  'SET_HARMONIZATION_DATA' (state: LifeCycleState, harmonizationData: Array<Object>) {
-    state.harmonizationData = harmonizationData
+  'SET_HARMONIZATION' (state: LifeCycleState, harmonization: Object) {
+    state.harmonization = harmonization
   },
 
   'SET_VARIABLE_METADATA' (state: LifeCycleState, meta: Object) {

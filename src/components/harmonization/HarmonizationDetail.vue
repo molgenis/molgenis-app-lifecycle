@@ -64,15 +64,13 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: 'HarmonizationDetail',
     computed: {
-      harmonization () {
-        return this.$store.state.harmonizationData[0]
-      },
-
+      ...mapState(['harmonization']),
       sourceVariables () {
-        return this.$store.state.harmonizationData[0].sources
+        return this.harmonization.sources
       }
     }
   }
