@@ -66,6 +66,7 @@
 </style>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: 'CatalogueCoreVariablePanel',
     methods: {
@@ -78,17 +79,9 @@
       }
     },
     computed: {
-      coreVariables () {
-        return this.$store.state.selectedNodeVariables
+      ...mapState(['variableMetadata', 'selectedNodeLabel', 'selectedNodeVariables'])
       },
-
-      coreVariableFields () {
-        return this.$store.getters.getCoreVariableFields
-      },
-
-      selectedNodeLabel () {
-        return this.$store.state.selectedNodeLabel
-      }
+    components: {
     }
   }
 </script>

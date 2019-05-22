@@ -17,6 +17,10 @@ export default {
     state.harmonizationData = harmonizationData
   },
 
+  'SET_VARIABLE_METADATA' (state: LifeCycleState, meta: Object) {
+    state.variableMetadata = meta
+  },
+
   'SET_HARMONIZATION_METADATA' (state: LifeCycleState, harmonizationMetadata: Object) {
     state.harmonizationMetadata = harmonizationMetadata
   },
