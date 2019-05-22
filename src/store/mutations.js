@@ -26,6 +26,9 @@ export default {
   },
 
   'SET_SELECTED_NODE' (state: LifeCycleState, selectedNode: Object) {
+    if (state.selectedNodeLabel === selectedNode.value) {
+      return
+    }
     state.selectedNodeLabel = selectedNode.value
     state.selectedNodeVariables = selectedNode.variables
   },

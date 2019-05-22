@@ -69,7 +69,7 @@
       treeMenu (treeMenu) {
         if (this.selectedNodeId) {
           const selectedNode = findNodeFromTreeById(treeMenu, this.selectedNodeId)
-          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', selectedNode)
+          this.$store.dispatch('SET_SELECTED_NODE', selectedNode)
         }
       }
     },
