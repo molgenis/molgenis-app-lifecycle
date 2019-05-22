@@ -1,31 +1,31 @@
 <template>
   <div class="core-variable-panel m-4">
-    <template v-if="coreVariables.length > 0">
+    <template>
       <h4>{{ selectedNodeLabel }}</h4>
       <div class="row">
         <div class="col-12">
 
           <template v-for="variable in coreVariables">
-            <div class="card mb-3">
+            <div class="card mb-3" :key="variable.id">
               <div class="card-header">
-                <span class="lead">{{ variable['label'] }}</span>
+                <span class="lead">{{ variable.label }}</span>
               </div>
 
               <div class="card-body">
                 <div class="card-text">
                   <dl class="row">
 
-                    <template v-for="field in coreVariableFields" v-if="field.name !== 'label'">
-                      <dt class="col-2">{{ field.name }}</dt>
-                      <dd class="col-10">
-                        <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable['unit'])">
+                    <template v-for="field in variableMetadata" v-if="field.name !== 'label'">
+                      <dt class="col-2" :key="field.name + '-dt'">{{ field.name }}</dt>
+                      <dd class="col-10" :key="field.name + '-dd'">
+                        <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable.unit)">
                           {{ variable[field.name].label }}
                         </span>
-                        <pre v-else-if="field.name === 'values'">{{ variable['values'] }}</pre>
-                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable['comments'] }}</pre>
+                        <pre v-else-if="field.name === 'values'">{{ variable.values }}</pre>
+                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable.comments }}</pre>
 
                         <span v-else-if="field.name === 'harmonizations'">
-                          {{ getHarmonizationValues(variable['harmonizations']) }}
+                          {{ getHarmonizationValues(variable.harmonizations) }}
                         </span>
 
                         <span v-else-if="variable[field.name] === undefined">-</span>
