@@ -1,66 +1,39 @@
 <template>
   <div class="harmonization-panel mt-3">
     <div class="table-responsive">
-      <template  v-if="harmonizedVariables.length > 0">
+      <template>
         <table class="table table-sm table-striped">
           <thead>
           <tr>
             <th scope="col" class="pr-5">Cohort</th>
-
-            <th v-for="variable in selectedNodeVariables" v-if="isVariableHarmonized(variable.variable)">
-              {{variable.variable }}
+            <th v-for="variable in variables" :key="variable">
+              {{variable}}
             </th>
           </tr>
           </thead>
 
           <tbody>
-          <tr v-for="cohort in cohorts" v-if="doesCohortHaveHarmonization(cohort)">
-            <th scope="row" class="number-of-harmonizations-cell pr-5">
-              {{ cohort }}
-              <span class="badge badge-success badge-pill">
-                  {{ getNumberOfHarmonizations(cohort) }} / {{ selectedNodeVariables.length }}
-                </span>
-            </th>
+            <tr v-for="(cohort, index) in cohorts" :key="cohort">
+              <th scope="row" class="number-of-harmonizations-cell pr-5">
+                {{ cohort }}
+                <span class="badge badge-success badge-pill">
+                    {{ 0 }} / {{ variables.length }}
+                  </span>
+              </th>
+              <td class="icon-cells" v-for="variable in variables" :key="variable">
+                <harmonization-status v-bind="statuses[variable][cohort]"></harmonization-status>
+              </td>
+              
+              <th class="align-middle" rowspan="0" v-if="toBeFetched.length && index === 0">
+                <observer @intersect="fetch" :options="{threshold:0.01}">
+                  <button @click="fetch">{{toBeFetched.length}} more...</button>
+                </observer>
+              </th>
 
-            <td class="icon-cells" v-for="variable in selectedNodeVariables"
-                v-if="isVariableHarmonized(variable.variable)">
-
-              <template v-if="variableCompleteHarmonizedForCohort(cohort, variable.variable)">
-                <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <font-awesome-icon icon="check-circle" class="text-success" size="s"></font-awesome-icon>
-                </a>
-              </template>
-
-              <template v-else-if="variablePartialHarmonizedForCohort(cohort, variable.variable)">
-                <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <font-awesome-icon icon="check-circle" class="text-warning" size="s"></font-awesome-icon>
-                </a>
-              </template>
-
-              <template v-else-if="variableNAHarmonizedForCohort(cohort, variable.variable)">
-                <a href="" @click.prevent="navigateToHarmonizationComparison(getHarmonizationRowId(cohort, variable.variable))">
-                  <font-awesome-icon icon="times" class="text-secondary" size="s"></font-awesome-icon>
-                </a>
-              </template>
-
-              <template v-else>
-                <font-awesome-icon icon="question" class="text-secondary" size="s"></font-awesome-icon>
-              </template>
-            </td>
-          </tr>
+            </tr>
           </tbody>
         </table>
       </template>
-
-      <template v-else>
-        <table>
-          <tr>
-            <td scope="col" class="pr-1">No harmonized variables available</td>
-          </tr>
-        </table>
-      </template>
-
-
     </div>
   </div>
 </template>
@@ -80,76 +53,50 @@
 </style>
 
 <script>
-  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-  import { library } from '@fortawesome/fontawesome-svg-core'
-  import { faCheckCircle, faQuestion, faTimes } from '@fortawesome/free-solid-svg-icons'
-  library.add(faCheckCircle, faQuestion, faTimes)
+  import { mapState } from 'vuex'
+  import Observer from './Observer.vue'
+  import HarmonizationStatus from './HarmonizationStatus.vue'
 
   export default {
     name: 'CatalogueHarmonizationPanel',
+    data: function () {
+      return {
+        variables: [],
+        statuses: {},
+        toBeFetched: []
+      }
+    },
+    created: function () {
+      this.toBeFetched = [...this.selectedNodeVariables]
+    },
+    watch: {
+      selectedNodeVariables: function (value) {
+        this.variables = []
+        this.statuses = {}
+        this.toBeFetched = [...value]
+      }
+    },
     methods: {
-      getNumberOfHarmonizations (cohort) {
-        if (this.harmonizationTableData[cohort] === undefined) {
-          return 0
-        }
-        return this.harmonizationTableData[cohort].filter(harmonization => harmonization.status !== 'zna').length
-      },
-
-      isVariableHarmonized (variable) {
-        return this.harmonizedVariables.some((harmonization) => {
-          return harmonization.variable === variable
+      fetch () {
+        const batch = this.toBeFetched.splice(0, 100)
+        batch.forEach(({variable, harmonizations}) => {
+          this.variables.push(variable)
+          this.statuses[variable] = {}
+          harmonizations.forEach(({cohort, status, id}) => {
+            this.statuses[variable][cohort.id] = { status: status.id, id }
+          })
         })
-      },
-
-      doesCohortHaveHarmonization (cohort) {
-        return this.harmonizationTableData[cohort] !== undefined
-      },
-
-      variableCompleteHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort].some(harmonization => harmonization.variable === variable && harmonization.status === 'complete')
-      },
-
-      variablePartialHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort].some(harmonization => harmonization.variable === variable && harmonization.status === 'partial')
-      },
-
-      variableNAHarmonizedForCohort (cohort, variable) {
-        return this.harmonizationTableData[cohort].some(harmonization => harmonization.variable === variable && harmonization.status === 'zna')
-      },
-
-      getHarmonizationRowId (cohort, variable) {
-        return this.cohortVariableMapping[cohort][variable].id
-      },
-
-      navigateToHarmonizationComparison (harmonizationId) {
-        this.$router.push(this.$route.path + '/' + harmonizationId)
       }
     },
     computed: {
-      cohorts () {
-        return this.$store.state.cohorts
-      },
-
-      cohortVariableMapping () {
-        return this.$store.getters.getCohortVariableMapping
-      },
-
-      harmonizationTableData () {
-        return this.$store.getters.getHarmonizationTable
-      },
-
-      harmonizedVariables () {
-        return Object.values(this.harmonizationTableData).reduce((accumulator, value) => {
-          return [...accumulator, ...value]
-        }, [])
-      },
-
-      selectedNodeVariables () {
-        return this.$store.state.selectedNodeVariables
+      ...mapState(['cohorts', 'selectedNodeVariables']),
+      showFetch () {
+        return this.toBeFetched.length > 0
       }
     },
     components: {
-      FontAwesomeIcon
+      Observer,
+      HarmonizationStatus
     }
   }
 </script>

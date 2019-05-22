@@ -15,7 +15,7 @@
                 <div class="card-text">
                   <dl class="row">
 
-                    <template v-for="field in variableMetadata" v-if="field.name !== 'label'">
+                    <template v-for="field in variableMetadata.filter(it => it.name !== 'label')">
                       <dt class="col-2" :key="field.name + '-dt'">{{ field.name }}</dt>
                       <dd class="col-10" :key="field.name + '-dd'">
                         <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable.unit)">
@@ -42,6 +42,9 @@
         </div>
       </div>
     </template>
+    <observer @intersect="fetch" v-if="toBeFetched.length">
+      <button @click="fetch">{{toBeFetched.length}} more...</button>
+    </observer>
   </div>
 </template>
 
@@ -67,9 +70,29 @@
 
 <script>
   import { mapState } from 'vuex'
+  import Observer from './Observer.vue'
+
   export default {
     name: 'CatalogueCoreVariablePanel',
+    data () {
+      return {
+        toBeFetched: [],
+        coreVariables: []
+      }
+    },
+    created () {
+      this.toBeFetched = [...this.selectedNodeVariables]
+    },
+    watch: {
+      selectedNodeVariables (value) {
+        this.coreVariables = []
+        this.toBeFetched = [...value]
+      }
+    },
     methods: {
+      fetch () {
+        this.toBeFetched.splice(0, 100).forEach(variable => this.coreVariables.push(variable))
+      },
       getHarmonizationValues (harmonizations) {
         if (harmonizations.length > 0) {
           return harmonizations.map(harmonization => harmonization.id.substring(0, harmonization.id.indexOf('_'))).join(', ')
@@ -80,8 +103,9 @@
     },
     computed: {
       ...mapState(['variableMetadata', 'selectedNodeLabel', 'selectedNodeVariables'])
-      },
+    },
     components: {
+      Observer
     }
   }
 </script>
