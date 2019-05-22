@@ -6,33 +6,11 @@
       </div>
 
       <div class="col-xl-9 col-lg-9 col-12">
-        <template v-if="selectedNodeLabel">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="core-variables-tab" data-toggle="tab" href="#core-variables" role="tab"
-                 aria-controls="core-variables" aria-selected="true">
-                LifeCycle variables
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" id="harmonization-tab" data-toggle="tab" href="#harmonization" role="tab"
-                 aria-controls="harmonization" aria-selected="false">
-                Harmonization
-              </a>
-            </li>
-          </ul>
-
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="core-variables" role="tabpanel"
-                 aria-labelledby="core-variables-tab">
-              <catalogue-core-variable-panel/>
-            </div>
-
-            <div class="tab-pane fade" id="harmonization" role="tabpanel" aria-labelledby="harmonization-tab">
-              <catalogue-harmonization-panel/>
-            </div>
-          </div>
+        <template v-if="selectedNodeLabel !== ''">
+          <b-tabs content-class="mt-3">
+            <b-tab title="LifeCycle variables" active key="variables"><catalogue-core-variable-panel/></b-tab>
+            <b-tab title="Harmonization" key="harmonization"><catalogue-harmonization-panel/></b-tab>
+          </b-tabs>
         </template>
 
         <template v-else>
@@ -50,6 +28,7 @@
   import CatalogueCoreVariablePanel from '../components/CatalogueCoreVariablePanel'
   import CatalogueHarmonizationPanel from '../components/CatalogueHarmonizationPanel'
   import TreeMenu from '../components/TreeMenu'
+  import { mapState } from 'vuex'
 
   import findNodeFromTreeById from '../util/findNodeFromTreeById'
 
@@ -57,13 +36,7 @@
     name: 'LifeCycleCatalogue',
     props: ['selectedNodeId'],
     computed: {
-      treeMenu () {
-        return this.$store.state.treeMenu
-      },
-
-      selectedNodeLabel () {
-        return this.$store.state.selectedNodeLabel
-      }
+      ...mapState(['treeMenu', 'selectedNodeLabel'])
     },
     watch: {
       treeMenu (treeMenu) {
