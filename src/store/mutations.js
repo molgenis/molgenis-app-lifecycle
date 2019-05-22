@@ -1,6 +1,5 @@
 // @flow
 /* Utilities */
-import sortArray from '../util/sortArray'
 
 /* Flow types */
 import type { LifeCycleState } from '../flow.types'
@@ -24,7 +23,7 @@ export default {
 
   'SET_SELECTED_NODE' (state: LifeCycleState, selectedNode: Object) {
     state.selectedNodeLabel = selectedNode.value
-    state.selectedNodeVariables = sortArray(selectedNode.variables, 'variable')
+    state.selectedNodeVariables = selectedNode.variables
   },
 
   'SET_TREE_MENU' (state: LifeCycleState, treeMenu: Array<Object>) {

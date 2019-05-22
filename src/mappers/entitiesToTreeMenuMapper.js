@@ -1,3 +1,5 @@
+import sortArray from '../util/sortArray'
+
 /**
  * Returns true if a child or recursively one of his children matches the selected node identifier
  */
@@ -40,7 +42,7 @@ const createNode = (entity, selectedNodeId) => {
     disabled: isNodeDisabled(entity),
     loading: false,
     selected: entity.key === selectedNodeId,
-    variables: entity.variables,
+    variables: sortArray(entity.variables, 'variable'),
     position: entity.position,
     children: children,
     opened: isAChildSelected(children, selectedNodeId)
