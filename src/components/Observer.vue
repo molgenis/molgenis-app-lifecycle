@@ -19,20 +19,16 @@
     },
     methods: {
       checkInView () {
-        const visible = inView(this.$el)
-        // console.log('checkInView', visible)
-        if (visible) {
+        if (inView(this.$el)) {
           this.$emit('intersect')
         }
       }
     },
     mounted () {
       this.observer.observe(this.$el)
-      // console.log('mounted')
       this.checkInView()
     },
     updated () {
-      // console.log('updated')
       // for firefox, need to check immediately
       this.checkInView()
       // for chrome, need to render it first
