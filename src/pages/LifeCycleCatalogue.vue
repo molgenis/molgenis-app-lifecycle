@@ -54,10 +54,10 @@
     mounted () {
       this.$store.dispatch('FETCH_TREE_MENU', this.selectedNodeId)
       this.$store.dispatch('FETCH_COHORTS')
-      if (this.$route.hash === '#variables') {
+      if (this.$store.state.route.hash === '#variables') {
         this.tabIndex = 0
       }
-      if (this.$route.hash === '#harmonization') {
+      if (this.$store.state.route.hash === '#harmonization') {
         this.tabIndex = 1
       }
     },
