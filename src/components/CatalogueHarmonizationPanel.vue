@@ -83,9 +83,6 @@
         const batch = this.toBeFetched.splice(0, 100)
         this.variables = [...this.variables, ...batch]
       },
-      computeStatus () {
-        return statusIndexer(this.selectedNodeVariables)
-      },
       getNumberOfHarmonizations (cohort) {
         return Object.keys(this.status[cohort]).length
       }
