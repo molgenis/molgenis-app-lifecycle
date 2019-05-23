@@ -55,6 +55,7 @@
   import { mapState } from 'vuex'
   import Observer from './Observer.vue'
   import HarmonizationStatus from './HarmonizationStatus.vue'
+  import statusIndexer from '@/mappers/statusIndexer'
 
   export default {
     name: 'CatalogueHarmonizationPanel',
@@ -68,13 +69,13 @@
     created () {
       this.variables = []
       this.toBeFetched = [...this.selectedNodeVariables.map(it => it.variable)]
-      this.status = this.computeStatus()
+      this.status = statusIndexer(this.selectedNodeVariables)
     },
     watch: {
       selectedNodeVariables (value) {
         this.variables = []
         this.toBeFetched = [...value.map(it => it.variable)]
-        this.status = this.computeStatus()
+        this.status = statusIndexer(this.selectedNodeVariables)
       }
     },
     methods: {
@@ -83,17 +84,7 @@
         this.variables = [...this.variables, ...batch]
       },
       computeStatus () {
-        const result = this.selectedNodeVariables.reduce((acc, {variable, harmonizations}) => {
-          harmonizations.forEach(({cohort, status, id}) => {
-            const cohortID = cohort.id
-            if (!acc.hasOwnProperty(cohortID)) {
-              acc[cohortID] = {}
-            }
-            acc[cohortID][variable] = { status: status.id, id }
-          })
-          return acc
-        }, {})
-        return result
+        return statusIndexer(this.selectedNodeVariables)
       }
     },
     computed: {
