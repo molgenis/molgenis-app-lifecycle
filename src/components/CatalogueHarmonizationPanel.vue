@@ -13,23 +13,22 @@
           </thead>
 
           <tbody>
-            <tr v-for="(cohort, index) in cohorts" :key="cohort">
+            <tr v-for="(cohort, index) in cohortsWithMappings" :key="cohort">
               <th scope="row" class="number-of-harmonizations-cell pr-5">
                 {{ cohort }}
                 <span class="badge badge-success badge-pill">
-                    {{ 0 }} / {{ variables.length }}
+                    {{ Object.keys(status[cohort]).length }} / {{ selectedNodeVariables.length }}
                   </span>
               </th>
               <td class="icon-cells" v-for="variable in variables" :key="variable">
-                <harmonization-status v-bind="statuses[variable][cohort]"></harmonization-status>
+                <harmonization-status v-bind="status[cohort][variable]"></harmonization-status>
               </td>
               
-              <th class="align-middle" rowspan="0" v-if="toBeFetched.length && index === 0">
-                <observer @intersect="fetch" :options="{threshold:0.01}">
+              <th class="align-middle" rowspan="0" v-if="showFetch && index === 0">
+                <observer @intersect="fetch" :options="{threshold:0}">
                   <button @click="fetch">{{toBeFetched.length}} more...</button>
                 </observer>
               </th>
-
             </tr>
           </tbody>
         </table>
@@ -59,39 +58,51 @@
 
   export default {
     name: 'CatalogueHarmonizationPanel',
-    data: function () {
+    data () {
       return {
         variables: [],
-        statuses: {},
-        toBeFetched: []
+        toBeFetched: [],
+        status: {}
       }
     },
-    created: function () {
-      this.toBeFetched = [...this.selectedNodeVariables]
+    created () {
+      this.variables = []
+      this.toBeFetched = [...this.selectedNodeVariables.map(it => it.variable)]
+      this.status = this.computeStatus()
     },
     watch: {
-      selectedNodeVariables: function (value) {
+      selectedNodeVariables (value) {
         this.variables = []
-        this.statuses = {}
-        this.toBeFetched = [...value]
+        this.toBeFetched = [...value.map(it => it.variable)],
+        this.status = this.computeStatus()
       }
     },
     methods: {
       fetch () {
         const batch = this.toBeFetched.splice(0, 100)
-        batch.forEach(({variable, harmonizations}) => {
-          this.variables.push(variable)
-          this.statuses[variable] = {}
+        this.variables = [...this.variables, ...batch]
+      },
+      computeStatus () {
+        const result = this.selectedNodeVariables.reduce((acc, {variable, harmonizations}) => {
           harmonizations.forEach(({cohort, status, id}) => {
-            this.statuses[variable][cohort.id] = { status: status.id, id }
+            const cohortID = cohort.id
+            if (!acc.hasOwnProperty(cohortID)) {
+              acc[cohortID] = {}
+            }
+            acc[cohortID][variable] = { status: status.id, id }
           })
-        })
+          return acc
+        }, {})
+        return result
       }
     },
     computed: {
       ...mapState(['cohorts', 'selectedNodeVariables']),
       showFetch () {
         return this.toBeFetched.length > 0
+      },
+      cohortsWithMappings () {
+        return this.cohorts.filter(cohort => this.status[cohort])
       }
     },
     components: {
