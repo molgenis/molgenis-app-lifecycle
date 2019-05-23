@@ -79,6 +79,7 @@ describe('pages', () => {
 
     it('should activate selected nav item', () => {
       const wrapper = shallowMount(LifeCycleCatalogue, options)
+      // eslint-disable-next-line no-unused-expressions
       expect(wrapper.findAll('b-nav-item-stub').at(1).attributes('active')).to.exist
     })
   })

@@ -26,10 +26,10 @@ describe('mutations', () => {
     })
   })
 
-  describe('SET_HARMONIZATION_DATA', () => {
+  describe('SET_HARMONIZATION', () => {
     it('should set the harmonization data variable in the state', () => {
-      mutations.SET_HARMONIZATION_DATA(state, [{id: '1'}])
-      expect(state.harmonizationData).to.deep.equal([{id: '1'}])
+      mutations.SET_HARMONIZATION(state, {id: '1'})
+      expect(state.harmonization).to.deep.equal({id: '1'})
     })
   })
 

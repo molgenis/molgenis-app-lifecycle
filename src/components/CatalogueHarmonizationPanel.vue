@@ -17,7 +17,7 @@
               <th scope="row" class="number-of-harmonizations-cell pr-5">
                 {{ cohort }}
                 <span class="badge badge-success badge-pill">
-                    {{ Object.keys(status[cohort]).length }} / {{ selectedNodeVariables.length }}
+                    {{ getNumberOfHarmonizations(cohort) }} / {{ selectedNodeVariables.length }}
                   </span>
               </th>
               <td class="icon-cells" v-for="variable in variables" :key="variable">
@@ -85,6 +85,9 @@
       },
       computeStatus () {
         return statusIndexer(this.selectedNodeVariables)
+      },
+      getNumberOfHarmonizations (cohort) {
+        return Object.keys(this.status[cohort]).length
       }
     },
     computed: {
