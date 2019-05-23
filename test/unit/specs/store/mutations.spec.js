@@ -40,6 +40,13 @@ describe('mutations', () => {
     })
   })
 
+  describe('SET_VARIABLE_METADATA', () => {
+    it('should set the variable metadata variable in the state', () => {
+      mutations.SET_VARIABLE_METADATA(state, {attributes: []})
+      expect(state.variableMetadata).to.deep.equal({attributes: []})
+    })
+  })
+
   describe('SET_SELECTED_NODE', () => {
     it('should set the selected node label and selected node variables variables in the state', () => {
       mutations.SET_SELECTED_NODE(state, {value: '1', variables: ['variable']})

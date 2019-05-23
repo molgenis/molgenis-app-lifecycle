@@ -1,6 +1,7 @@
 import CatalogueHarmonizationPanel from '@/components/CatalogueHarmonizationPanel'
 import { shallowMount } from '@vue/test-utils'
 import Vuex from 'vuex'
+import mutations from '@/store/mutations'
 
 describe('components', () => {
   describe('CatalogueHarmonizationPanel', () => {
@@ -42,7 +43,7 @@ describe('components', () => {
         ]
       }
 
-      store = new Vuex.Store({getters, state})
+      store = new Vuex.Store({getters, state, mutations})
       wrapper = shallowMount(CatalogueHarmonizationPanel, {store, stubs: {'observer': true}})
     })
 
@@ -83,6 +84,14 @@ describe('components', () => {
       expect(wrapper.vm.showFetch).to.equal(true)
       wrapper.vm.fetch()
       expect(wrapper.vm.showFetch).to.equal(false)
+    })
+
+    it('should watch selectedNodeVariables', () => {
+      wrapper.vm.fetch()
+      store.commit('SET_SELECTED_NODE', {label: 'label', variables: [state.selectedNodeVariables[1]]})
+      expect(wrapper.vm.variables).to.deep.equal([])
+      wrapper.vm.fetch()
+      expect(wrapper.vm.variables).to.deep.equal(['variable2'])
     })
   })
 })
