@@ -73,7 +73,7 @@
     watch: {
       selectedNodeVariables (value) {
         this.variables = []
-        this.toBeFetched = [...value.map(it => it.variable)],
+        this.toBeFetched = [...value.map(it => it.variable)]
         this.status = this.computeStatus()
       }
     },
