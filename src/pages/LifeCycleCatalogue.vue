@@ -6,14 +6,19 @@
       </div>
 
       <div class="col-xl-9 col-lg-9 col-12">
-        <b-tabs content-class="mt-3" v-if="selectedNodeLabel !== ''">
-            <b-tab title="LifeCycle variables" active key="variables"><catalogue-core-variable-panel/></b-tab>
-            <b-tab title="Harmonization" key="harmonization"><catalogue-harmonization-panel/></b-tab>
-          </b-tabs>
+        <div v-if="selectedNodeLabel !== ''">
+          <b-nav tabs>
+            <b-nav-item href="#variables" :active="tabIndex === 0" @click="tabIndex = 0">LifeCycle variables</b-nav-item>
+            <b-nav-item href="#harmonization" :active="tabIndex === 1" @click="tabIndex = 1">Harmonization</b-nav-item>
+          </b-nav>
+          <catalogue-core-variable-panel v-if="tabIndex === 0"/>
+          <catalogue-harmonization-panel v-if="tabIndex === 1"/>
+        </div>
         <div class="text-center alert alert-light" role="alert" v-else>
-            <h4>Select variables in the search tree to start</h4>
-          </div>
+          <h4>Select variables in the search tree to start</h4>
+        </div>
       </div>
+      
 
     </div>
   </div>
@@ -30,6 +35,11 @@
   export default {
     name: 'LifeCycleCatalogue',
     props: ['selectedNodeId'],
+    data () {
+      return {
+        tabIndex: 0
+      }
+    },
     computed: {
       ...mapState(['treeMenu', 'selectedNodeLabel'])
     },
@@ -44,6 +54,12 @@
     mounted () {
       this.$store.dispatch('FETCH_TREE_MENU', this.selectedNodeId)
       this.$store.dispatch('FETCH_COHORTS')
+      if (this.$route.hash === '#variables') {
+        this.tabIndex = 0
+      }
+      if (this.$route.hash === '#harmonization') {
+        this.tabIndex = 1
+      }
     },
     components: {
       CatalogueCoreVariablePanel,

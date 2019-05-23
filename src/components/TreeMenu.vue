@@ -99,7 +99,7 @@
         } else {
           // Node is a VueComponent, pass down the model to work with the data
           this.$store.commit('SET_SELECTED_NODE', node.model)
-          this.$router.push('/' + node.model.id)
+          this.$router.push('/' + node.model.id + this.$route.hash)
         }
       },
 
