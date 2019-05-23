@@ -1,4 +1,21 @@
 export default {
+  meta: {
+    attributes: [
+      {
+        name: 'variables',
+        refEntity: {
+          attributes: [
+            {
+              name: 'attr1'
+            },
+            {
+              name: 'attr2'
+            }
+          ]
+        }
+      }
+    ]
+  },
   'items': [
     {
       '_href': '/api/v2/menu/1',

@@ -142,7 +142,10 @@ describe('actions', () => {
         }
       ]
 
-      const options = {expectedMutations: [{type: 'SET_TREE_MENU', payload: payload}]}
+      const options = {expectedMutations: [
+        {type: 'SET_TREE_MENU', payload: payload},
+        {type: 'SET_VARIABLE_METADATA', payload: [{name: 'attr1'}, {name: 'attr2'}]}
+      ]}
       utils.testAction(actions.FETCH_TREE_MENU, options, done)
     })
 
