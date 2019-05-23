@@ -91,7 +91,7 @@
     },
     methods: {
       fetch () {
-        this.toBeFetched.splice(0, 100).forEach(variable => this.coreVariables.push(variable))
+        this.coreVariables = [...this.coreVariables, ...this.toBeFetched.splice(0, 100)]
       },
       getHarmonizationValues (harmonizations) {
         if (harmonizations.length > 0) {
