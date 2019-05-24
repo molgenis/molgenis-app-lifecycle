@@ -70,12 +70,14 @@
       this.variables = []
       this.toBeFetched = [...this.selectedNodeVariables.map(it => it.variable)]
       this.status = statusIndexer(this.selectedNodeVariables)
+      this.fetch()
     },
     watch: {
       selectedNodeVariables (value) {
         this.variables = []
         this.toBeFetched = [...value.map(it => it.variable)]
         this.status = statusIndexer(this.selectedNodeVariables)
+        this.fetch()
       }
     },
     methods: {

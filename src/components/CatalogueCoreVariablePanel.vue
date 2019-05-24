@@ -82,11 +82,13 @@
     },
     created () {
       this.toBeFetched = [...this.selectedNodeVariables]
+      this.fetch()
     },
     watch: {
       selectedNodeVariables (value) {
         this.coreVariables = []
         this.toBeFetched = [...value]
+        this.fetch()
       }
     },
     methods: {
