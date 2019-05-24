@@ -1,10 +1,10 @@
 <template>
   <a href="#" @click.prevent="click" v-if="id">
-    <font-awesome-icon icon="check-circle" class="text-success" v-if="status === 'complete'"></font-awesome-icon>
-    <font-awesome-icon icon="check-circle" class="text-warning" v-else-if="status === 'partial'"></font-awesome-icon>
-    <font-awesome-icon icon="times" class="text-secondary" v-else-if="status === 'zna'"></font-awesome-icon>
+    <font-awesome-icon icon="check-circle" class="text-success" size="lg" v-if="status === 'complete'"></font-awesome-icon>
+    <font-awesome-icon icon="check-circle" class="text-warning" size="lg" v-else-if="status === 'partial'"></font-awesome-icon>
+    <font-awesome-icon icon="times" class="text-secondary" size="lg" v-else-if="status === 'zna'"></font-awesome-icon>
   </a>
-  <font-awesome-icon icon="question" class="text-secondary" v-else></font-awesome-icon>
+  <font-awesome-icon icon="question" class="text-secondary" size="lg" v-else></font-awesome-icon>
 </template>
 
 <script>
