@@ -1,10 +1,8 @@
 <template>
   <a href="#" @click.prevent="click" v-if="id">
-    <font-awesome-icon icon="check-circle" class="text-success" size="lg" v-if="status === 'complete'"></font-awesome-icon>
-    <font-awesome-icon icon="check-circle" class="text-warning" size="lg" v-else-if="status === 'partial'"></font-awesome-icon>
-    <font-awesome-icon icon="times" class="text-secondary" size="lg" v-else-if="status === 'zna'"></font-awesome-icon>
+    <font-awesome-icon :icon="icon" :class="iconClass" size="lg"></font-awesome-icon>
   </a>
-  <font-awesome-icon icon="question" class="text-secondary" size="lg" v-else></font-awesome-icon>
+  <font-awesome-icon :icon="icon" :class="iconClass" size="lg" v-else></font-awesome-icon>
 </template>
 
 <script>
@@ -22,6 +20,30 @@
     methods: {
       click () {
         this.$router.push(this.$route.path + '/' + this.id)
+      }
+    },
+    computed: {
+      icon () {
+        switch (this.status) {
+          case 'complete':
+          case 'partial':
+            return 'check-circle'
+          case 'zna':
+            return 'times'
+          default:
+            return 'question'
+        }
+      },
+      iconClass () {
+        switch (this.status) {
+          case 'complete':
+            return 'text-success'
+          case 'partial':
+            return 'text-warning'
+          case 'zna':
+          default:
+            return 'text-secondary'
+        }
       }
     },
     components: {

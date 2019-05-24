@@ -74,6 +74,12 @@
 
   export default {
     name: 'CatalogueCoreVariablePanel',
+    props: {
+      batchSize: {
+        type: Number,
+        default: 100
+      }
+    },
     data () {
       return {
         toBeFetched: [],
@@ -93,7 +99,7 @@
     },
     methods: {
       fetch () {
-        this.coreVariables = [...this.coreVariables, ...this.toBeFetched.splice(0, 100)]
+        this.coreVariables = [...this.coreVariables, ...this.toBeFetched.splice(0, this.batchSize)]
       },
       getHarmonizationValues (harmonizations) {
         if (harmonizations.length > 0) {

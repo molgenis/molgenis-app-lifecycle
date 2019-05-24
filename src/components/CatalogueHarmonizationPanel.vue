@@ -59,6 +59,12 @@
 
   export default {
     name: 'CatalogueHarmonizationPanel',
+    props: {
+      batchSize: {
+        type: Number,
+        default: 100
+      }
+    },
     data () {
       return {
         variables: [],
@@ -82,7 +88,7 @@
     },
     methods: {
       fetch () {
-        const batch = this.toBeFetched.splice(0, 100)
+        const batch = this.toBeFetched.splice(0, this.batchSize)
         this.variables = [...this.variables, ...batch]
       },
       getNumberOfHarmonizations (cohort) {

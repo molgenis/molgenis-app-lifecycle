@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 describe('pages', () => {
   describe('LifeCycleCatalogue', () => {
     let actions
+    let mutations
     let state
     let store
     let stubs
@@ -16,6 +17,13 @@ describe('pages', () => {
         FETCH_COHORTS: td.function(),
         FETCH_DATA_FOR_SELECTED_NODE: td.function(),
         FETCH_TREE_MENU: td.function()
+      }
+
+      mutations = {
+        SET_SELECTED_NODE: td.function(),
+        SET_TREE: (state, tree) => {
+          state.treeMenu = tree
+        }
       }
 
       state = {
@@ -30,7 +38,7 @@ describe('pages', () => {
         ]
       }
 
-      store = new Vuex.Store({actions, state})
+      store = new Vuex.Store({actions, mutations, state})
 
       stubs = {
         'b-nav': true,
@@ -81,6 +89,21 @@ describe('pages', () => {
       const wrapper = shallowMount(LifeCycleCatalogue, options)
       // eslint-disable-next-line no-unused-expressions
       expect(wrapper.findAll('b-nav-item-stub').at(1).attributes('active')).to.exist
+    })
+
+    it('watches the menu and sets selected node', () => {
+      state.treeMenu = []
+      const wrapper = shallowMount(LifeCycleCatalogue, options)
+      wrapper.setProps({'selectedNodeId': '1'})
+      store.commit('SET_TREE', [{id: '1', label: 'label'}])
+      td.verify(mutations.SET_SELECTED_NODE(state, {id: '1', label: 'label'}))
+    })
+
+    it('watches the menu and does nothing if no node selected', () => {
+      state.treeMenu = []
+      shallowMount(LifeCycleCatalogue, options)
+      store.commit('SET_TREE', [{id: '1', label: 'label'}])
+      td.verify(mutations.SET_SELECTED_NODE(), {times: 0, ignoreExtraArgs: true})
     })
   })
 })

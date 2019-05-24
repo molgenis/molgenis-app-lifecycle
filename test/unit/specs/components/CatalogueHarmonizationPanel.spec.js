@@ -44,7 +44,7 @@ describe('components', () => {
       }
 
       store = new Vuex.Store({getters, state, mutations})
-      wrapper = shallowMount(CatalogueHarmonizationPanel, {store, stubs: {'observer': true}})
+      wrapper = shallowMount(CatalogueHarmonizationPanel, {store, stubs: {'observer': true}, propsData: {batchSize: 2}})
     })
 
     it('should return the number of harmonizations for a cohort', () => {
@@ -66,8 +66,8 @@ describe('components', () => {
       expect(wrapper.vm.cohorts).to.deep.equal(['cohort1', 'cohort2', 'cohort3'])
     })
 
-    it('should initially show no variables', () => {
-      expect(wrapper.vm.variables).to.deep.equal([])
+    it('should initially show first batch of variables', () => {
+      expect(wrapper.vm.variables).to.deep.equal(['variable1', 'variable2'])
     })
 
     it('should fetch more variables when fetch button is clicked', () => {
@@ -89,7 +89,7 @@ describe('components', () => {
     it('should watch selectedNodeVariables', () => {
       wrapper.vm.fetch()
       store.commit('SET_SELECTED_NODE', {label: 'label', variables: [state.selectedNodeVariables[1]]})
-      expect(wrapper.vm.variables).to.deep.equal([])
+      expect(wrapper.vm.variables).to.deep.equal(['variable2'])
       wrapper.vm.fetch()
       expect(wrapper.vm.variables).to.deep.equal(['variable2'])
     })
