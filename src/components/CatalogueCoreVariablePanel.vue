@@ -42,9 +42,11 @@
         </div>
       </div>
     </template>
-    <observer @intersect="fetch" v-if="toBeFetched.length">
-      <button @click="fetch">{{toBeFetched.length}} more...</button>
-    </observer>
+    <button
+      v-if="toBeFetched.length"
+      @click="fetch"
+      v-observe-visibility="fetch"
+    >{{toBeFetched.length}} more...</button>
   </div>
 </template>
 
@@ -70,7 +72,6 @@
 
 <script>
   import { mapState } from 'vuex'
-  import Observer from './Observer.vue'
 
   export default {
     name: 'CatalogueCoreVariablePanel',
@@ -111,9 +112,6 @@
     },
     computed: {
       ...mapState(['variableMetadata', 'selectedNodeLabel', 'selectedNodeVariables'])
-    },
-    components: {
-      Observer
     }
   }
 </script>

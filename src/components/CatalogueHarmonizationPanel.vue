@@ -25,9 +25,7 @@
               </td>
               
               <th class="align-middle" rowspan="0" v-if="showFetch && index === 0">
-                <observer @intersect="fetch" :options="{threshold:0}">
-                  <button @click="fetch">{{toBeFetched.length}} more...</button>
-                </observer>
+                <button @click="fetch" v-observe-visibility="fetch">{{toBeFetched.length}} more...</button>
               </th>
             </tr>
           </tbody>
@@ -53,7 +51,6 @@
 
 <script>
   import { mapState } from 'vuex'
-  import Observer from './Observer.vue'
   import HarmonizationStatus from './HarmonizationStatus.vue'
   import statusIndexer from '@/mappers/statusIndexer'
 
@@ -105,7 +102,6 @@
       }
     },
     components: {
-      Observer,
       HarmonizationStatus
     }
   }

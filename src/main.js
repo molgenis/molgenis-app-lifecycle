@@ -4,8 +4,10 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 Vue.use(BootstrapVue)
+Vue.use(VueObserveVisibility)
 
 sync(store, router)
 

@@ -75,11 +75,6 @@ describe('components', () => {
       expect(wrapper.vm.variables).to.deep.equal(['variable1', 'variable2', 'variable3'])
     })
 
-    it('should listen for intersection event', () => {
-      wrapper.find('observer-stub').vm.$emit('intersect')
-      expect(wrapper.vm.variables).to.deep.equal(['variable1', 'variable2', 'variable3'])
-    })
-
     it('should show fetch when there are variables left to fetch', () => {
       expect(wrapper.vm.showFetch).to.equal(true)
       wrapper.vm.fetch()

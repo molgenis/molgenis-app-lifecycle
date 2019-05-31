@@ -23,11 +23,6 @@ describe('components', () => {
       expect(wrapper.vm.coreVariables).to.deep.equal(['variable1'])
     })
 
-    it('should fetch coreVariables when the observer is triggered', () => {
-      wrapper.find('observer-stub').vm.$emit('intersect')
-      expect(wrapper.vm.coreVariables).to.deep.equal(['variable1', 'variable2'])
-    })
-
     it('should fetch coreVariables when the button is clicked', () => {
       wrapper.find('button').trigger('click')
       expect(wrapper.vm.coreVariables).to.deep.equal(['variable1', 'variable2'])
