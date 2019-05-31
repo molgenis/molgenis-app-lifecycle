@@ -26,10 +26,10 @@ describe('mutations', () => {
     })
   })
 
-  describe('SET_HARMONIZATION_DATA', () => {
+  describe('SET_HARMONIZATION', () => {
     it('should set the harmonization data variable in the state', () => {
-      mutations.SET_HARMONIZATION_DATA(state, [{id: '1'}])
-      expect(state.harmonizationData).to.deep.equal([{id: '1'}])
+      mutations.SET_HARMONIZATION(state, {id: '1'})
+      expect(state.harmonization).to.deep.equal({id: '1'})
     })
   })
 
@@ -37,6 +37,13 @@ describe('mutations', () => {
     it('should set the harmonization metadata variable in the state', () => {
       mutations.SET_HARMONIZATION_METADATA(state, {id: '1'})
       expect(state.harmonizationMetadata).to.deep.equal({id: '1'})
+    })
+  })
+
+  describe('SET_VARIABLE_METADATA', () => {
+    it('should set the variable metadata variable in the state', () => {
+      mutations.SET_VARIABLE_METADATA(state, {attributes: []})
+      expect(state.variableMetadata).to.deep.equal({attributes: []})
     })
   })
 

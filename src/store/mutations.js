@@ -1,6 +1,5 @@
 // @flow
 /* Utilities */
-import sortArray from '../util/sortArray'
 
 /* Flow types */
 import type { LifeCycleState } from '../flow.types'
@@ -14,8 +13,12 @@ export default {
     state.error = error
   },
 
-  'SET_HARMONIZATION_DATA' (state: LifeCycleState, harmonizationData: Array<Object>) {
-    state.harmonizationData = harmonizationData
+  'SET_HARMONIZATION' (state: LifeCycleState, harmonization: Object) {
+    state.harmonization = harmonization
+  },
+
+  'SET_VARIABLE_METADATA' (state: LifeCycleState, meta: Object) {
+    state.variableMetadata = meta
   },
 
   'SET_HARMONIZATION_METADATA' (state: LifeCycleState, harmonizationMetadata: Object) {
@@ -24,7 +27,7 @@ export default {
 
   'SET_SELECTED_NODE' (state: LifeCycleState, selectedNode: Object) {
     state.selectedNodeLabel = selectedNode.value
-    state.selectedNodeVariables = sortArray(selectedNode.variables, 'variable')
+    state.selectedNodeVariables = selectedNode.variables
   },
 
   'SET_TREE_MENU' (state: LifeCycleState, treeMenu: Array<Object>) {

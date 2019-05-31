@@ -37,73 +37,35 @@ describe('actions', () => {
     })
   })
 
-  describe('FETCH_DATA_FOR_SELECTED_NODE', () => {
-    it('should dispatch FETCH_HARMONIZATIONS and commit the selected node to the state', done => {
-      const selectedNode = {variables: [{variable: 'variable1'}, {variable: 'variable2'}]}
-      const options = {
-        payload: selectedNode,
-        expectedActions: [{type: 'FETCH_HARMONIZATIONS', payload: 'variable1,variable2'}],
-        expectedMutations: [{type: 'SET_SELECTED_NODE', payload: selectedNode}]
-      }
-      utils.testAction(actions.FETCH_DATA_FOR_SELECTED_NODE, options, done)
-    })
-  })
-
-  describe('FETCH_HARMONIZATIONS', () => {
-    const variables = 'variable1,variable2'
-
-    it('should commit harmonization data and metadata to the state', done => {
-      const response = {meta: {id: 'id'}, items: ['item']}
-      replaceSuccessfulGet('/api/v2/LifeCycle_Harmonizations?q=target=in=(variable1,variable2)&attrs=*,sources(*),target(*)&num=10000', response)
-
-      const options = {
-        payload: variables,
-        expectedMutations: [
-          {type: 'SET_HARMONIZATION_DATA', payload: response.items},
-          {type: 'SET_HARMONIZATION_METADATA', payload: response.meta}
-        ]
-      }
-      utils.testAction(actions.FETCH_HARMONIZATIONS, options, done)
-    })
-
-    it('should commit an error to the state when response is not OK', done => {
-      const error = 'error'
-      replaceFailingGet('/api/v2/LifeCycle_Harmonizations?q=target=in=(variable1,variable2)&attrs=*,sources(*),target(*)&num=10000', error)
-
-      const options = {payload: variables, expectedMutations: [{type: 'SET_ERROR', payload: 'error'}]}
-      utils.testAction(actions.FETCH_HARMONIZATIONS, options, done)
-    })
-  })
-
-  describe('FETCH_HARMONIZATIONS_BY_ID', () => {
+  describe('FETCH_HARMONIZATION', () => {
     const id = 'id'
 
     it('should commit harmonization data and metadata to the state', done => {
       const response = {_meta: {id: 'id'}, items: ['item']}
-      replaceSuccessfulGet('/api/v2/LifeCycle_Harmonizations/id?attrs=*,sources(*),target(*)&num=10000', response)
+      replaceSuccessfulGet('/api/v2/LifeCycle_Harmonizations/id?attrs=*,sources(*),target(*)', response)
 
       const options = {
         payload: id,
         expectedMutations: [
-          {type: 'SET_HARMONIZATION_DATA', payload: [response]},
+          {type: 'SET_HARMONIZATION', payload: response},
           {type: 'SET_HARMONIZATION_METADATA', payload: response._meta}
         ]
       }
-      utils.testAction(actions.FETCH_HARMONIZATIONS_BY_ID, options, done)
+      utils.testAction(actions.FETCH_HARMONIZATION, options, done)
     })
 
     it('should commit an error to the state when response is not OK', done => {
       const error = 'error'
-      replaceFailingGet('/api/v2/LifeCycle_Harmonizations/id?attrs=*,sources(*),target(*)&num=10000', error)
+      replaceFailingGet('/api/v2/LifeCycle_Harmonizations/id?attrs=*,sources(*),target(*)', error)
 
       const options = {payload: id, expectedMutations: [{type: 'SET_ERROR', payload: 'error'}]}
-      utils.testAction(actions.FETCH_HARMONIZATIONS_BY_ID, options, done)
+      utils.testAction(actions.FETCH_HARMONIZATION, options, done)
     })
   })
 
   describe('FETCH_TREE_MENU', () => {
     it('should retrieve tree data from the server and store it in the state', done => {
-      replaceSuccessfulGet('/api/v2/UI_Menu?attrs=*,variables(*)&num=10000', entities)
+      replaceSuccessfulGet('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=10000', entities)
       const payload = [
         {
           'children': [],
@@ -180,13 +142,16 @@ describe('actions', () => {
         }
       ]
 
-      const options = {expectedMutations: [{type: 'SET_TREE_MENU', payload: payload}]}
+      const options = {expectedMutations: [
+        {type: 'SET_TREE_MENU', payload: payload},
+        {type: 'SET_VARIABLE_METADATA', payload: [{name: 'attr1'}, {name: 'attr2'}]}
+      ]}
       utils.testAction(actions.FETCH_TREE_MENU, options, done)
     })
 
     it('should set error when api request is invalid', done => {
       const error = 'error'
-      replaceFailingGet('/api/v2/UI_Menu?attrs=*,variables(*)&num=10000', error)
+      replaceFailingGet('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=10000', error)
 
       const options = {expectedMutations: [{type: 'SET_ERROR', payload: 'error'}]}
       utils.testAction(actions.FETCH_TREE_MENU, options, done)

@@ -7,7 +7,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-striped">
-          <tr v-for="column in fields">
+          <tr v-for="column in fields" :key="column.name">
             <th>{{ column.label }}</th>
             <td>
               <span v-if="typeof variable[column.name] === 'object'">{{ variable[column.name].label }}</span>

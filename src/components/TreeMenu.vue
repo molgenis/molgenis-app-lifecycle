@@ -98,8 +98,8 @@
           node.model.opened = !node.model.opened
         } else {
           // Node is a VueComponent, pass down the model to work with the data
-          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', node.model)
-          this.$router.push('/' + node.model.id)
+          this.$store.commit('SET_SELECTED_NODE', node.model)
+          this.$router.push('/' + node.model.id + this.$route.hash)
         }
       },
 

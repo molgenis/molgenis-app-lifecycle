@@ -40,6 +40,7 @@
   import { library } from '@fortawesome/fontawesome-svg-core'
   import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import { mapState } from 'vuex'
 
   library.add(faArrowCircleLeft)
 
@@ -52,16 +53,13 @@
       }
     },
     computed: {
-      coreVariableFields () {
-        return this.$store.getters.getCoreVariableFields
-      },
-
-      selectedHarmonization () {
-        return this.$store.getters.getSelectedHarmonization
-      }
+      ...mapState({
+        'coreVariableFields': 'variableMetadata',
+        'selectedHarmonization': 'harmonization'
+      })
     },
     mounted () {
-      this.$store.dispatch('FETCH_HARMONIZATIONS_BY_ID', this.harmonizationId)
+      this.$store.dispatch('FETCH_HARMONIZATION', this.harmonizationId)
     },
     components: {
       CoreVariable,

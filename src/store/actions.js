@@ -16,37 +16,21 @@ export default {
     })
   },
 
-  // TODO Make flow type for Tree Node object
-  'FETCH_DATA_FOR_SELECTED_NODE' ({commit, dispatch}: VuexContext, selectedNode: Object) {
-    const variables = selectedNode.variables.map(variable => variable.variable).join(',')
-    dispatch('FETCH_HARMONIZATIONS', variables)
-    commit('SET_SELECTED_NODE', selectedNode)
-  },
-
-  'FETCH_HARMONIZATIONS' ({commit}: VuexContext, variables: string) {
-    // Expand target to include the core variable data
-    api.get('/api/v2/LifeCycle_Harmonizations?q=target=in=(' + variables + ')&attrs=*,sources(*),target(*)&num=10000').then(response => {
-      commit('SET_HARMONIZATION_DATA', response.items)
-      commit('SET_HARMONIZATION_METADATA', response.meta)
-    }, error => {
-      commit('SET_ERROR', error)
-    })
-  },
-
-  'FETCH_HARMONIZATIONS_BY_ID' ({commit}: VuexContext, id: string) {
-    // Expand target to include the core variable data
-    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '?attrs=*,sources(*),target(*)&num=10000').then(response => {
-      commit('SET_HARMONIZATION_DATA', [response])
+  'FETCH_HARMONIZATION' ({commit}: VuexContext, id: string) {
+    // Fetches a single harmonization
+    api.get('/api/v2/LifeCycle_Harmonizations/' + id + '?attrs=*,sources(*),target(*)').then(response => {
+      commit('SET_HARMONIZATION', response)
       commit('SET_HARMONIZATION_METADATA', response._meta)
     }, error => {
       commit('SET_ERROR', error)
     })
   },
-
   'FETCH_TREE_MENU' ({commit}: VuexContext, selectedNodeId?: string) {
-    // Expand variables to include the core variable data
-    api.get('/api/v2/UI_Menu?attrs=*,variables(*)&num=10000').then(response => {
+    // Expand variables to include the core variable data and harmonizations
+    api.get('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=10000').then(response => {
       commit('SET_TREE_MENU', mapEntitiesToTreeMenu(response.items, selectedNodeId))
+      commit('SET_VARIABLE_METADATA',
+        response.meta.attributes.find(it => it.name === 'variables').refEntity.attributes)
     }, error => {
       commit('SET_ERROR', error)
     })

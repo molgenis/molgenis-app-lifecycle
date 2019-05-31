@@ -1,44 +1,57 @@
 <template>
   <div class="core-variable-panel m-4">
-    <template v-if="coreVariables.length > 0">
+    <template>
       <h4>{{ selectedNodeLabel }}</h4>
       <div class="row">
         <div class="col-12">
+          <DynamicScroller
+            :items="coreVariables"
+            :min-item-size="54"
+            key-field="variable"
+            class="scroller"
+          >
+            <template v-slot="{ item, index, active }">
+              <DynamicScrollerItem
+                :item="item"
+                :active="active"
+                :size-dependencies="[
+                  item.message,
+                ]"
+                :data-index="index"
+              >
+                <div class="card mb-3" :key="item.id">
+                  <div class="card-header">
+                    <span class="lead">{{ item.label }}</span>
+                  </div>
 
-          <template v-for="variable in coreVariables">
-            <div class="card mb-3">
-              <div class="card-header">
-                <span class="lead">{{ variable['label'] }}</span>
-              </div>
+                  <div class="card-body">
+                    <div class="card-text">
+                      <dl class="row">
 
-              <div class="card-body">
-                <div class="card-text">
-                  <dl class="row">
+                        <template v-for="field in variableMetadata.filter(it => it.name !== 'label')">
+                          <dt class="col-2" :key="field.name + '-dt'">{{ field.name }}</dt>
+                          <dd class="col-10" :key="field.name + '-dd'">
+                            <span v-if="field.name === 'datatype' || (field.name === 'unit' && item.unit)">
+                              {{ item[field.name].label }}
+                            </span>
+                            <pre v-else-if="field.name === 'values'">{{ item.values }}</pre>
+                            <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ item.comments }}</pre>
 
-                    <template v-for="field in coreVariableFields" v-if="field.name !== 'label'">
-                      <dt class="col-2">{{ field.name }}</dt>
-                      <dd class="col-10">
-                        <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable['unit'])">
-                          {{ variable[field.name].label }}
-                        </span>
-                        <pre v-else-if="field.name === 'values'">{{ variable['values'] }}</pre>
-                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable['comments'] }}</pre>
+                            <span v-else-if="field.name === 'harmonizations'">
+                              {{ getHarmonizationValues(item.harmonizations) }}
+                            </span>
 
-                        <span v-else-if="field.name === 'harmonizations'">
-                          {{ getHarmonizationValues(variable['harmonizations']) }}
-                        </span>
-
-                        <span v-else-if="variable[field.name] === undefined">-</span>
-                        <span v-else>{{ variable[field.name] }}</span>
-                      </dd>
-                    </template>
-
-                  </dl>
+                            <span v-else-if="item[field.name] === undefined">-</span>
+                            <span v-else>{{ item[field.name] }}</span>
+                          </dd>
+                        </template>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </template>
-
+              </DynamicScrollerItem>
+            </template>
+          </DynamicScroller>
         </div>
       </div>
     </template>
@@ -63,11 +76,30 @@
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
   }
+
+  .scroller {
+    height: 100%;
+  }
 </style>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'CatalogueCoreVariablePanel',
+    data () {
+      return {
+        coreVariables: []
+      }
+    },
+    created () {
+      this.coreVariables = [...this.selectedNodeVariables]
+    },
+    watch: {
+      selectedNodeVariables (value) {
+        this.coreVariables = [...value]
+      }
+    },
     methods: {
       getHarmonizationValues (harmonizations) {
         if (harmonizations.length > 0) {
@@ -78,17 +110,7 @@
       }
     },
     computed: {
-      coreVariables () {
-        return this.$store.state.selectedNodeVariables
-      },
-
-      coreVariableFields () {
-        return this.$store.getters.getCoreVariableFields
-      },
-
-      selectedNodeLabel () {
-        return this.$store.state.selectedNodeLabel
-      }
+      ...mapState(['variableMetadata', 'selectedNodeLabel', 'selectedNodeVariables'])
     }
   }
 </script>
