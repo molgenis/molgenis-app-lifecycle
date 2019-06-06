@@ -6,41 +6,19 @@
       </div>
 
       <div class="col-xl-9 col-lg-9 col-12">
-        <template v-if="selectedNodeLabel">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="core-variables-tab" data-toggle="tab" href="#core-variables" role="tab"
-                 aria-controls="core-variables" aria-selected="true">
-                LifeCycle variables
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" id="harmonization-tab" data-toggle="tab" href="#harmonization" role="tab"
-                 aria-controls="harmonization" aria-selected="false">
-                Harmonization
-              </a>
-            </li>
-          </ul>
-
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="core-variables" role="tabpanel"
-                 aria-labelledby="core-variables-tab">
-              <catalogue-core-variable-panel/>
-            </div>
-
-            <div class="tab-pane fade" id="harmonization" role="tabpanel" aria-labelledby="harmonization-tab">
-              <catalogue-harmonization-panel/>
-            </div>
-          </div>
-        </template>
-
-        <template v-else>
-          <div class="text-center alert alert-light" role="alert">
-            <h4>Select variables in the search tree to start</h4>
-          </div>
-        </template>
+        <div v-if="selectedNodeLabel !== ''">
+          <b-nav tabs>
+            <b-nav-item href="#variables" :active="tabIndex === 0" @click="tabIndex = 0">LifeCycle variables</b-nav-item>
+            <b-nav-item href="#harmonization" :active="tabIndex === 1" @click="tabIndex = 1">Harmonization</b-nav-item>
+          </b-nav>
+          <catalogue-core-variable-panel v-if="tabIndex === 0"/>
+          <catalogue-harmonization-panel v-if="tabIndex === 1"/>
+        </div>
+        <div class="text-center alert alert-light" role="alert" v-else>
+          <h4>Select variables in the search tree to start</h4>
+        </div>
       </div>
+      
 
     </div>
   </div>
@@ -50,32 +28,38 @@
   import CatalogueCoreVariablePanel from '../components/CatalogueCoreVariablePanel'
   import CatalogueHarmonizationPanel from '../components/CatalogueHarmonizationPanel'
   import TreeMenu from '../components/TreeMenu'
+  import { mapState } from 'vuex'
 
   import findNodeFromTreeById from '../util/findNodeFromTreeById'
 
   export default {
     name: 'LifeCycleCatalogue',
     props: ['selectedNodeId'],
-    computed: {
-      treeMenu () {
-        return this.$store.state.treeMenu
-      },
-
-      selectedNodeLabel () {
-        return this.$store.state.selectedNodeLabel
+    data () {
+      return {
+        tabIndex: 0
       }
+    },
+    computed: {
+      ...mapState(['treeMenu', 'selectedNodeLabel'])
     },
     watch: {
       treeMenu (treeMenu) {
         if (this.selectedNodeId) {
           const selectedNode = findNodeFromTreeById(treeMenu, this.selectedNodeId)
-          this.$store.dispatch('FETCH_DATA_FOR_SELECTED_NODE', selectedNode)
+          this.$store.commit('SET_SELECTED_NODE', selectedNode)
         }
       }
     },
     mounted () {
       this.$store.dispatch('FETCH_TREE_MENU', this.selectedNodeId)
       this.$store.dispatch('FETCH_COHORTS')
+      if (this.$store.state.route.hash === '#variables') {
+        this.tabIndex = 0
+      }
+      if (this.$store.state.route.hash === '#harmonization') {
+        this.tabIndex = 1
+      }
     },
     components: {
       CatalogueCoreVariablePanel,

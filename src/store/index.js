@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 import mutations from './mutations'
 import actions from './actions'
-import getters from './getters'
 
 import type { LifeCycleState } from '../flow.types'
 
@@ -21,7 +20,7 @@ const state: LifeCycleState = {
   /**
    * Contains harmonization entities based on the core variables of the selected tree node
    */
-  harmonizationData: [],
+  harmonization: undefined,
 
   /**
    * Contains metadata of the harmonization table
@@ -47,7 +46,6 @@ const state: LifeCycleState = {
 Vue.use(Vuex)
 export default new Vuex.Store({
   actions,
-  getters,
   mutations,
   state,
   strict: process.env.NODE_ENV !== 'production'

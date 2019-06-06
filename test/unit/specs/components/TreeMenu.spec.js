@@ -6,15 +6,15 @@ import Vuex from 'vuex'
 
 describe('components', () => {
   describe('TreeMenu', () => {
-    let actions
+    let mutations
     let store
 
     beforeEach(() => {
-      actions = {
-        FETCH_DATA_FOR_SELECTED_NODE: td.function()
+      mutations = {
+        SET_SELECTED_NODE: td.function()
       }
 
-      store = new Vuex.Store({actions})
+      store = new Vuex.Store({mutations})
     })
 
     const propsData = {
@@ -56,7 +56,7 @@ describe('components', () => {
       expect(node.model.opened).to.equal(false)
     })
 
-    it('should dispatch FETCH_DATA_FOR_SELECTED_NODE when a node is clicked and it is not a folder', () => {
+    it('should commit SET_SELECTED_NODE when a node is clicked and it is not a folder', () => {
       const localVue = createLocalVue()
       localVue.use(VueRouter)
       const router = new VueRouter()
@@ -65,7 +65,7 @@ describe('components', () => {
       const node = {data: {icon: 'fas fa-table fa-sm'}, model: {opened: false}}
 
       wrapper.vm.itemClick(node)
-      td.verify(actions.FETCH_DATA_FOR_SELECTED_NODE(td.matchers.anything(), node.model, undefined))
+      td.verify(mutations.SET_SELECTED_NODE({}, node.model))
     })
   })
 })

@@ -1,31 +1,31 @@
 <template>
   <div class="core-variable-panel m-4">
-    <template v-if="coreVariables.length > 0">
+    <template>
       <h4>{{ selectedNodeLabel }}</h4>
       <div class="row">
         <div class="col-12">
 
           <template v-for="variable in coreVariables">
-            <div class="card mb-3">
+            <div class="card mb-3" :key="variable.id">
               <div class="card-header">
-                <span class="lead">{{ variable['label'] }}</span>
+                <span class="lead">{{ variable.label }}</span>
               </div>
 
               <div class="card-body">
                 <div class="card-text">
                   <dl class="row">
 
-                    <template v-for="field in coreVariableFields" v-if="field.name !== 'label'">
-                      <dt class="col-2">{{ field.name }}</dt>
-                      <dd class="col-10">
-                        <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable['unit'])">
+                    <template v-for="field in variableMetadata.filter(it => it.name !== 'label')">
+                      <dt class="col-2" :key="field.name + '-dt'">{{ field.name }}</dt>
+                      <dd class="col-10" :key="field.name + '-dd'">
+                        <span v-if="field.name === 'datatype' || (field.name === 'unit' && variable.unit)">
                           {{ variable[field.name].label }}
                         </span>
-                        <pre v-else-if="field.name === 'values'">{{ variable['values'] }}</pre>
-                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable['comments'] }}</pre>
+                        <pre v-else-if="field.name === 'values'">{{ variable.values }}</pre>
+                        <pre v-else-if="field.name === 'comments'" class="pre-wrap">{{ variable.comments }}</pre>
 
                         <span v-else-if="field.name === 'harmonizations'">
-                          {{ getHarmonizationValues(variable['harmonizations']) }}
+                          {{ getHarmonizationValues(variable.harmonizations) }}
                         </span>
 
                         <span v-else-if="variable[field.name] === undefined">-</span>
@@ -42,6 +42,11 @@
         </div>
       </div>
     </template>
+    <button
+      v-if="toBeFetched.length"
+      @click="fetch"
+      v-observe-visibility="fetch"
+    >{{toBeFetched.length}} more...</button>
   </div>
 </template>
 
@@ -66,9 +71,37 @@
 </style>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'CatalogueCoreVariablePanel',
+    props: {
+      batchSize: {
+        type: Number,
+        default: 100
+      }
+    },
+    data () {
+      return {
+        toBeFetched: [],
+        coreVariables: []
+      }
+    },
+    created () {
+      this.toBeFetched = [...this.selectedNodeVariables]
+      this.fetch()
+    },
+    watch: {
+      selectedNodeVariables (value) {
+        this.coreVariables = []
+        this.toBeFetched = [...value]
+        this.fetch()
+      }
+    },
     methods: {
+      fetch () {
+        this.coreVariables = [...this.coreVariables, ...this.toBeFetched.splice(0, this.batchSize)]
+      },
       getHarmonizationValues (harmonizations) {
         if (harmonizations.length > 0) {
           return harmonizations.map(harmonization => harmonization.id.substring(0, harmonization.id.indexOf('_'))).join(', ')
@@ -78,17 +111,7 @@
       }
     },
     computed: {
-      coreVariables () {
-        return this.$store.state.selectedNodeVariables
-      },
-
-      coreVariableFields () {
-        return this.$store.getters.getCoreVariableFields
-      },
-
-      selectedNodeLabel () {
-        return this.$store.state.selectedNodeLabel
-      }
+      ...mapState(['variableMetadata', 'selectedNodeLabel', 'selectedNodeVariables'])
     }
   }
 </script>
