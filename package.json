@@ -1,6 +1,6 @@
 {
   "name": "molgenis-app-lifecycle",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A variable catalogue for data harmonisation",
   "author": "mkslofstra <mariska-karina@hotmail.com>",
   "private": true,
