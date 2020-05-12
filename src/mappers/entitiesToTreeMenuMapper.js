@@ -1,16 +1,8 @@
-import sortArray from '../util/sortArray'
-
 /**
  * Returns true if a child or recursively one of his children matches the selected node identifier
  */
 const isAChildSelected = (children, selectedNodeId) => {
   return children.some(child => child.id === selectedNodeId || (child.children && isAChildSelected(child.children, selectedNodeId)))
-}
-/**
- * Check if a specific node is disabled
- */
-const isNodeDisabled = (node) => {
-  return node.variables.length === 0 && node.children.length === 0
 }
 
 /**
@@ -39,10 +31,10 @@ const createNode = (entity, selectedNodeId) => {
     value: entity.title,
     text: entity.title,
     icon: !entity.children || entity.children.length === 0 ? 'fas fa-table fa-sm' : '',
-    disabled: isNodeDisabled(entity),
+    disabled: false,
     loading: false,
     selected: entity.key === selectedNodeId,
-    variables: sortArray(entity.variables, 'variable'),
+    variables: [],
     position: entity.position,
     children: children,
     opened: isAChildSelected(children, selectedNodeId)

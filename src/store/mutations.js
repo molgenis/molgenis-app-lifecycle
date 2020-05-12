@@ -25,12 +25,18 @@ export default {
     state.harmonizationMetadata = harmonizationMetadata
   },
 
-  'SET_SELECTED_NODE' (state: LifeCycleState, selectedNode: Object) {
-    state.selectedNodeLabel = selectedNode.value
-    state.selectedNodeVariables = selectedNode.variables
+  'SET_SELECTED_NODE' (state: LifeCycleState, {node, variables}) {
+    node.variables = variables
+    node.disabled = (variables.length === 0)
+    state.selectedNodeLabel = node.value
+    state.selectedNodeVariables = variables
   },
 
   'SET_TREE_MENU' (state: LifeCycleState, treeMenu: Array<Object>) {
     state.treeMenu = treeMenu
+  },
+
+  'NODE_LOADING' (state: LifeCycleState, {node, loading}) {
+    node.loading = loading
   }
 }

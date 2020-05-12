@@ -18,7 +18,7 @@
           <h4>Select variables in the search tree to start</h4>
         </div>
       </div>
-      
+
 
     </div>
   </div>
@@ -47,7 +47,7 @@
       treeMenu (treeMenu) {
         if (this.selectedNodeId) {
           const selectedNode = findNodeFromTreeById(treeMenu, this.selectedNodeId)
-          this.$store.commit('SET_SELECTED_NODE', selectedNode)
+          this.$store.dispatch('FETCH_SELECTED_NODE', selectedNode)
         }
       }
     },
