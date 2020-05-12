@@ -1,0 +1,5 @@
+{
+    "development": {
+        "molgenis_proxy": "https://molgenis36.gcc.rug.nl/"
+    }
+}
