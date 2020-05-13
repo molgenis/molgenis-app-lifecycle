@@ -68,7 +68,7 @@ describe('mappers', () => {
               ]
             }
           ],
-          'disabled': false,
+          'disabled': true,
           'icon': '',
           'id': 'p1',
           'loading': false,

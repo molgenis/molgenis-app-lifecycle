@@ -31,10 +31,10 @@ const createNode = (entity, selectedNodeId) => {
     value: entity.title,
     text: entity.title,
     icon: !entity.children || entity.children.length === 0 ? 'fas fa-table fa-sm' : '',
-    disabled: false,
+    disabled: 'variables' in entity ? entity.variables.length === 0 : false,
     loading: false,
     selected: entity.key === selectedNodeId,
-    variables: [],
+    variables: 'variables' in entity ? entity.variables : [],
     position: entity.position,
     children: children,
     opened: isAChildSelected(children, selectedNodeId)

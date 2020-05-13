@@ -4,14 +4,14 @@ import td from 'testdouble'
 import actions from '@/store/actions'
 import entities from '../../../data/entities'
 
+const get = td.function('api.get')
+
 const replaceSuccessfulGet = (uri, response) => {
-  const get = td.function('api.get')
   td.when(get(uri)).thenResolve(response)
   td.replace(api, 'get', get)
 }
 
 const replaceFailingGet = (uri, response) => {
-  const get = td.function('api.get')
   td.when(get(uri)).thenReject(response)
   td.replace(api, 'get', get)
 }
@@ -65,96 +65,116 @@ describe('actions', () => {
 
   describe('FETCH_TREE_MENU', () => {
     it('should retrieve tree data from the server and store it in the state', done => {
-      replaceSuccessfulGet('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=10000', entities)
+      replaceSuccessfulGet('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=1', entities)
+      replaceSuccessfulGet('/api/v2/UI_Menu?attrs=key,title,parent(key),children(key),position&num=10000', entities)
+
       const payload = [
         {
-          'children': [],
-          'disabled': true,
-          'icon': 'fas fa-table fa-sm',
-          'id': 'p2',
-          'loading': false,
-          'opened': false,
-          'position': 1,
-          'selected': false,
-          'text': 'Parent2',
-          'value': 'Parent2',
-          'variables': []
+          children: [],
+          disabled: true,
+          icon: 'fas fa-table fa-sm',
+          id: 'p2',
+          loading: false,
+          opened: false,
+          position: 1,
+          selected: false,
+          text: 'Parent2',
+          value: 'Parent2',
+          variables: []
         },
         {
-          'children': [
+          children: [
             {
-              'children': [
+              children: [
                 {
-                  'children': [],
-                  'disabled': false,
-                  'icon': 'fas fa-table fa-sm',
-                  'id': 'gc1',
-                  'loading': false,
-                  'opened': false,
-                  'position': 1,
-                  'selected': false,
-                  'text': 'Grandchild1',
-                  'value': 'Grandchild1',
-                  'variables': [
-                    'test'
-                  ]
+                  children: [],
+                  disabled: false,
+                  icon: 'fas fa-table fa-sm',
+                  id: 'gc1',
+                  loading: false,
+                  opened: false,
+                  position: 1,
+                  selected: false,
+                  text: 'Grandchild1',
+                  value: 'Grandchild1',
+                  variables: ['test']
                 }
               ],
-              'disabled': false,
-              'icon': '',
-              'id': 'c2',
-              'loading': false,
-              'opened': false,
-              'position': 1,
-              'selected': false,
-              'text': 'Child2',
-              'value': 'Child2',
-              'variables': [
-                'test'
-              ]
+              disabled: false,
+              icon: '',
+              id: 'c2',
+              loading: false,
+              opened: false,
+              position: 1,
+              selected: false,
+              text: 'Child2',
+              value: 'Child2',
+              variables: ['test']
             },
             {
-              'children': [],
-              'disabled': false,
-              'icon': 'fas fa-table fa-sm',
-              'id': 'c1',
-              'loading': false,
-              'opened': false,
-              'position': 2,
-              'selected': false,
-              'text': 'Child1',
-              'value': 'Child1',
-              'variables': [
-                'test'
-              ]
+              children: [],
+              disabled: false,
+              icon: 'fas fa-table fa-sm',
+              id: 'c1',
+              loading: false,
+              opened: false,
+              position: 2,
+              selected: false,
+              text: 'Child1',
+              value: 'Child1',
+              variables: ['test']
             }
           ],
-          'disabled': false,
-          'icon': '',
-          'id': 'p1',
-          'loading': false,
-          'opened': false,
-          'position': 2,
-          'selected': false,
-          'text': 'Parent1',
-          'value': 'Parent1',
-          'variables': []
+          disabled: true,
+          icon: '',
+          id: 'p1',
+          loading: false,
+          opened: false,
+          position: 2,
+          selected: false,
+          text: 'Parent1',
+          value: 'Parent1',
+          variables: []
         }
       ]
 
       const options = {expectedMutations: [
-        {type: 'SET_TREE_MENU', payload: payload},
+        {type: 'SET_TREE_MENU', payload},
         {type: 'SET_VARIABLE_METADATA', payload: [{name: 'attr1'}, {name: 'attr2'}]}
       ]}
+
       utils.testAction(actions.FETCH_TREE_MENU, options, done)
     })
 
     it('should set error when api request is invalid', done => {
       const error = 'error'
-      replaceFailingGet('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=10000', error)
+      replaceFailingGet('/api/v2/UI_Menu?attrs=key,title,parent(key),children(key),position&num=10000', error)
 
       const options = {expectedMutations: [{type: 'SET_ERROR', payload: 'error'}]}
       utils.testAction(actions.FETCH_TREE_MENU, options, done)
+    })
+  })
+
+  describe('FETCH_SELECTED_NODE', () => {
+    it('fetches variables for the appointed node', done => {
+      const node = {id: 1}
+      const variables = ['var1', 'var2']
+
+      replaceSuccessfulGet(
+        `/api/v2/UI_Menu/${node.id}?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position`,
+        {variables: variables}
+      )
+
+      const options = {
+        expectedMutations: [
+          {type: 'NODE_LOADING', payload: {node, loading: true}},
+          {type: 'SET_SELECTED_NODE', payload: {node, variables}},
+          {type: 'NODE_LOADING', payload: {node, loading: false}}
+        ],
+        payload: node
+      }
+
+      utils.testAction(actions.FETCH_SELECTED_NODE, options, done)
     })
   })
 })

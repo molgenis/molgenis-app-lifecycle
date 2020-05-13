@@ -1,5 +1,6 @@
 import CatalogueHarmonizationPanel from '@/components/CatalogueHarmonizationPanel'
 import { shallowMount } from '@vue/test-utils'
+import VueObserveVisibility from 'vue-observe-visibility'
 import Vuex from 'vuex'
 import mutations from '@/store/mutations'
 
@@ -44,7 +45,14 @@ describe('components', () => {
       }
 
       store = new Vuex.Store({getters, state, mutations})
-      wrapper = shallowMount(CatalogueHarmonizationPanel, {store, stubs: {'observer': true}, propsData: {batchSize: 2}})
+      wrapper = shallowMount(CatalogueHarmonizationPanel, {
+        directives: {
+          'observe-visibility': VueObserveVisibility
+        },
+        store,
+        stubs: {'observer': true},
+        propsData: {batchSize: 2}
+      })
     })
 
     it('should return the number of harmonizations for a cohort', () => {
@@ -82,8 +90,9 @@ describe('components', () => {
     })
 
     it('should watch selectedNodeVariables', () => {
+      const node = {label: 'label'}
       wrapper.vm.fetch()
-      store.commit('SET_SELECTED_NODE', {label: 'label', variables: [state.selectedNodeVariables[1]]})
+      store.commit('SET_SELECTED_NODE', {node, variables: [state.selectedNodeVariables[1]]})
       expect(wrapper.vm.variables).to.deep.equal(['variable2'])
       wrapper.vm.fetch()
       expect(wrapper.vm.variables).to.deep.equal(['variable2'])

@@ -30,6 +30,7 @@ export default {
 
   async 'FETCH_SELECTED_NODE' ({commit}: VuexContext, node) {
     commit('NODE_LOADING', {node, loading: true})
+
     if (!variablesCache[node.id]) {
       const {variables} = await api.get(`/api/v2/UI_Menu/${node.id}?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position`)
       variablesCache[node.id] = sortArray(variables, 'variable')
@@ -41,13 +42,16 @@ export default {
 
   async 'FETCH_TREE_MENU' ({commit}: VuexContext, selectedNodeId?: string) {
     let menuItems, metaItems
+    try {
+      [{items: menuItems}, {meta: metaItems}] = await Promise.all([
+        api.get('/api/v2/UI_Menu?attrs=key,title,parent(key),children(key),position&num=10000'),
+        api.get('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=1')
+      ])
 
-    [{items: menuItems}, {meta: metaItems}] = await Promise.all([
-      api.get('/api/v2/UI_Menu?attrs=key,title,parent(key),children(key),position&num=10000'),
-      api.get('/api/v2/UI_Menu?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position&num=1')
-    ])
-
-    commit('SET_TREE_MENU', mapEntitiesToTreeMenu(menuItems, selectedNodeId))
-    commit('SET_VARIABLE_METADATA', metaItems.attributes.find(it => it.name === 'variables').refEntity.attributes)
+      commit('SET_TREE_MENU', mapEntitiesToTreeMenu(menuItems, selectedNodeId))
+      commit('SET_VARIABLE_METADATA', metaItems.attributes.find(it => it.name === 'variables').refEntity.attributes)
+    } catch (error) {
+      commit('SET_ERROR', error)
+    }
   }
 }

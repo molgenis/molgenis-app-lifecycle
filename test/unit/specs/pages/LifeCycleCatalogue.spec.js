@@ -16,6 +16,7 @@ describe('pages', () => {
       actions = {
         FETCH_COHORTS: td.function(),
         FETCH_DATA_FOR_SELECTED_NODE: td.function(),
+        FETCH_SELECTED_NODE: td.function(),
         FETCH_TREE_MENU: td.function()
       }
 
@@ -96,14 +97,14 @@ describe('pages', () => {
       const wrapper = shallowMount(LifeCycleCatalogue, options)
       wrapper.setProps({'selectedNodeId': '1'})
       store.commit('SET_TREE', [{id: '1', label: 'label'}])
-      td.verify(mutations.SET_SELECTED_NODE(state, {id: '1', label: 'label'}))
+      td.verify(actions.FETCH_SELECTED_NODE(td.matchers.anything(), {id: '1', label: 'label'}, undefined))
     })
 
     it('watches the menu and does nothing if no node selected', () => {
       state.treeMenu = []
       shallowMount(LifeCycleCatalogue, options)
       store.commit('SET_TREE', [{id: '1', label: 'label'}])
-      td.verify(mutations.SET_SELECTED_NODE(), {times: 0, ignoreExtraArgs: true})
+      td.verify(actions.FETCH_SELECTED_NODE(), {times: 0, ignoreExtraArgs: true})
     })
   })
 })

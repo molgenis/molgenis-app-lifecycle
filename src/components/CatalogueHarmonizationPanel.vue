@@ -23,7 +23,7 @@
               <td class="icon-cells" v-for="variable in variables" :key="variable">
                 <harmonization-status v-bind="status[cohort][variable]"></harmonization-status>
               </td>
-              
+
               <th class="align-middle" rowspan="0" v-if="showFetch && index === 0">
                 <button @click="fetch" v-observe-visibility="fetch">{{toBeFetched.length}} more...</button>
               </th>

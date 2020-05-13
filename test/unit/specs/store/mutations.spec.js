@@ -49,7 +49,7 @@ describe('mutations', () => {
 
   describe('SET_SELECTED_NODE', () => {
     it('should set the selected node label and selected node variables variables in the state', () => {
-      mutations.SET_SELECTED_NODE(state, {value: '1', variables: ['variable']})
+      mutations.SET_SELECTED_NODE(state, {node: {value: '1'}, variables: ['variable']})
       expect(state.selectedNodeLabel).to.equal('1')
       expect(state.selectedNodeVariables).to.deep.equal(['variable'])
     })
@@ -59,6 +59,14 @@ describe('mutations', () => {
     it('should set the tree menu variable in the state', () => {
       mutations.SET_TREE_MENU(state, ['node'])
       expect(state.treeMenu).to.deep.equal(['node'])
+    })
+  })
+
+  describe('NODE_LOADING', () => {
+    it('should set the tree menu variable in the state', () => {
+      const node = {id: 1}
+      mutations.NODE_LOADING(state, {node, loading: true})
+      expect(node).to.deep.equal({id: 1, loading: true})
     })
   })
 })
