@@ -25,7 +25,7 @@ module.exports = {
       },
       '/login': {
         target: config.development.molgenis_proxy,
-        changeOrigin: true
+        changeOrigin: false
       }
     },
 
