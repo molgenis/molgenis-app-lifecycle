@@ -36,7 +36,7 @@ export default {
     state.treeMenu = treeMenu
   },
 
-  'NODE_LOADING' (state: LifeCycleState, {node, loading}) {
-    node.loading = loading
+  'NODE_LOADING' (state: LifeCycleState, loading) {
+    state.loading = loading
   }
 }

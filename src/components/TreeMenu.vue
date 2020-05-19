@@ -65,6 +65,7 @@
 </style>
 
 <script>
+  import { mapState } from 'vuex'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
   import { library, dom } from '@fortawesome/fontawesome-svg-core'
   import { faSpinner, faSearch, faPlus, faMinus, faTable } from '@fortawesome/free-solid-svg-icons'
@@ -85,6 +86,7 @@
       }
     },
     computed: {
+      ...mapState(['loading']),
       filteredTreeMenu () {
         // Create a local copy to prevent the tree library from mutating state
         const tree = JSON.parse(JSON.stringify(this.treeMenu))
@@ -92,17 +94,26 @@
       }
     },
     methods: {
-      itemClick (node) {
-        const isFolder = node.data.icon === ''
+      async itemClick (treeItem, node) {
+        const isFolder = treeItem.data.icon === ''
         if (isFolder) {
-          node.model.opened = !node.model.opened
-        } else {
-          // Node is a VueComponent, pass down the model to work with the data
-          this.$store.dispatch('FETCH_SELECTED_NODE', node.model)
-          this.$router.push('/' + node.model.id + this.$route.hash)
+          node.opened = !node.opened
+          return
         }
-      },
 
+        // Deny selecting a node when one is already loading.
+        if (this.loading) {
+          node.selected = false
+          return
+        }
+
+        node.loading = true
+        await this.$store.dispatch('FETCH_SELECTED_NODE', node)
+        // The loaded node is force-selected.
+        node.selected = true
+        node.loading = false
+        this.$router.push('/' + node.id + this.$route.hash)
+      },
       toggleCollapse () {
         this.isMenuCollapsed = !this.isMenuCollapsed
       }

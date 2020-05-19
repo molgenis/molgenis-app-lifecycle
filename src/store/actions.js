@@ -28,8 +28,8 @@ export default {
     })
   },
 
-  async 'FETCH_SELECTED_NODE' ({commit}: VuexContext, node) {
-    commit('NODE_LOADING', {node, loading: true})
+  async 'FETCH_SELECTED_NODE' ({commit, state}: VuexContext, node) {
+    commit('NODE_LOADING', node.text)
 
     if (!variablesCache[node.id]) {
       const {variables} = await api.get(`/api/v2/UI_Menu/${node.id}?attrs=key,title,parent(key),variables(variable,label,datatype,values,unit,match,comments,harmonizations(~id,cohort(id,label),status(id,label))),children(key),position`)
@@ -37,7 +37,7 @@ export default {
     }
 
     commit('SET_SELECTED_NODE', {node, variables: variablesCache[node.id]})
-    commit('NODE_LOADING', {node, loading: false})
+    commit('NODE_LOADING', null)
   },
 
   async 'FETCH_TREE_MENU' ({commit}: VuexContext, selectedNodeId?: string) {

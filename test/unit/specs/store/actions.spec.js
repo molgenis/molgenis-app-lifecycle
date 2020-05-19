@@ -157,7 +157,7 @@ describe('actions', () => {
 
   describe('FETCH_SELECTED_NODE', () => {
     it('fetches variables for the appointed node', done => {
-      const node = {id: 1}
+      const node = {id: 1, text: 'node 1'}
       const variables = ['var1', 'var2']
 
       replaceSuccessfulGet(
@@ -167,9 +167,9 @@ describe('actions', () => {
 
       const options = {
         expectedMutations: [
-          {type: 'NODE_LOADING', payload: {node, loading: true}},
+          {type: 'NODE_LOADING', payload: node.text},
           {type: 'SET_SELECTED_NODE', payload: {node, variables}},
-          {type: 'NODE_LOADING', payload: {node, loading: false}}
+          {type: 'NODE_LOADING', payload: null}
         ],
         payload: node
       }

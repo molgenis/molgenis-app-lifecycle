@@ -7,6 +7,7 @@ describe('mutations', () => {
     error: '',
     harmonizationData: [],
     harmonizationMetadata: {},
+    loading: null,
     selectedNodeLabel: '',
     selectedNodeVariables: [],
     treeMenu: []
@@ -64,9 +65,10 @@ describe('mutations', () => {
 
   describe('NODE_LOADING', () => {
     it('should set the tree menu variable in the state', () => {
-      const node = {id: 1}
-      mutations.NODE_LOADING(state, {node, loading: true})
-      expect(node).to.deep.equal({id: 1, loading: true})
+      const node = {id: 1, text: 'node 1'}
+      expect(state.loading).to.equal(null)
+      mutations.NODE_LOADING(state, node.text)
+      expect(state.loading).to.equal(node.text)
     })
   })
 })
