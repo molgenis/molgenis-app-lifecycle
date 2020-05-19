@@ -1,4 +1,5 @@
 import CatalogueCoreVariablePanel from '@/components/CatalogueCoreVariablePanel'
+import VueObserveVisibility from 'vue-observe-visibility'
 import { shallowMount } from '@vue/test-utils'
 import Vuex from 'vuex'
 import mutations from '@/store/mutations'
@@ -16,7 +17,14 @@ describe('components', () => {
       }
 
       store = new Vuex.Store({state, mutations})
-      wrapper = shallowMount(CatalogueCoreVariablePanel, {store, mock: {observer: false}, propsData: {batchSize: 1}})
+      wrapper = shallowMount(CatalogueCoreVariablePanel, {
+        directives: {
+          'observe-visibility': VueObserveVisibility
+        },
+        store,
+        mock: {observer: false},
+        propsData: {batchSize: 1}
+      })
     })
 
     it('should initially fetch one batch', () => {
@@ -29,8 +37,9 @@ describe('components', () => {
     })
 
     it('should reset when selectedNodeVariables change', () => {
+      const node = {value: '1'}
       expect(wrapper.vm.coreVariables).to.deep.equal(['variable1'])
-      store.commit('SET_SELECTED_NODE', {value: '1', variables: []})
+      store.commit('SET_SELECTED_NODE', {node, variables: []})
       expect(wrapper.vm.coreVariables).to.deep.equal([])
     })
 

@@ -6,7 +6,16 @@
       </div>
 
       <div class="col-xl-9 col-lg-9 col-12">
-        <div v-if="selectedNodeLabel !== ''">
+
+        <div class="text-center alert alert-light" role="alert" v-if="loading">
+          <h4 v-if="loading">Loading <em>{{loading}}</em></h4>
+          <h4>Please wait...</h4>
+        </div>
+        <div class="text-center alert alert-light" role="alert" v-else-if="selectedNodeLabel === ''">
+          <h4 v-if="!selectedNodeLabel">Select variables in the search tree to start</h4>
+        </div>
+
+        <div v-else>
           <b-nav tabs>
             <b-nav-item href="#variables" :active="tabIndex === 0" @click="tabIndex = 0">LifeCycle variables</b-nav-item>
             <b-nav-item href="#harmonization" :active="tabIndex === 1" @click="tabIndex = 1">Harmonization</b-nav-item>
@@ -14,11 +23,9 @@
           <catalogue-core-variable-panel v-if="tabIndex === 0"/>
           <catalogue-harmonization-panel v-if="tabIndex === 1"/>
         </div>
-        <div class="text-center alert alert-light" role="alert" v-else>
-          <h4>Select variables in the search tree to start</h4>
-        </div>
+
       </div>
-      
+
 
     </div>
   </div>
@@ -41,13 +48,13 @@
       }
     },
     computed: {
-      ...mapState(['treeMenu', 'selectedNodeLabel'])
+      ...mapState(['loading', 'treeMenu', 'selectedNodeLabel'])
     },
     watch: {
       treeMenu (treeMenu) {
         if (this.selectedNodeId) {
           const selectedNode = findNodeFromTreeById(treeMenu, this.selectedNodeId)
-          this.$store.commit('SET_SELECTED_NODE', selectedNode)
+          this.$store.dispatch('FETCH_SELECTED_NODE', selectedNode)
         }
       }
     },

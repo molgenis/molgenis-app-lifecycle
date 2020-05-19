@@ -28,6 +28,11 @@ const state: LifeCycleState = {
   harmonizationMetadata: {},
 
   /**
+   * Flag that indicates a node is being selected
+   */
+  loading: null,
+
+  /**
    * The label of the selected node from the tree menu
    */
   selectedNodeLabel: '',
