@@ -4,12 +4,6 @@
 const isAChildSelected = (children, selectedNodeId) => {
   return children.some(child => child.id === selectedNodeId || (child.children && isAChildSelected(child.children, selectedNodeId)))
 }
-/**
- * Check if a specific node is disabled
- */
-const isNodeDisabled = (node) => {
-  return node.variables.length === 0 && node.children.length === 0
-}
 
 /**
  * Recursively lookup children for nested parent entities
@@ -37,10 +31,10 @@ const createNode = (entity, selectedNodeId) => {
     value: entity.title,
     text: entity.title,
     icon: !entity.children || entity.children.length === 0 ? 'fas fa-table fa-sm' : '',
-    disabled: isNodeDisabled(entity),
+    disabled: 'variables' in entity ? entity.variables.length === 0 : false,
     loading: false,
     selected: entity.key === selectedNodeId,
-    variables: entity.variables,
+    variables: 'variables' in entity ? entity.variables : [],
     position: entity.position,
     children: children,
     opened: isAChildSelected(children, selectedNodeId)

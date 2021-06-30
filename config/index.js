@@ -5,6 +5,13 @@
 const path = require('path')
 const packageJson = require('../package')
 
+const config = require('rc')('lifecycle', {
+  development: {
+    molgenis_proxy: 'https://molgenis36.gcc.rug.nl/'
+  }
+})
+
+
 module.exports = {
   dev: {
 
@@ -13,7 +20,12 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:8080'
+        target: config.development.molgenis_proxy,
+        changeOrigin: true
+      },
+      '/login': {
+        target: config.development.molgenis_proxy,
+        changeOrigin: true
       }
     },
 
