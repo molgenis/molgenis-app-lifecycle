@@ -22,7 +22,7 @@ pipeline {
           }
         }
         container('node') {
-          sh "daemon --name=sauceconnect -- /usr/local/bin/sc -u ${SAUCE_CRED_USR} -k ${SAUCE_CRED_PSW} -i ${TUNNEL_IDENTIFIER}"
+          startSauceConnect()
         }
       }
     }
@@ -40,7 +40,8 @@ pipeline {
       post {
         always {
           container('node') {
-            sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
+            fetch_codecov()
+            sh "./codecov -c -K -C ${GIT_COMMIT}"
           }
         }
       }
@@ -60,7 +61,9 @@ pipeline {
       post {
         always {
           container('node') {
-            sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
+            fetch_codecov()
+            sh "./codecov -c -K -C ${GIT_COMMIT}"
+            sh "rm codecov"
           }
         }
       }
