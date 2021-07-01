@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'node-carbon'
+      label 'node-erbium'
     }
   }
   stages {
@@ -22,7 +22,7 @@ pipeline {
           }
         }
         container('node') {
-          sh "daemon --name=sauceconnect -- /usr/local/bin/sc -u ${SAUCE_CRED_USR} -k ${SAUCE_CRED_PSW} -i ${TUNNEL_IDENTIFIER}"
+          startSauceConnect()
         }
       }
     }
@@ -41,7 +41,7 @@ pipeline {
         always {
           container('node') {
             fetch_codecov()
-            sh "./codecov -c -F unit -K -C ${GIT_COMMIT}"
+            sh "./codecov -c -K -C ${GIT_COMMIT}"
           }
         }
       }
@@ -62,7 +62,8 @@ pipeline {
         always {
           container('node') {
             fetch_codecov()
-            sh "./codecov -c -F unit -K -C ${GIT_COMMIT}"
+            sh "./codecov -c -K -C ${GIT_COMMIT}"
+            sh "rm codecov"
           }
         }
       }

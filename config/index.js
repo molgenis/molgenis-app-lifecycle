@@ -7,7 +7,7 @@ const packageJson = require('../package')
 
 const config = require('rc')('lifecycle', {
   development: {
-    molgenis_proxy: 'https://molgenis36.gcc.rug.nl/'
+    molgenis_proxy: 'https://lifecycle.molgeniscloud.org/'
   }
 })
 
